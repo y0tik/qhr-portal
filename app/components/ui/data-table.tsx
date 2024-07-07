@@ -1,6 +1,6 @@
 import {
   ColumnDef,
-  ColumnFiltersState,
+  GlobalFilterTableState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
@@ -42,9 +42,7 @@ export function DataTable<TData, TValue>({
   pageSize = 5,
 }: DataTableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
+  const [globalFilter, setGlobalFilter] = React.useState("");
   const table = useReactTable({
     data,
     columns,
@@ -52,7 +50,8 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: "includesString",
     initialState: {
       pagination: {
         pageSize,
@@ -60,7 +59,7 @@ export function DataTable<TData, TValue>({
     },
     state: {
       columnVisibility,
-      columnFilters,
+      globalFilter,
     },
   });
 
@@ -69,11 +68,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center pb-4">
         <div className="flex items-center gap-2 w-full">
           <Input
+            value={globalFilter ?? ""}
+            onChange={(e) => setGlobalFilter(String(e.target.value))}
             placeholder="Start Typing To Filter..."
-            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("email")?.setFilterValue(event.target.value)
-            }
             className="max-w-md"
           />
           {renderActionLeft}
