@@ -18,14 +18,14 @@ export const RHFInput = forwardRef<HTMLInputElement, RHFInputProps>(
           {displayName ?? name.charAt(0).toUpperCase() + name.slice(1)}
         </Label>
         <Input
-          className="mt-2"
+          className="mt-1.5"
           name={name}
           error={error}
           {...props}
           ref={ref}
         />
         {error && (
-          <div className="text-red-500 text-sm mt-2">
+          <div className="text-red-500 text-sm mt-1.5">
             {error.message ?? "Required"}
           </div>
         )}

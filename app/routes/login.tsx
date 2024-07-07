@@ -35,13 +35,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { errors, receivedValues: defaultValues } =
     await getValidatedFormData<FormData>(request, resolver);
 
-  console.log(errors);
   if (errors) {
     return json({ errors, defaultValues });
   }
 
-  // TODO make request to al-api
-  // TODO create session & redirect to overview
+  // make request api
+  // if success
+  //    create session & redirect to overview
+  // if error
+  //    show alert
 
   return redirect("/overview");
 };
@@ -50,7 +52,7 @@ export default function LoginForm() {
   const {
     handleSubmit,
     formState: { errors },
-    register: r,
+    register,
   } = useRemixForm<FormData>({ resolver });
   return (
     <div className="h-full w-full flex-1 flex justify-center items-center">
@@ -63,10 +65,10 @@ export default function LoginForm() {
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
-            <RHFInput error={errors.email} type="text" {...r("email")} />
+            <RHFInput error={errors.email} {...register("email")} />
             <RHFInput
               error={errors.password}
-              {...r("password")}
+              {...register("password")}
               type="password"
             />
           </CardContent>
