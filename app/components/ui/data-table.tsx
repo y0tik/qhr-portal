@@ -29,14 +29,16 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  renderAction: React.ReactNode;
+  renderActionLeft?: React.ReactNode;
+  renderActionRight?: React.ReactNode;
   pageSize?: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  renderAction,
+  renderActionRight,
+  renderActionLeft,
   pageSize = 5,
 }: DataTableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -65,16 +67,19 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div className="flex items-center pb-4">
-        <Input
-          placeholder="Filter ..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <div className="flex items-center gap-2 w-full">
+          <Input
+            placeholder="Start Typing To Filter..."
+            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("email")?.setFilterValue(event.target.value)
+            }
+            className="max-w-md"
+          />
+          {renderActionLeft}
+        </div>
         <div className="ml-auto flex items-center gap-2">
-          {renderAction}
+          {renderActionRight}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">

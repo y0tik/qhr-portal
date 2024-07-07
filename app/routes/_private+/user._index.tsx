@@ -18,7 +18,7 @@ export default function UserPage() {
         columns={columns}
         data={users}
         pageSize={7}
-        renderAction={
+        renderActionRight={
           <div>
             <Button variant="default" size="sm" asChild>
               <Link to={`${ENDPOINT_USER}/new`}>
