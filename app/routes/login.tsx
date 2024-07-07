@@ -16,10 +16,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
-import InputError from "~/components/input-error";
+import { RHFInput } from "~/components/form/RHFInput";
 
 export const meta: MetaFunction = () => [
   { title: "Login - The Alumni Project" },
@@ -37,6 +35,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { errors, receivedValues: defaultValues } =
     await getValidatedFormData<FormData>(request, resolver);
 
+  console.log(errors);
   if (errors) {
     return json({ errors, defaultValues });
   }
@@ -51,7 +50,7 @@ export default function LoginForm() {
   const {
     handleSubmit,
     formState: { errors },
-    register,
+    register: r,
   } = useRemixForm<FormData>({ resolver });
   return (
     <div className="h-full w-full flex-1 flex justify-center items-center">
@@ -64,26 +63,12 @@ export default function LoginForm() {
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                error={errors.email}
-                {...register("email")}
-                id="email"
-                type="text"
-              />
-              <InputError error={errors.email} />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                error={errors.email}
-                {...register("password")}
-                id="password"
-                type="password"
-              />
-              <InputError error={errors.password} />
-            </div>
+            <RHFInput error={errors.email} type="text" {...r("email")} />
+            <RHFInput
+              error={errors.password}
+              {...r("password")}
+              type="password"
+            />
           </CardContent>
           <CardFooter>
             <Button className="w-full" type="submit">
