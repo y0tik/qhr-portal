@@ -4,9 +4,8 @@ import {
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import { z } from "zod";
-import { Button } from "~/components/ui/button";
 import { useRemixForm, getValidatedFormData } from "remix-hook-form";
 import {
   Card,
@@ -18,6 +17,7 @@ import {
 } from "~/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RHFInput } from "~/components/form/RHFInput";
+import { LoadingButton } from "~/components/loading-btn";
 
 export const meta: MetaFunction = () => [
   { title: "Login - The Alumni Project" },
@@ -54,6 +54,9 @@ export default function LoginForm() {
     formState: { errors },
     register,
   } = useRemixForm<FormData>({ resolver });
+  const { state } = useNavigation();
+  const isSubmitting = state === "loading" || state === "submitting";
+
   return (
     <div className="h-full w-full flex-1 flex justify-center items-center">
       <Form onSubmit={handleSubmit} method="post">
@@ -68,14 +71,15 @@ export default function LoginForm() {
             <RHFInput error={errors.email} {...register("email")} />
             <RHFInput
               error={errors.password}
+              autoComplete=""
               {...register("password")}
               type="password"
             />
           </CardContent>
           <CardFooter>
-            <Button className="w-full" type="submit">
-              Sign in
-            </Button>
+            <LoadingButton loading={isSubmitting} type="submit">
+              Sign In
+            </LoadingButton>
           </CardFooter>
         </Card>
       </Form>

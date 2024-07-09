@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getValidatedFormData, useRemixForm } from "remix-hook-form";
 import { ActionFunctionArgs } from "@remix-run/node";
 import { RHFInput } from "~/components/form/RHFInput";
+import AutoBreadcrumb from "~/components/auto-breadcrumb";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -38,9 +39,9 @@ export default function UserPage() {
   } = useRemixForm<FormData>({ resolver });
   return (
     <>
-      <div></div>
+      <AutoBreadcrumb />
       <Form onSubmit={handleSubmit} method="post">
-        <Card className="mt-6 px-6 py-6">
+        <Card className="px-6 py-6">
           <div className="grid grid-cols-3 gap-y-4 gap-x-8">
             <RHFInput {...register("name")} error={errors.name} />
             <RHFInput {...register("email")} error={errors.email} />

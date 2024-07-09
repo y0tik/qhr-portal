@@ -3,12 +3,13 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { forwardRef } from "react";
 
-type RHFInputProps = UseFormRegisterReturn & {
-  error?: FieldError;
-  type?: string;
-  displayName?: string;
-  id?: string;
-};
+type RHFInputProps = UseFormRegisterReturn &
+  React.InputHTMLAttributes<HTMLInputElement> & {
+    error?: FieldError;
+    type?: string;
+    displayName?: string;
+    id?: string;
+  };
 
 export const RHFInput = forwardRef<HTMLInputElement, RHFInputProps>(
   ({ error, displayName, name, ...props }, ref) => {
