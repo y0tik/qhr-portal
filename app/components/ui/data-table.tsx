@@ -1,6 +1,5 @@
 import {
   ColumnDef,
-  GlobalFilterTableState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
@@ -79,7 +78,7 @@ export function DataTable<TData, TValue>({
           {renderActionRight}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
+              <Button variant="outline" size="sm" className="ml-auto">
                 Columns
               </Button>
             </DropdownMenuTrigger>

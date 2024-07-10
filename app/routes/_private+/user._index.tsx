@@ -19,12 +19,15 @@ export default function UserPage() {
         data={users}
         pageSize={7}
         renderActionRight={
-          <div>
+          <div className="flex space-x-2">
             <Button variant="default" size="sm" asChild>
               <Link to={`${ENDPOINT_USER}/new`}>
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Create User
               </Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link to={`${ENDPOINT_USER}/bulk`}>Bulk Upload</Link>
             </Button>
           </div>
         }
