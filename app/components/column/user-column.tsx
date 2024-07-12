@@ -10,8 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { type ColumnDef } from "@tanstack/react-table";
-import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
 import { roleColorMapping } from "~/constant";
+import { UserNameWithAvatar } from "./common";
 
 type User = {
   id: string;
@@ -190,19 +190,7 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "name",
     header: "Name",
     enableHiding: false,
-    cell: ({ row }) => {
-      const user = row.original;
-      const initials = user.name.split(" ").map((e) => e[0]);
-      return (
-        <div className="flex gap-2 items-center">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="" alt="@admin" />
-            <AvatarFallback>{initials}</AvatarFallback>
-          </Avatar>
-          <span>{user.name}</span>
-        </div>
-      );
-    },
+    cell: ({ row }) => <UserNameWithAvatar name={row.original.name} />,
   },
   {
     accessorKey: "email",

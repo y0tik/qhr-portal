@@ -5,7 +5,7 @@ export default function App() {
   return (
     <>
       <Header />
-      <div className="px-8">
+      <div className="h-full px-8">
         <Outlet />
       </div>
     </>

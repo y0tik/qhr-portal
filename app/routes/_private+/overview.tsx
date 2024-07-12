@@ -50,6 +50,7 @@ export default function OverviewPage() {
         </div>
         <div className="flex gap-6 mt-6 items-start">
           <div className="w-7/12">
+            {/* Contract Level Detail Card */}
             <div>TODO : CARDS & QUICK LINKS</div>
           </div>
           <div className="w-5/12">
