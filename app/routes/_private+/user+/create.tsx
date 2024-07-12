@@ -30,7 +30,7 @@ export const loader = async ({ request }: ActionFunctionArgs) => {
   // If error - show error message using a alert
 };
 
-export default function UserPage() {
+export default function CreateUserPage() {
   const {
     handleSubmit,
     formState: { errors },
@@ -46,12 +46,10 @@ export default function UserPage() {
             <RHFInput {...register("name")} error={errors.name} />
             <RHFInput {...register("email")} error={errors.email} />
             <RHFInput {...register("password")} error={errors.password} />
+            {/* Checkboxes Button - HR / SUPPORT - Multiple Roles */}
             <RHFInput {...register("role")} error={errors.role} />
-            <RHFInput
-              {...register("permTempl")}
-              displayName="Permission Template"
-              error={errors.permTempl}
-            />
+            {/* Checkboxes Button - Modify / Read Only - Multiple Permission */}
+            <RHFInput {...register("permTempl")} error={errors.role} />
             <div className="mt-2 col-span-3 flex justify-between">
               <Button type="button" onClick={() => reset()} variant="outline">
                 Reset

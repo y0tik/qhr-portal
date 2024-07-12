@@ -10,7 +10,7 @@ export const meta: MetaFunction = () => [
   { title: `User List ${PROJECT_NAME}` },
 ];
 
-export default function UserPage() {
+export default function ListUserPage() {
   return (
     <>
       <div className="mt-4"></div>
@@ -21,7 +21,7 @@ export default function UserPage() {
         renderActionRight={
           <div className="flex space-x-2">
             <Button variant="default" size="sm" asChild>
-              <Link to={`${ENDPOINT_USER}/new`}>
+              <Link to={`${ENDPOINT_USER}/create`}>
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Create User
               </Link>
