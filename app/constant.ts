@@ -11,4 +11,5 @@ export const roleColorMapping = {
 };
 
 export const ENDPOINT_USER = "/user";
+export const ENDPOINT_ALUMNI = "/alumni";
 export const PROJECT_NAME = " - Alumni Project ";

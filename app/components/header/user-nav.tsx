@@ -6,50 +6,51 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Button } from "~/components/ui/button";
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
+import { User } from "~/types";
 
-export function UserNav() {
+type UserNavProps = User;
+
+export function UserNav({ username, email }: UserNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage src="" alt="@admin" />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>
+              {(username.charAt(0) + username.charAt(1)).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Admin</p>
+            <p className="text-sm font-medium leading-none">{username}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              admin@company.com
+              {email}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link to="/profile/prs"></Link>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link to="/profile/settings">Settings</Link>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <Form method="POST" replace action="/action/signout">
+          <DropdownMenuItem asChild>
+            <button type="submit" className="cursor-pointer w-full">
+              Log out
+            </button>
+          </DropdownMenuItem>
+        </Form>
       </DropdownMenuContent>
     </DropdownMenu>
   );

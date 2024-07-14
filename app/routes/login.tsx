@@ -1,16 +1,16 @@
 import {
   ActionFunctionArgs,
   json,
+  LoaderFunctionArgs,
   MetaFunction,
   redirect,
 } from "@remix-run/node";
-import { Form, useNavigation } from "@remix-run/react";
+import { Form, useLoaderData, useNavigation } from "@remix-run/react";
 import { z } from "zod";
-import { useRemixForm, getValidatedFormData } from "remix-hook-form";
+import { useRemixForm } from "remix-hook-form";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -18,6 +18,15 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RHFInput } from "~/components/form/RHFInput";
 import { LoadingButton } from "~/components/loading-btn";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { AlertCircle } from "lucide-react";
+import { friendlyMsgForCode, requireFormData } from "~/server/helper.server";
+import {
+  hasValidAuthSession,
+  setAuthSession,
+} from "~/server/auth-session.server";
+import api from "~/server/api.server";
+import { LoginReponse } from "~/server/response.type";
 
 export const meta: MetaFunction = () => [
   { title: "Login - The Alumni Project" },
@@ -25,27 +34,53 @@ export const meta: MetaFunction = () => [
 ];
 
 const schema = z.object({
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least 3 characters long." })
+    .max(20, { message: "Username must be at most 20 characters long." })
+    .regex(/^[a-zA-Z0-9_]+$/, {
+      message: "Username can only contain letters, numbers, and underscores.",
+    }),
   email: z.string().email().min(1),
   password: z.string().min(1),
 });
+
 const resolver = zodResolver(schema);
 type FormData = z.infer<typeof schema>;
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const { errors, receivedValues: defaultValues } =
-    await getValidatedFormData<FormData>(request, resolver);
-
-  if (errors) {
-    return json({ errors, defaultValues });
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  if (await hasValidAuthSession(request)) {
+    return redirect("/overview");
   }
 
-  // make request api
-  // if success
-  //    create session & redirect to overview
-  // if error
-  //    show alert
+  const params = new URL(request.url).searchParams;
+  return json({
+    error: friendlyMsgForCode(params.get("code")),
+  });
+};
 
-  return redirect("/overview");
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const { data, errors } = await requireFormData<FormData>(request, resolver);
+  if (!data) {
+    return json(errors);
+  }
+
+  // +start API - /auth/login
+  const { response, error } = await api.post<LoginReponse>("/auth/login", data);
+  if (error) {
+    return json({
+      errors: { root: { message: "Invalid details provided" } },
+    });
+  }
+  // add this to session
+  const headers = await setAuthSession(request, {
+    email: data.email,
+    username: data.username,
+    access_token: response.access_token,
+  });
+  // redirect and with headers set
+  return redirect("/overview", headers);
+  // +end API - /auth/login
 };
 
 export default function LoginForm() {
@@ -53,36 +88,51 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors },
     register,
-  } = useRemixForm<FormData>({ resolver });
+  } = useRemixForm<FormData>({ resolver, submitConfig: { replace: true } });
+  const { error } = useLoaderData<typeof loader>();
   const { state } = useNavigation();
   const isSubmitting = state === "loading" || state === "submitting";
 
   return (
-    <div className="h-full w-full flex-1 flex justify-center items-center">
-      <Form onSubmit={handleSubmit} method="post">
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle className="text-2xl">Login</CardTitle>
-            <CardDescription>
-              Enter your email below to login to your account.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <RHFInput error={errors.email} {...register("email")} />
-            <RHFInput
-              error={errors.password}
-              autoComplete=""
-              {...register("password")}
-              type="password"
-            />
-          </CardContent>
-          <CardFooter>
-            <LoadingButton loading={isSubmitting} type="submit">
-              Sign In
-            </LoadingButton>
-          </CardFooter>
-        </Card>
-      </Form>
-    </div>
+    <Form
+      replace
+      onSubmit={handleSubmit}
+      className="h-full w-full flex-1 flex justify-center items-center"
+      method="post"
+    >
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl">Login</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          {(error || errors.root?.message) && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                {errors.root?.message || error}
+              </AlertDescription>
+            </Alert>
+          )}
+          <RHFInput error={errors.username} {...register("username")} />
+          <RHFInput error={errors.email} {...register("email")} />
+          <RHFInput
+            error={errors.password}
+            autoComplete=""
+            {...register("password")}
+            type="password"
+          />
+        </CardContent>
+        <CardFooter>
+          <LoadingButton
+            className="w-full"
+            loading={isSubmitting}
+            type="submit"
+          >
+            Sign In
+          </LoadingButton>
+        </CardFooter>
+      </Card>
+    </Form>
   );
 }

@@ -4,8 +4,7 @@ export interface MenuItem {
 }
 
 export const NAVIGATION_MENU: MenuItem[] = [
-  { name: 'Overview', to: '/overview' },
-  { name: 'User', to: '/user' },
-  { name: 'Alumni', to: '/alumni' },
-  { name: 'Login', to: '/login' },
+  { name: "Overview", to: "/overview" },
+  { name: "User", to: "/user" },
+  { name: "Alumni", to: "/alumni" },
 ];
