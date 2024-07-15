@@ -8,7 +8,7 @@ export function ErrorBoundary() {
 
   console.log(error);
   return (
-    <div className="flex justify-center bg-destructive/5">
+    <div className="flex justify-center flex-1 bg-destructive/5">
       <div className="mt-24">
         <Alert variant="destructive" className="p-10">
           <AlertCircle className="h-8 w-8" />
