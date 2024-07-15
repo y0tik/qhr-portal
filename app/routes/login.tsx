@@ -30,8 +30,6 @@ import { LoginReponse } from "~/server/response.type";
 import { jwtDecode } from "jwt-decode";
 import { Role } from "~/types";
 
-export { ErrorBoundary } from "~/components/error-boundary";
-
 export const meta: MetaFunction = () => [
   { title: "Login - The Alumni Project" },
   { name: "description", content: "Login to Alumni Project" },

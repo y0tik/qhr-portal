@@ -6,6 +6,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import "./tailwind.css";
+export { ErrorBoundary } from "./components/error-boundary";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
