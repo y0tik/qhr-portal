@@ -5,18 +5,21 @@ import { requireAuth } from "~/server/auth-session.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await requireAuth(request);
-  return json({
-    email: session.email,
-    username: session.username,
-  });
+  return json(session);
 };
 
 export default function App() {
-  const user = useLoaderData<typeof loader>();
+  const session = useLoaderData<typeof loader>();
   return (
     <>
-      <Header user={user} />
-      <div className="h-full px-8">
+      <Header
+        user={{
+          email: session.email,
+          username: session.uname,
+          role: session.role,
+        }}
+      />
+      <div className="h-full px-12">
         <Outlet />
       </div>
     </>

@@ -29,13 +29,14 @@ type HeaderProps = {
 };
 
 export default function Header({ user }: HeaderProps) {
+  const user_menu = NAVIGATION_MENU.filter((m) => m.role.includes(user.role));
   return (
     <div className="border-b">
-      <div className="flex h-16 items-center justify-between px-8">
+      <div className="flex h-16 items-center justify-between px-12">
         <div className="flex-1">
           <ExampleCompanyLogo />
         </div>
-        <MainNav links={NAVIGATION_MENU} className="justify-center" />
+        <MainNav links={user_menu} className="justify-center" />
         <div className="flex-1 ml-auto flex items-center justify-end space-x-4">
           <div>
             <Input

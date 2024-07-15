@@ -27,6 +27,10 @@ import {
 } from "~/server/auth-session.server";
 import api from "~/server/api.server";
 import { LoginReponse } from "~/server/response.type";
+import { jwtDecode } from "jwt-decode";
+import { Role } from "~/types";
+
+export { ErrorBoundary } from "~/components/error-boundary";
 
 export const meta: MetaFunction = () => [
   { title: "Login - The Alumni Project" },
@@ -72,11 +76,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       errors: { root: { message: "Invalid details provided" } },
     });
   }
-  // add this to session
+  // parse jwt and extract user id, user role & company id
+  const token = jwtDecode<{
+    sub: { username: string; id: number; role: Role };
+  }>(response.access_token);
+  // create auth session
   const headers = await setAuthSession(request, {
     email: data.email,
-    username: data.username,
-    access_token: response.access_token,
+    atoken: response.access_token,
+    cid: token.sub.id,
+    uname: token.sub.username,
+    id: token.sub.id,
+    role: token.sub.role,
   });
   // redirect and with headers set
   return redirect("/overview", headers);

@@ -1,9 +1,14 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
+import { Role } from "~/types";
+import { hasPermissions, Permission } from "./permission.server";
 
 type AuthSessionData = {
-  username: string;
+  uname: string;
   email: string;
-  access_token: string;
+  atoken: string;
+  id: number;
+  cid: number;
+  role: Role;
 };
 
 type AuthSessionFlashData = {
@@ -31,23 +36,33 @@ export const sessionStore = createCookieSessionStorage<
 const getSessionFromRequest = async (req: Request) =>
   sessionStore.getSession(req.headers.get("Cookie"));
 
-export const requireAuth = async (req: Request) => {
-  const { username, email, access_token } = (await getSessionFromRequest(req))
-    .data;
-  if (!username || !email || !access_token) {
+export const requireAuth = async (
+  req: Request,
+  permissions?: Array<Permission>
+) => {
+  const { uname, email, atoken, id, role, cid } = (
+    await getSessionFromRequest(req)
+  ).data;
+  if (!uname || !email || !atoken || !id || !role || !cid) {
     throw redirect("/login?code=1ZVGUE");
   }
-  return { username, email, access_token };
+  if (permissions && !hasPermissions(role, permissions)) {
+    throw new Error("You don't have permission to view this resource");
+  }
+  return { uname, email, atoken, id, role, cid };
 };
 
 export const setAuthSession = async (
   req: Request,
-  { username, email, access_token }: AuthSessionData
+  { uname, email, atoken, id, role, cid }: AuthSessionData
 ) => {
   const session = await getSessionFromRequest(req);
-  session.set("username", username);
+  session.set("uname", uname);
   session.set("email", email);
-  session.set("access_token", access_token);
+  session.set("atoken", atoken);
+  session.set("id", id);
+  session.set("role", role);
+  session.set("cid", cid);
   return {
     headers: {
       "Set-Cookie": await sessionStore.commitSession(session),
@@ -58,9 +73,12 @@ export const setAuthSession = async (
 export const hasValidAuthSession = async (req: Request) => {
   const session = await getSessionFromRequest(req);
   if (
-    session.has("username") &&
+    session.has("uname") &&
     session.has("email") &&
-    session.has("access_token")
+    session.has("atoken") &&
+    session.has("id") &&
+    session.has("role") &&
+    session.has("cid")
   ) {
     return true;
   }
