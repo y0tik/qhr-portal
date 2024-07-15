@@ -24,7 +24,7 @@ const statusOrderForSorting = {
   resolved: 3,
 };
 
-export default function OverviewPage() {
+export default function AdminOverview() {
   const sortedTickets = useMemo(
     () =>
       tickets.sort(
@@ -35,7 +35,7 @@ export default function OverviewPage() {
   );
   return (
     <div className="h-screen overflow-hidden">
-      <div className="px-8 mt-6">
+      <div className="mt-6">
         <div className="grid grid-cols-4 gap-6">
           {tempStats.map((s) => (
             <Statistic

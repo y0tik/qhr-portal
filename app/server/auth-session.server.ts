@@ -2,7 +2,7 @@ import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import { Role } from "~/types";
 import { hasPermissions, Permission } from "./permission.server";
 
-type AuthSessionData = {
+export type AuthSessionData = {
   uname: string;
   email: string;
   atoken: string;

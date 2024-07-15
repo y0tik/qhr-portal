@@ -20,7 +20,7 @@ export default function App() {
         }}
       />
       <div className="h-full px-12">
-        <Outlet />
+        <Outlet context={session} />
       </div>
     </>
   );
