@@ -12,5 +12,6 @@ const roleComponents = {
 
 export default function RenderOverview() {
   const session = useOutletContext<AuthSessionData>();
-  return roleComponents[session.role] || EmployeeOverview;
+  const Comp = roleComponents[session.role] || EmployeeOverview;
+  return <Comp />;
 }
