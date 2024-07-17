@@ -34,28 +34,25 @@ export default function AdminOverview() {
     []
   );
   return (
-    <div className="h-screen overflow-hidden">
-      <div className="mt-6">
-        <div className="grid grid-cols-4 gap-6">
-          {tempStats.map((s) => (
-            <Statistic
-              key={s.name}
-              title={s.name}
-              number={s.value}
-              prefix={""}
-              Icon={s.Icon}
-              description={""}
-            />
-          ))}
+    <div className="h-full flex flex-col">
+      <div className="grid grid-cols-4 gap-6">
+        {tempStats.map((s) => (
+          <Statistic
+            key={s.name}
+            title={s.name}
+            number={s.value}
+            prefix={""}
+            Icon={s.Icon}
+            description={""}
+          />
+        ))}
+      </div>
+      <div className="grow flex mt-6 min-h-0">
+        <div className="w-7/12">
+          <div>TODO : CARDS & QUICK LINKS</div>
         </div>
-        <div className="flex gap-6 mt-6 items-start">
-          <div className="w-7/12">
-            {/* Contract Level Detail Card */}
-            <div>TODO : CARDS & QUICK LINKS</div>
-          </div>
-          <div className="w-5/12">
-            <TicketListCard tickets={sortedTickets} />
-          </div>
+        <div className="w-5/12 flex flex-col">
+          <TicketListCard tickets={sortedTickets} />
         </div>
       </div>
     </div>

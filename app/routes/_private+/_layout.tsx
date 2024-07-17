@@ -12,14 +12,16 @@ export default function App() {
   const session = useLoaderData<typeof loader>();
   return (
     <>
-      <Header
-        user={{
-          email: session.email,
-          username: session.uname,
-          role: session.role,
-        }}
-      />
-      <div className="h-full px-12">
+      <header className="h-[64px]">
+        <Header
+          user={{
+            email: session.email,
+            username: session.uname,
+            role: session.role,
+          }}
+        />
+      </header>
+      <div className="py-6 px-12 h-[calc(100vh-64px)]">
         <Outlet context={session} />
       </div>
     </>
