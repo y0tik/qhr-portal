@@ -1,5 +1,4 @@
 import { Edit, MoreHorizontal, Ticket } from "lucide-react";
-import { Badge } from "~/components/ui/badge";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -10,225 +9,53 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { type ColumnDef } from "@tanstack/react-table";
-import { roleColorMapping } from "~/constant";
 import { UserNameWithAvatar } from "./common";
+import { HrUsers } from "~/types";
 
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  department: string;
-  role: "hr" | "support";
-  status: "Active" | "Inactive";
-};
-
-export const users: User[] = [
-  {
-    id: "1",
-    name: "Alice Johnson",
-    email: "alice@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Active",
-  },
-  {
-    id: "2",
-    name: "Bob Smith",
-    email: "bob@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Active",
-  },
-  {
-    id: "3",
-    name: "Charlie Brown",
-    email: "charlie@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Inactive",
-  },
-  {
-    id: "4",
-    name: "David Lee",
-    email: "david@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Active",
-  },
-  {
-    id: "5",
-    name: "Emily Davis",
-    email: "emily@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Active",
-  },
-  {
-    id: "6",
-    name: "Frank Thomas",
-    email: "frank@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Inactive",
-  },
-  {
-    id: "7",
-    name: "Grace Wilson",
-    email: "grace@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Active",
-  },
-  {
-    id: "8",
-    name: "Henry Garcia",
-    email: "henry@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Active",
-  },
-  {
-    id: "9",
-    name: "Ivy Martinez",
-    email: "ivy@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Inactive",
-  },
-  {
-    id: "10",
-    name: "Jack Robinson",
-    email: "jack@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Active",
-  },
-  {
-    id: "11",
-    name: "Kate Adams",
-    email: "kate@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Active",
-  },
-  {
-    id: "12",
-    name: "Leo Clark",
-    email: "leo@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Inactive",
-  },
-  {
-    id: "13",
-    name: "Mia White",
-    email: "mia@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Active",
-  },
-  {
-    id: "14",
-    name: "Noah Hall",
-    email: "noah@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Active",
-  },
-  {
-    id: "15",
-    name: "Olivia Harris",
-    email: "olivia@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Inactive",
-  },
-  {
-    id: "16",
-    name: "Peter King",
-    email: "peter@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Active",
-  },
-  {
-    id: "17",
-    name: "Quinn Young",
-    email: "quinn@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Active",
-  },
-  {
-    id: "18",
-    name: "Ryan Scott",
-    email: "ryan@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Inactive",
-  },
-  {
-    id: "19",
-    name: "Samantha Green",
-    email: "samantha@example.com",
-    role: "hr",
-    department: "Human Resources",
-    status: "Active",
-  },
-  {
-    id: "20",
-    name: "Tommy Baker",
-    email: "tommy@example.com",
-    role: "support",
-    department: "Customer Support",
-    status: "Active",
-  },
-];
-
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<HrUsers>[] = [
   {
     accessorKey: "name",
     header: "Name",
     enableHiding: false,
-    cell: ({ row }) => <UserNameWithAvatar name={row.original.name} />,
+    cell: ({ row }) => <UserNameWithAvatar name={row.original.username} />,
   },
   {
     accessorKey: "email",
     header: "Email",
   },
-  {
-    accessorKey: "role",
-    header: "Role",
-    cell: ({ row }) => {
-      const user = row.original;
-      return (
-        <Badge
-          style={{
-            color: roleColorMapping[user.role][1],
-            background: roleColorMapping[user.role][0],
-          }}
-        >
-          {user.role.toUpperCase()}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      const user = row.original;
-      return (
-        <div
-          className={`font-semibold ${
-            user.status === "Active" ? "text-green-700" : "text-red-700"
-          }`}
-        >
-          {user.status}
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "role",
+  //   header: "Role",
+  //   cell: ({ row }) => {
+  //     const user = row.original;
+  //     return (
+  //       <Badge
+  //         style={{
+  //           color: roleColorMapping[user.role][1],
+  //           background: roleColorMapping[user.role][0],
+  //         }}
+  //       >
+  //         {user.role.toUpperCase()}
+  //       </Badge>
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: "status",
+  //   header: "Status",
+  //   cell: ({ row }) => {
+  //     const user = row.original;
+  //     return (
+  //       <div
+  //         className={`font-semibold ${
+  //           user.status === "Active" ? "text-green-700" : "text-red-700"
+  //         }`}
+  //       >
+  //         {user.status}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     id: "actions",
     enableHiding: false,

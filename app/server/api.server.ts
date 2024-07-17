@@ -2,9 +2,11 @@ import { API_ENDPOINT } from "./helper.server";
 
 class API {
   baseURL: string;
+  accessToken: string;
 
-  constructor(baseURL: string) {
+  constructor(baseURL: string, accessToken: string) {
     this.baseURL = baseURL;
+    this.accessToken = accessToken;
   }
 
   private async handleResponse<T>(
@@ -29,11 +31,20 @@ class API {
     return { response: res, error: undefined };
   }
 
+  private getAuthorizationHeader() {
+    if (this.accessToken) {
+      return { Authorization: `Bearer ${this.accessToken}` };
+    }
+    return undefined;
+  }
+
   async get<T>(
     endpoint: string
   ): Promise<{ response: T; error: string | undefined }> {
     try {
-      const response = await fetch(`${this.baseURL}${endpoint}`);
+      const response = await fetch(`${this.baseURL}${endpoint}`, {
+        headers: this.getAuthorizationHeader(),
+      });
       return this.handleResponse<T>(response);
     } catch (error) {
       console.error("GET request failed:", error);
@@ -50,6 +61,7 @@ class API {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...this.getAuthorizationHeader(),
         },
         body: JSON.stringify(data),
       });
@@ -69,6 +81,7 @@ class API {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          ...this.getAuthorizationHeader(),
         },
         body: JSON.stringify(data),
       });
@@ -85,6 +98,7 @@ class API {
     try {
       const res = await fetch(`${this.baseURL}${endpoint}`, {
         method: "DELETE",
+        headers: this.getAuthorizationHeader(),
       });
       return await this.handleResponse<T>(res);
     } catch (error) {
@@ -94,5 +108,8 @@ class API {
   }
 }
 
-const api = new API(API_ENDPOINT);
+const api = new API(API_ENDPOINT, "");
+export const APIWithToken = (accessToken: string) =>
+  new API(API_ENDPOINT, accessToken);
+
 export default api;
