@@ -3,11 +3,12 @@ import { columns } from "~/components/column/user-column";
 import { Button } from "~/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { ENDPOINT_USER, PROJECT_NAME } from "~/constant";
-import { json, Link, redirect, useLoaderData } from "@remix-run/react";
+import { json, Link, useLoaderData } from "@remix-run/react";
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { requireAuth, sessionStore } from "~/server/auth-session.server";
+import { requireAuth } from "~/server/auth-session.server";
 import { APIWithToken } from "~/server/api.server";
-import { HrUsers } from "~/types";
+import { HrUser } from "~/types";
+import { checkIfUnauthorized } from "~/server/helper.server";
 
 export const meta: MetaFunction = () => [
   { title: `User List ${PROJECT_NAME}` },
@@ -17,17 +18,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await requireAuth(request, ["read:users"]);
   const api = APIWithToken(session.atoken);
 
-  const { error, response } = await api.get<HrUsers[]>("/hr");
+  const { error, response } = await api.get<HrUser[]>("/hr");
   if (error) {
-    if (error.includes("401")) {
-      return redirect(`/login?code=207H2L&callbackUrl=${request.url}`, {
-        headers: {
-          "Set-Cookie": await sessionStore.destroySession(
-            await sessionStore.getSession(request.headers.get("Cookie"))
-          ),
-        },
-      });
-    }
+    await checkIfUnauthorized(request, error);
     return json({
       users: null,
       error: "Cannot fetch users, please try again later",

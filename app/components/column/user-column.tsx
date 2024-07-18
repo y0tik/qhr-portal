@@ -10,9 +10,10 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { type ColumnDef } from "@tanstack/react-table";
 import { UserNameWithAvatar } from "./common";
-import { HrUsers } from "~/types";
+import { HrUser } from "~/types";
+import { Link } from "@remix-run/react";
 
-export const columns: ColumnDef<HrUsers>[] = [
+export const columns: ColumnDef<HrUser>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -63,9 +64,11 @@ export const columns: ColumnDef<HrUsers>[] = [
       const user = row.original;
       return (
         <div className="flex items-center justify-end gap-4">
-          <Button variant="outline" size="sm">
-            <Edit className="h-4 w-4 mr-3" />
-            <span className="">Edit Details</span>
+          <Button asChild variant="outline" size="sm">
+            <Link to={`/user/update/${user.id}`}>
+              <Edit className="h-4 w-4 mr-3" />
+              <span className="">Edit</span>
+            </Link>
           </Button>
           <Button variant="outline" size="sm">
             <Ticket className="-rotate-45 h-4 w-4 mr-2" />
@@ -93,7 +96,7 @@ export const columns: ColumnDef<HrUsers>[] = [
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Reset Password</DropdownMenuItem>
-              <DropdownMenuItem>Archive Account</DropdownMenuItem>
+              <DropdownMenuItem>Delete Account</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

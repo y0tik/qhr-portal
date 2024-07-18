@@ -21,7 +21,7 @@ export default function App() {
           }}
         />
       </header>
-      <div className="py-6 px-12 h-[calc(100vh-64px)]">
+      <div className="py-4 px-12 h-[calc(100vh-64px)]">
         <Outlet context={session} />
       </div>
     </>

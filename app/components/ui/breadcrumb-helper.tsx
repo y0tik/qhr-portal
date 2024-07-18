@@ -34,7 +34,9 @@ export default function BreadcrumbHelper({ items }: BreadcrumbHelperProps) {
             </React.Fragment>
           ) : (
             <BreadcrumbItem key={`br-${i.name}`}>
-              <BreadcrumbPage>{i.name}</BreadcrumbPage>
+              <BreadcrumbPage className="text-primary font-semibold">
+                {i.name}
+              </BreadcrumbPage>
             </BreadcrumbItem>
           )
         )}

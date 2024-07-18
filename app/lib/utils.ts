@@ -11,4 +11,4 @@ export function sleep(timeout: number = 1000): Promise<void> {
 }
 
 export const checkbox = () =>
-  z.preprocess((value) => value === "on", z.boolean());
+  z.preprocess((value) => value === "true", z.boolean());
