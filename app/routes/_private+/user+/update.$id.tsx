@@ -4,22 +4,16 @@ import { json, redirect, useLoaderData } from "@remix-run/react";
 import { getValidatedFormData } from "remix-hook-form";
 import AutoBreadcrumb from "~/components/auto-breadcrumb";
 import UserForm, { userResolver } from "~/forms/UserForm";
-import { APIWithToken } from "~/server/api.server";
 import { requireAuth } from "~/server/auth-session.server";
-import { checkIfUnauthorized } from "~/server/helper.server";
 import { HrUser } from "~/types";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const id = params.id;
-  if (!id) {
-    return redirect("/user");
-  }
-  const session = await requireAuth(request, ["write:users"]);
-  const api = APIWithToken(session.atoken);
+  if (!id) return redirect("/user");
 
+  const { api } = await requireAuth(request, ["write:users"]);
   const { error, response } = await api.get<HrUser>(`/hr/${id}`);
   if (error) {
-    await checkIfUnauthorized(request, error);
     return redirect("/user");
   }
 
@@ -31,6 +25,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     request,
     userResolver
   );
+  // update user details
   console.log(data, errors, receivedValues);
   return null;
 };

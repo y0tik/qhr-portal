@@ -1,7 +1,5 @@
-import { redirect } from "@remix-run/react";
 import { FieldErrors, FieldValues, Resolver } from "react-hook-form";
 import { getValidatedFormData } from "remix-hook-form";
-import { sessionStore } from "./auth-session.server";
 
 // Check if the required environment variable is set
 if (!process.env.ALUMNI_CLIENT_CORE_ENDPOINT) {
@@ -61,17 +59,5 @@ export const requireFormData = async <T extends FieldValues>(
       },
       data: data.data as T, // Since data should be of type T if errors is undefined
     };
-  }
-};
-
-export const checkIfUnauthorized = async (request: Request, error: string) => {
-  if (error.includes("401")) {
-    throw redirect(`/login?code=207H2L&callbackUrl=${request.url}`, {
-      headers: {
-        "Set-Cookie": await sessionStore.destroySession(
-          await sessionStore.getSession(request.headers.get("Cookie"))
-        ),
-      },
-    });
   }
 };

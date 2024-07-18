@@ -6,21 +6,17 @@ import { ENDPOINT_USER, PROJECT_NAME } from "~/constant";
 import { json, Link, useLoaderData } from "@remix-run/react";
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { requireAuth } from "~/server/auth-session.server";
-import { APIWithToken } from "~/server/api.server";
-import { HrUser } from "~/types";
-import { checkIfUnauthorized } from "~/server/helper.server";
+import type { HrUser } from "~/types";
 
 export const meta: MetaFunction = () => [
   { title: `User List ${PROJECT_NAME}` },
 ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session = await requireAuth(request, ["read:users"]);
-  const api = APIWithToken(session.atoken);
+  const { api } = await requireAuth(request, ["read:users"]);
 
   const { error, response } = await api.get<HrUser[]>("/hr");
   if (error) {
-    await checkIfUnauthorized(request, error);
     return json({
       users: null,
       error: "Cannot fetch users, please try again later",
@@ -40,7 +36,7 @@ export default function ListUserPage() {
         <DataTable
           columns={columns}
           data={users}
-          pageSize={7}
+          pageSize={8}
           renderActionRight={
             <div className="flex space-x-2">
               <Button variant="default" size="sm" asChild>

@@ -1,4 +1,4 @@
-import { Form } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { RHFInput } from "~/components/form/RHFInput";
@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RHFCheckbox } from "~/components/form/RHFCheckbox";
 import { Label } from "~/components/ui/label";
+import { LoadingButton } from "~/components/loading-btn";
 
 const schema = z
   .object({
@@ -40,7 +41,10 @@ export default function UserForm({
     register,
     reset,
   } = useRemixForm<UserFormData>({ defaultValues, resolver: userResolver });
+  const { state } = useNavigation();
+  const isSubmitting = state === "loading" || state === "submitting";
   const isEdit = !!defaultValues;
+
   return (
     <Form onSubmit={handleSubmit} method="post">
       <Card className="px-6 py-6">
@@ -107,7 +111,9 @@ export default function UserForm({
             <Button type="button" onClick={() => reset()} variant="outline">
               Reset
             </Button>
-            <Button>Submit</Button>
+            <LoadingButton loading={isSubmitting} type="submit">
+              Submit
+            </LoadingButton>
           </div>
         </div>
       </Card>

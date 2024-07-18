@@ -1,25 +1,36 @@
-import { getValidatedFormData } from "remix-hook-form";
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import AutoBreadcrumb from "~/components/auto-breadcrumb";
 import UserForm, { UserFormData, userResolver } from "~/forms/UserForm";
+import { requireFormData } from "~/server/helper.server";
+import { requireAuth } from "~/server/auth-session.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const {
-    data,
-    errors,
-    receivedValues: defaultValues,
-  } = await getValidatedFormData<UserFormData>(request, userResolver);
+  const { data, errors } = await requireFormData<UserFormData>(
+    request,
+    userResolver
+  );
+  if (!data) return json(errors);
 
-  console.log(errors, data);
-  // check password
-  if (errors) {
-    return { errors, defaultValues };
+  // +start API - POST - /auth/hr
+  // *payload {
+  //   "username": "string",
+  //   "email": "string",
+  //   "company_id": "integer",
+  //   "password": "string",
+  // }
+  // TODO :: remove hardcoded company
+  const { api } = await requireAuth(request, ["write:users"]);
+  const { error } = await api.post("/hr", { ...data, company_id: 2 });
+  if (error) {
+    return json({
+      errors: {
+        root: { message: "Error when creating user, Please try again later" },
+      },
+    });
   }
-
-  return null;
-  // Make Call to API
-  // If Sucess - redirect
-  // If error - show error message using a alert
+  // hr user successfully created, redirect them to list view
+  return redirect("/user");
+  // +end API - POST - /auth/hr
 };
 
 export default function CreateUserPage() {

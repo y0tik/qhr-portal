@@ -1,6 +1,7 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import { Role } from "~/types";
 import { hasPermissions, Permission } from "./permission.server";
+import { createAPIForRequest } from "./api.server";
 
 export type AuthSessionData = {
   uname: string;
@@ -49,7 +50,10 @@ export const requireAuth = async (
   if (permissions && !hasPermissions(role, permissions)) {
     throw new Error("You don't have permission to view this resource");
   }
-  return { uname, email, atoken, id, role, cid };
+  return {
+    api: createAPIForRequest(atoken, req),
+    session: { uname, email, atoken, id, role, cid },
+  };
 };
 
 export const setAuthSession = async (
