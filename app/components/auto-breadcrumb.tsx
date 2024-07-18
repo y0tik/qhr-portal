@@ -19,7 +19,7 @@ export default function AutoBreadcrumb() {
   navLinks[navLinks.length - 1].to = "";
 
   return (
-    <div className="py-4">
+    <div className="pb-4 -mt-2">
       <BreadcrumbHelper items={navLinks} />
     </div>
   );

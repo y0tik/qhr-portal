@@ -11,6 +11,7 @@ export const API_ENDPOINT = process.env.ALUMNI_CLIENT_CORE_ENDPOINT!;
 
 const CODE_MAP: { [key: string]: string } = {
   "1ZVGUE": "Please login to continue",
+  "207H2L": "Session expired, Please login to continue",
   default: "Please try again later",
 };
 

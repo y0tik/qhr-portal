@@ -66,6 +66,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   if (!data) {
     return json(errors);
   }
+  const params = new URL(request.url).searchParams;
+  const callbackUrl = params.get("callbackUrl");
 
   // +start API - /auth/login
   const { response, error } = await api.post<LoginReponse>("/auth/login", data);
@@ -88,11 +90,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     role: token.sub.role,
   });
   // redirect and with headers set
-  return redirect("/overview", headers);
+  return redirect(callbackUrl ?? "/overview", headers);
   // +end API - /auth/login
 };
 
-export default function LoginForm() {
+export default function LoginPage() {
   const {
     handleSubmit,
     formState: { errors },
