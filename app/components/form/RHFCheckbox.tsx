@@ -29,21 +29,18 @@ export const RHFCheckbox = <T extends FieldValues>({
         <Controller
           control={control}
           name={name}
-          render={({ field: { onChange, onBlur, value, name, ref } }) => {
-            console.log(value);
-            return (
-              <input
-                type="checkbox"
-                className="w-4 h-4 cursor-pointer"
-                name={name}
-                id={name}
-                value={value}
-                onBlur={onBlur}
-                onChange={onChange}
-                ref={ref}
-              />
-            );
-          }}
+          render={({ field: { onChange, onBlur, value, name, ref } }) => (
+            <input
+              type="checkbox"
+              className="w-4 h-4 cursor-pointer"
+              name={name}
+              id={name}
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              ref={ref}
+            />
+          )}
         />
         <Label className="cursor-pointer" htmlFor={name}>
           {displayName ?? name.charAt(0).toUpperCase() + name.slice(1)}

@@ -61,10 +61,10 @@ class API {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         headers: this.getAuthorizationHeader(),
       });
-      return this.handleResponse<T>(response);
+      return await this.handleResponse<T>(response);
     } catch (error) {
       if (error instanceof Error) {
-        this.checkIfUnauthorized(error.message);
+        await this.checkIfUnauthorized(error.message);
       }
       console.error("GET request failed:", error);
       return { response: {} as T, error: "Network error" };
@@ -87,9 +87,9 @@ class API {
       return await this.handleResponse<T>(res);
     } catch (error) {
       if (error instanceof Error) {
-        this.checkIfUnauthorized(error.message);
+        await this.checkIfUnauthorized(error.message);
       }
-      console.error("POST request failed:", error);
+      console.error("POST request failed:");
       return { response: {} as T, error: "Network error" };
     }
   }
@@ -110,7 +110,7 @@ class API {
       return await this.handleResponse<T>(res);
     } catch (error) {
       if (error instanceof Error) {
-        this.checkIfUnauthorized(error.message);
+        await this.checkIfUnauthorized(error.message);
       }
       console.error("PUT request failed:", error);
       return { response: {} as T, error: "Network error" };
@@ -128,7 +128,7 @@ class API {
       return await this.handleResponse<T>(res);
     } catch (error) {
       if (error instanceof Error) {
-        this.checkIfUnauthorized(error.message);
+        await this.checkIfUnauthorized(error.message);
       }
       console.error("DELETE request failed:", error);
       return { response: {} as T, error: "Network error" };

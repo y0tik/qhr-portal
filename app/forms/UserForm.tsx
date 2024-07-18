@@ -8,9 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RHFCheckbox } from "~/components/form/RHFCheckbox";
 import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/loading-btn";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const schema = z
   .object({
+    id: z.number().optional(),
     username: z.string().min(2),
     email: z.string().email(),
     mode: z.enum(["create", "update"]).default("create"),
@@ -20,6 +23,10 @@ const schema = z
     perm_read: z.boolean().default(false),
     perm_write: z.boolean().default(false),
     perm_delete: z.boolean().default(false),
+  })
+  .refine((data) => !(data.mode === "update" && !data.id), {
+    message: "id required",
+    path: ["id"],
   })
   .refine((data) => !(data.mode === "create" && !data.password), {
     message: "Password Required",
@@ -44,9 +51,16 @@ export default function UserForm({
   const { state } = useNavigation();
   const isSubmitting = state === "loading" || state === "submitting";
   const isEdit = !!defaultValues;
-
+  console.log(errors);
   return (
     <Form onSubmit={handleSubmit} method="post">
+      {errors.root?.message && (
+        <Alert variant="destructive" className="mb-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{errors.root.message}</AlertDescription>
+        </Alert>
+      )}
       <Card className="px-6 py-6">
         <div className="grid grid-cols-3 gap-y-4 gap-x-8">
           <RHFInput {...register("username")} error={errors.username} />

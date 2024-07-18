@@ -1,9 +1,10 @@
 export type User = { username: string; email: string; role: Role };
 export type HrUser = {
-  id: string;
+  id: number;
   username: string;
   email: string;
-  company_id: string;
+  company_id: number;
+  password: string;
   created_at: string;
   updated_at: string;
 };
