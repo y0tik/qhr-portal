@@ -17,7 +17,7 @@ const schema = z
     username: z.string().min(2),
     email: z.string().email(),
     mode: z.enum(["create", "update"]).default("create"),
-    password: z.string().min(2).optional(),
+    password: z.string().min(4).optional().or(z.literal("")),
     role_hr: z.boolean().default(false),
     role_support: z.boolean().default(false),
     perm_read: z.boolean().default(false),
@@ -31,7 +31,15 @@ const schema = z
   .refine((data) => !(data.mode === "create" && !data.password), {
     message: "Password Required",
     path: ["password"],
-  });
+  })
+  .refine(
+    (data) =>
+      !(data.mode === "create" && data.password && data.password.length < 6),
+    {
+      message: "Password should be greater than 5 Characters",
+      path: ["password"],
+    }
+  );
 
 export const userResolver = zodResolver(schema);
 export type UserFormData = z.infer<typeof schema>;
@@ -65,11 +73,9 @@ export default function UserForm({
         <div className="grid grid-cols-3 gap-y-4 gap-x-8">
           <RHFInput {...register("username")} error={errors.username} />
           <RHFInput {...register("email")} error={errors.email} />
-          <div>
-            {!isEdit && (
-              <RHFInput {...register("password")} error={errors.password} />
-            )}
-          </div>
+
+          <RHFInput {...register("password")} error={errors.password} />
+
           <div className="mt-3">
             <Label>Role</Label>
             <div className="text-sm text-muted-foreground mt-0.5">
@@ -120,7 +126,12 @@ export default function UserForm({
               />
             </div>
           </div>
-
+          {isEdit && (
+            <div className="text-sm -mt-2 text-muted-foreground">
+              Enter a new password to change it, or leave it blank to keep the
+              current password.
+            </div>
+          )}
           <div className="mt-6 col-span-3 flex justify-between">
             <Button type="button" onClick={() => reset()} variant="outline">
               Reset

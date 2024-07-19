@@ -36,6 +36,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // }
   // TODO :: remove hardcoded company
   const { api } = await requireAuth(request, ["write:users"]);
+  if (!data.password) {
+    // delete the field for API
+    delete data.password;
+  }
   const { error } = await api.put(`/hr/${data.id}`, {
     ...data,
     company_id: 2,
@@ -64,7 +68,6 @@ export default function UserPage() {
           mode: "update",
           email: data.email,
           username: data.username,
-          password: data.password,
           perm_delete: false,
           perm_read: false,
           perm_write: false,
