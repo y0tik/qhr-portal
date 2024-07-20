@@ -50,7 +50,7 @@ export const requireAuth = async (
     throw redirect("/login?code=1ZVGUE");
   }
   if (permissions && !hasPermissions(role, permissions)) {
-    throw new Error("You don't have permission to view this resource");
+    throw new Error("E#20BPL4 You don't have permission to view this resource");
   }
   return {
     api: createAPIForRequest(atoken, req),
