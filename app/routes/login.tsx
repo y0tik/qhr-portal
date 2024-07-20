@@ -54,7 +54,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   if (await hasValidAuthSession(request)) {
     return redirect("/overview");
   }
-
   const params = new URL(request.url).searchParams;
   return json({
     error: friendlyMsgForCode(params.get("code")),
@@ -62,12 +61,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  const params = new URL(request.url).searchParams;
+  const callbackUrl = params.get("callbackUrl");
+
   const { data, errors } = await requireFormData<FormData>(request, resolver);
   if (!data) {
     return json(errors);
   }
-  const params = new URL(request.url).searchParams;
-  const callbackUrl = params.get("callbackUrl");
 
   // +start API - /auth/login
   const { response, error } = await api.post<LoginReponse>("/auth/login", data);
@@ -116,7 +116,7 @@ export default function LoginPage() {
           <CardTitle className="text-center text-2xl">Login</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
-          {(error || errors.root?.message) && (
+          {!isSubmitting && (error || errors.root?.message) && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>

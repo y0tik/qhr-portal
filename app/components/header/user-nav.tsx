@@ -9,8 +9,9 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Button } from "~/components/ui/button";
-import { Form, Link } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { User } from "~/types";
+import { ActionLogout } from "~/routes/action+/signout";
 
 type UserNavProps = User;
 
@@ -44,13 +45,9 @@ export function UserNav({ username, email }: UserNavProps) {
           <DropdownMenuItem>Support</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <Form method="POST" replace action="/action/signout">
-          <DropdownMenuItem asChild>
-            <button type="submit" className="cursor-pointer w-full">
-              Log out
-            </button>
-          </DropdownMenuItem>
-        </Form>
+        <ActionLogout>
+          <DropdownMenuItem className="w-full">Logout</DropdownMenuItem>
+        </ActionLogout>
       </DropdownMenuContent>
     </DropdownMenu>
   );

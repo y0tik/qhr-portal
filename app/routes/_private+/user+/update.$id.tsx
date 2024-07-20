@@ -40,10 +40,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     // delete the field for API
     delete data.password;
   }
-  const { error } = await api.put(`/hr/${data.id}`, {
-    ...data,
-    company_id: 2,
-  });
+  const { response, error } = await api.put(
+    `/hr/${data.id}`,
+    { ...data, company_id: 2 },
+  );
   if (error) {
     return json({
       errors: {
@@ -51,6 +51,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       },
     });
   }
+  console.log("response", response);
+  return null;
   // hr user successfully created, redirect them to list view
   return redirect("/user");
   // +end API - POST - /auth/hr/$id

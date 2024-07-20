@@ -13,7 +13,10 @@ export type AuthSessionData = {
 };
 
 type AuthSessionFlashData = {
-  error: string;
+  message: {
+    type: "error" | "info";
+    message: string;
+  };
 };
 
 const COOKIE_SECRECT =
@@ -41,9 +44,8 @@ export const requireAuth = async (
   req: Request,
   permissions?: Array<Permission>
 ) => {
-  const { uname, email, atoken, id, role, cid } = (
-    await getSessionFromRequest(req)
-  ).data;
+  const session = await getSessionFromRequest(req);
+  const { uname, email, atoken, id, role, cid } = session.data;
   if (!uname || !email || !atoken || !id || !role || !cid) {
     throw redirect("/login?code=1ZVGUE");
   }
@@ -52,7 +54,8 @@ export const requireAuth = async (
   }
   return {
     api: createAPIForRequest(atoken, req),
-    session: { uname, email, atoken, id, role, cid },
+    user: { uname, email, atoken, id, role, cid },
+    session,
   };
 };
 

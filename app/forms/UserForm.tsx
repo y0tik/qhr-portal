@@ -10,6 +10,7 @@ import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/loading-btn";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { AlertCircle } from "lucide-react";
+import { ActionDeleteHRUser } from "~/routes/action+/user.delete.$id";
 
 const schema = z
   .object({
@@ -58,8 +59,7 @@ export default function UserForm({
   } = useRemixForm<UserFormData>({ defaultValues, resolver: userResolver });
   const { state } = useNavigation();
   const isSubmitting = state === "loading" || state === "submitting";
-  const isEdit = !!defaultValues;
-  console.log(errors);
+  const isEdit = defaultValues?.id;
   return (
     <Form onSubmit={handleSubmit} method="post">
       {errors.root?.message && (
@@ -133,9 +133,12 @@ export default function UserForm({
             </div>
           )}
           <div className="mt-6 col-span-3 flex justify-between">
-            <Button type="button" onClick={() => reset()} variant="outline">
-              Reset
-            </Button>
+            <div className="flex gap-4">
+              <Button type="button" onClick={() => reset()} variant="outline">
+                Reset
+              </Button>
+              {isEdit && <ActionDeleteHRUser id={String(defaultValues.id)} />}
+            </div>
             <LoadingButton loading={isSubmitting} type="submit">
               Submit
             </LoadingButton>

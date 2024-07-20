@@ -96,17 +96,25 @@ class API {
 
   async put<T>(
     endpoint: string,
-    data: object
+    data: object,
+    debug: boolean = false
   ): Promise<{ response: T; error: string | undefined }> {
     try {
-      const res = await fetch(`${this.baseURL}${endpoint}`, {
+      const fetchBody = {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           ...this.getAuthorizationHeader(),
         },
         body: JSON.stringify(data),
-      });
+      };
+      if (debug) {
+        console.log(
+          `Method :: ${fetchBody.method} -> ${this.baseURL}${endpoint}`
+        );
+        console.log("fetch_body ", fetchBody);
+      }
+      const res = await fetch(`${this.baseURL}${endpoint}`, fetchBody);
       return await this.handleResponse<T>(res);
     } catch (error) {
       if (error instanceof Error) {
@@ -118,13 +126,21 @@ class API {
   }
 
   async delete<T>(
-    endpoint: string
+    endpoint: string,
+    debug: boolean = false
   ): Promise<{ response: T; error: string | undefined }> {
     try {
-      const res = await fetch(`${this.baseURL}${endpoint}`, {
+      const fetchBody = {
         method: "DELETE",
         headers: this.getAuthorizationHeader(),
-      });
+      };
+      if (debug) {
+        console.log(
+          `Method :: ${fetchBody.method} -> ${this.baseURL}${endpoint}`
+        );
+        console.log("fetch_body ", fetchBody);
+      }
+      const res = await fetch(`${this.baseURL}${endpoint}`, fetchBody);
       return await this.handleResponse<T>(res);
     } catch (error) {
       if (error instanceof Error) {

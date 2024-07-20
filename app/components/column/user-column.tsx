@@ -74,7 +74,7 @@ export const columns: ColumnDef<HrUser>[] = [
             <Ticket className="-rotate-45 h-4 w-4 mr-2" />
             <span className="">View Tickets</span>
           </Button>
-          <DropdownMenu>
+          <DropdownMenu modal>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Open menu</span>
@@ -86,7 +86,7 @@ export const columns: ColumnDef<HrUser>[] = [
               <DropdownMenuItem
                 onClick={() => {
                   try {
-                    navigator.clipboard.writeText(user.id);
+                    navigator.clipboard.writeText(String(user.id));
                   } catch (error) {
                     /* empty */
                   }
@@ -95,8 +95,6 @@ export const columns: ColumnDef<HrUser>[] = [
                 Copy User ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Reset Password</DropdownMenuItem>
-              <DropdownMenuItem>Delete Account</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

@@ -9,3 +9,4 @@ export type HrUser = {
   updated_at: string;
 };
 export type Role = "admin" | "hr" | "employee";
+export type AlertProp = { type: "error" | "success"; message: string };
