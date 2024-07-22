@@ -15,10 +15,10 @@ import { ActionDeleteHRUser } from "~/routes/action+/user.delete.$id";
 const schema = z
   .object({
     id: z.number().optional(),
-    username: z.string().min(2),
-    email: z.string().email(),
     mode: z.enum(["create", "update"]).default("create"),
     password: z.string().min(4).optional().or(z.literal("")),
+    username: z.string().min(2),
+    email: z.string().email(),
     role_hr: z.boolean().default(false),
     role_support: z.boolean().default(false),
     perm_read: z.boolean().default(false),

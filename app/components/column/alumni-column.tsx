@@ -11,6 +11,7 @@ import {
 import { type ColumnDef } from "@tanstack/react-table";
 import { UserNameWithAvatar } from "./common";
 import { AlumniUser } from "~/types";
+import { Link } from "@remix-run/react";
 
 export const columns: ColumnDef<AlumniUser>[] = [
   {
@@ -48,9 +49,11 @@ export const columns: ColumnDef<AlumniUser>[] = [
             <Upload className="h-4 w-4 mr-3" />
             <span className="">Upload Files</span>
           </Button>
-          <Button variant="outline" size="sm">
-            <Edit className="h-4 w-4 mr-3" />
-            <span className="">Edit Details</span>
+          <Button variant="outline" size="sm" asChild>
+            <Link to={`/alumni/update/${alumni.id}`}>
+              <Edit className="h-4 w-4 mr-3" />
+              <span className="">Edit Details</span>
+            </Link>
           </Button>
           <Button variant="outline" size="sm">
             <Ticket className="-rotate-45 h-4 w-4 mr-2" />

@@ -4,8 +4,8 @@ import Header from "~/components/header";
 import { requireAuth } from "~/server/auth-session.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { user: session } = await requireAuth(request);
-  return json(session);
+  const { user } = await requireAuth(request);
+  return json(user);
 };
 
 export default function App() {

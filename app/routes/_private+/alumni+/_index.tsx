@@ -32,8 +32,8 @@ export default function ListAlumniPage() {
   return (
     <>
       {error && <div>WIP SHOW ALERT - {error}</div>}
-      {/* Add a search button next to input */}
-      {/* remove pagination */}
+      {/* TODO :: Add a search button next to input */}
+      {/* TODO :: remove pagination */}
       {alumni && (
         <DataTable
           columns={columns}

@@ -11,7 +11,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const id = params.id;
   if (!id) return redirect("/user");
 
-  const { api } = await requireAuth(request, ["write:users"]);
+  const { api } = await requireAuth(request, ["read:users"]);
   const { error, response } = await api.get<HrUser>(`/hr/${id}`);
   if (error) {
     return redirect("/user");
@@ -21,13 +21,15 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  const { api } = await requireAuth(request, ["write:users"]);
+
   const { data, errors } = await requireFormData<UserFormData>(
     request,
     userResolver
   );
   if (!data) return json(errors);
 
-  // +start API - POST - /auth/hr/$id
+  // +start API - PUT - /hr/$id
   // *payload {
   //   "username": "string",
   //   "email": "string",
@@ -35,15 +37,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   //   "password": "string",
   // }
   // TODO :: remove hardcoded company
-  const { api } = await requireAuth(request, ["write:users"]);
   if (!data.password) {
     // delete the field for API
     delete data.password;
   }
-  const { response, error } = await api.put(
-    `/hr/${data.id}`,
-    { ...data, company_id: 2 },
-  );
+  const { error } = await api.put(`/hr/${data.id}`, {
+    ...data,
+    company_id: 2,
+  });
   if (error) {
     return json({
       errors: {
@@ -51,11 +52,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       },
     });
   }
-  console.log("response", response);
-  return null;
-  // hr user successfully created, redirect them to list view
+  // hr user successfully updated, redirect them to list view
   return redirect("/user");
-  // +end API - POST - /auth/hr/$id
+  // +end API - PUT - /hr/$id
 };
 
 export default function UserPage() {
