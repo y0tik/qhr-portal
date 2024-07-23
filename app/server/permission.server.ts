@@ -6,12 +6,13 @@ export type Permission =
   | "delete:users"
   | "read:alumni"
   | "write:alumni"
-  | "delete:alumni";
+  | "delete:alumni"
+  | "self";
 
 const PERMISSION_MAP: Record<Role, Array<Permission>> = {
   admin: ["read:users", "write:users", "delete:users"],
   hr: ["read:alumni", "write:alumni", "delete:alumni"],
-  employee: [],
+  employee: ["self"],
 };
 
 export function hasPermissions(role: Role, permissions: Array<Permission>) {
