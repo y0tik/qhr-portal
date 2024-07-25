@@ -44,7 +44,7 @@ export default function AlumniForm({
     reset,
   } = useRemixForm<AlumniFormData>({ defaultValues, resolver: alumniResolver });
   const { state } = useNavigation();
-  const isSubmitting = state === "loading" || state === "submitting";
+  const isSubmitting = state === "submitting";
   const isEdit = defaultValues?.id;
   return (
     <Form onSubmit={handleSubmit} method="post">

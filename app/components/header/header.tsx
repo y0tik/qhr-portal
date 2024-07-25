@@ -4,7 +4,7 @@ import { NAVIGATION_MENU } from "./navigation-menu";
 import { UserNav } from "./user-nav";
 import { User } from "~/types";
 
-const ExampleCompanyLogo = () => {
+export const ExampleCompanyLogo = () => {
   return (
     <div className="relative z-20 flex items-center text-lg font-medium">
       <svg
@@ -31,7 +31,7 @@ type HeaderProps = {
 export default function Header({ user }: HeaderProps) {
   const user_menu = NAVIGATION_MENU.filter((m) => m.role.includes(user.role));
   return (
-    <div className="border-b">
+    <div className="bg-secondary/80 border-b">
       <div className="flex h-16 items-center justify-between px-12">
         <div className="flex-1">
           <ExampleCompanyLogo />

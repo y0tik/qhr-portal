@@ -4,5 +4,5 @@
 // should be preferred instead of cramping everthing a single component
 
 export default function SettingsPage() {
-  return <div>WIP : Settings Page</div>;
+  return <div>WIP : Alumni Settings Page</div>;
 }

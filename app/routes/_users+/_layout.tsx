@@ -1,14 +1,17 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { json, Outlet, useLoaderData } from "@remix-run/react";
+import { json, Outlet, redirect, useLoaderData } from "@remix-run/react";
 import Header from "~/components/header";
 import { requireAuth } from "~/server/auth-session.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { user } = await requireAuth(request);
+  if (user.role == "employee") {
+    return redirect("/me");
+  }
   return json(user);
 };
 
-export default function App() {
+export default function UsersLayout() {
   const session = useLoaderData<typeof loader>();
   return (
     <>

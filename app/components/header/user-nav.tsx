@@ -45,7 +45,7 @@ export function UserNav({ username, email }: UserNavProps) {
           <DropdownMenuItem>Support</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <ActionLogout>
+        <ActionLogout className="w-full">
           <DropdownMenuItem className="w-full">Logout</DropdownMenuItem>
         </ActionLogout>
       </DropdownMenuContent>

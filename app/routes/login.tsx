@@ -21,10 +21,7 @@ import { LoadingButton } from "~/components/loading-btn";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { friendlyMsgForCode, requireFormData } from "~/server/helper.server";
-import {
-  hasValidAuthSession,
-  setAuthSession,
-} from "~/server/auth-session.server";
+import { getAuthSession, setAuthSession } from "~/server/auth-session.server";
 import api from "~/server/api.server";
 import { LoginReponse } from "~/server/response.type";
 import { jwtDecode } from "jwt-decode";
@@ -51,8 +48,10 @@ const resolver = zodResolver(schema);
 type FormData = z.infer<typeof schema>;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  if (await hasValidAuthSession(request)) {
-    return redirect("/overview");
+  const session = await getAuthSession(request);
+  if (session) {
+    const redirectTo = session.data.role == "employee" ? "/me" : "/overview";
+    return redirect(redirectTo);
   }
   const params = new URL(request.url).searchParams;
   return json({
@@ -90,7 +89,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     role: token.sub.role,
   });
   // redirect and with headers set
-  return redirect(callbackUrl ?? "/overview", headers);
+  const redirectTo = token.sub.role == "employee" ? "/me" : "/overview";
+  return redirect(callbackUrl ?? redirectTo, headers);
   // +end API - /auth/login
 };
 

@@ -58,7 +58,7 @@ export default function UserForm({
     reset,
   } = useRemixForm<UserFormData>({ defaultValues, resolver: userResolver });
   const { state } = useNavigation();
-  const isSubmitting = state === "loading" || state === "submitting";
+  const isSubmitting = state === "submitting";
   const isEdit = defaultValues?.id;
   return (
     <Form onSubmit={handleSubmit} method="post">

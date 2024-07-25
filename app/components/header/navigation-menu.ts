@@ -1,5 +1,6 @@
 import { Role } from "~/types";
 
+// TODO EXPORT FROM COMMON
 export interface MenuItem {
   to: string;
   name: string;

@@ -13,11 +13,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 };
 
-export const ActionLogout = ({ children }: PropsWithChildren) => {
+export const ActionLogout = ({
+  children,
+  className = "",
+}: PropsWithChildren<{ className?: string }>) => {
   const { state } = useNavigation();
   return (
-    <Form method="POST" replace action="/action/signout">
-      <button disabled={state !== "idle"} className="w-full" type="submit">
+    <Form
+      method="POST"
+      replace
+      action="/action/signout"
+      className={`inline-flex ${className}`}
+    >
+      <button disabled={state !== "idle"} className={className} type="submit">
         {children}
       </button>
     </Form>

@@ -77,7 +77,7 @@ export const setAuthSession = async (
   };
 };
 
-export const hasValidAuthSession = async (req: Request) => {
+export const getAuthSession = async (req: Request) => {
   const session = await getSessionFromRequest(req);
   if (
     session.has("uname") &&
@@ -87,7 +87,7 @@ export const hasValidAuthSession = async (req: Request) => {
     session.has("role") &&
     session.has("cid")
   ) {
-    return true;
+    return session;
   }
-  return false;
+  return null;
 };
