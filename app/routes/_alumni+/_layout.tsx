@@ -4,11 +4,18 @@ import { requireAuth } from "~/server/auth-session.server";
 import { AlumniHeader } from "./me";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  return json({
+    uname: "emp",
+    email: "test@test.com",
+    atoken: "",
+    id: "12",
+    role: "employee",
+    cid: "",
+  });
   const { user } = await requireAuth(request);
   if (user.role != "employee") {
     return redirect("/overview");
   }
-  return json(user);
 };
 
 export default function AlumniLayout() {

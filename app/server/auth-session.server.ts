@@ -47,7 +47,7 @@ export const requireAuth = async (
   const session = await getSessionFromRequest(req);
   const { uname, email, atoken, id, role, cid } = session.data;
   if (!uname || !email || !atoken || !id || !role || !cid) {
-    throw redirect("/login?code=1ZVGUE");
+    throw redirect(`/login?code=1ZVGUE&callbackUrl=${req.url}`);
   }
   if (permissions && !hasPermissions(role, permissions)) {
     throw new Error("E#20BPL4 You don't have permission to view this resource");
