@@ -102,7 +102,7 @@ const DocumentCategoriesCard = ({ title, categories }: Props) => {
                 backgroundColor: c.color(0.2),
                 borderColor: c.color(0.2),
               }}
-              className="px-4 py-3 mt-3 relative shadow-lg hover:rotate-1 hover:scale-95 transition-transform hover:opacity-70 cursor-pointer flex items-center gap-2 rounded-md border-2 col-span-4"
+              className="px-4 py-3 mt-3 relative shadow-lg hover:rotate-1 hover:scale-95 transition-transform hover:opacity-70 cursor-pointer flex items-center gap-2 rounded-md border-2 col-span-12 md:col-span-6 lg:col-span-4"
             >
               <div
                 className="bg-black absolute -top-2 h-2 left-0.5 rounded-t-md shadow-sm w-12"

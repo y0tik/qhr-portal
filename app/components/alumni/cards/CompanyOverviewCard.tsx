@@ -22,7 +22,11 @@ export const CompanyOverviewCard = ({
   title,
 }: Props) => {
   const companyLogo =
-    typeof logo === "string" ? <img src={logo} alt={name} /> : logo;
+    typeof logo === "string" ? (
+      <img className="w-[250px] max-h-[80px]" src={logo} alt={name} />
+    ) : (
+      logo
+    );
   return (
     <Card className="bg-transparent text-white border relative overflow-clip">
       <div className="absolute inset-0">
@@ -30,13 +34,13 @@ export const CompanyOverviewCard = ({
       </div>
       <div className="inset-0 absolute z-10 bg-gradient-to-t -mt-40 from-black to-transparent"></div>
       <CardContent className="text-center pb-0 relative z-20">
-        <div className="mt-8 inline-block w-[250px] py-4 rounded-lg opacity-80 backdrop-blur-lg bg-white text-black">
-          <div className="flex justify-center items-center text-lg font-medium mr-2 h-16 w-16">
-            {companyLogo}
-          </div>
+        <div className="mt-8 inline-block px-4 py-4 rounded-lg opacity-80 backdrop-blur-lg bg-white text-black">
+          {companyLogo}
         </div>
-        <div className="mt-4 text-lg">{title}</div>
-        <div className="mt-1 text-sm text-white opacity-60">{description}</div>
+        <div className="mt-3 text-lg">{title}</div>
+        <div className="mt-1 text-sm px-5 text-white opacity-60">
+          {description}
+        </div>
         <div className="grid grid-cols-4 pt-5 pb-6 -mx-5 px-10 bg-blue-800 text-white bg-opacity-50 mt-6">
           {stats.map((e) => (
             <div
@@ -60,7 +64,7 @@ export const MockedCompanyOverviewCard = () => (
     name="Acme Inc"
     bgImg="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     logo={
-      <>
+      <div className="w-[200px] flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -73,8 +77,8 @@ export const MockedCompanyOverviewCard = () => (
         >
           <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
         </svg>
-        Acme Inc
-      </>
+        <span className="text-3xl font-semibold">Acme Inc</span>
+      </div>
     }
     title="Lorem ipsum dolor sit amet consectetur adipisicing elit."
     description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa nesciunt quasi ea odit. Nobis laboriosam, rem pariatur blanditiis necessitatibus ex? Rerum odio voluptatum modi vero accusamus quo necessitatibus incidunt. Id."

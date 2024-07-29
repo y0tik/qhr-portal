@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form, useNavigation } from "@remix-run/react";
-import { PropsWithChildren } from "react";
+import { ReactNode } from "react";
 import { sessionStore } from "~/server/auth-session.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -13,11 +13,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   });
 };
 
-export const ActionLogout = ({
-  children,
-  className = "",
-}: PropsWithChildren<{ className?: string }>) => {
+type Props = {
+  className?: string;
+  children:
+    | ReactNode
+    | ((props: React.ButtonHTMLAttributes<HTMLButtonElement>) => ReactNode);
+};
+
+export const ActionLogout = ({ children, className }: Props) => {
   const { state } = useNavigation();
+  const component =
+    typeof children === "function" ? (
+      children({ disabled: state != "idle" })
+    ) : (
+      <button disabled={state !== "idle"} className={className} type="submit">
+        {children}
+      </button>
+    );
   return (
     <Form
       method="POST"
@@ -25,9 +37,7 @@ export const ActionLogout = ({
       action="/action/signout"
       className={`inline-flex ${className}`}
     >
-      <button disabled={state !== "idle"} className={className} type="submit">
-        {children}
-      </button>
+      {component}
     </Form>
   );
 };

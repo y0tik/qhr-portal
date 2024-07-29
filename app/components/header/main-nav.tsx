@@ -1,6 +1,6 @@
-import { Link, useLocation, useRoutes } from '@remix-run/react';
-import { cn } from '~/lib/utils';
-import { MenuItem } from './navigation-menu';
+import { Link, useLocation } from "@remix-run/react";
+import { cn } from "~/lib/utils";
+import { MenuItem } from "./navigation-menu";
 
 export function MainNav({
   className,
@@ -11,7 +11,7 @@ export function MainNav({
 
   return (
     <nav
-      className={cn('flex items-center space-x-4 lg:space-x-6', className)}
+      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
       {links.map((l) => (
@@ -19,8 +19,8 @@ export function MainNav({
           key={`link-${l.name}`}
           to={l.to}
           className={cn(
-            'text-sm font-medium transition-colors hover:text-primary',
-            l.to === pathname ? 'text-primary' : 'text-muted-foreground'
+            "text-sm font-medium transition-colors hover:text-primary",
+            l.to === pathname ? "text-primary" : "text-muted-foreground"
           )}
         >
           {l.name}

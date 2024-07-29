@@ -20,12 +20,12 @@ export const AlumniHeader = () => {
         <div className="col-span-2">
           <ExampleCompanyLogo />
         </div>
-        <div className="col-span-1 text-center">
+        <div className="col-span-3 lg:col-span-1 text-right lg:text-center">
           <Link to="/me" className="text-lg text-center text-primary">
             Welcome, <b>{uname}</b>
           </Link>
         </div>
-        <div className="col-span-2 text-right space-x-2">
+        <div className="col-span-2 hidden lg:block text-right space-x-2">
           <Button asChild size="sm" variant="ghost">
             <Link to="/me">Home</Link>
           </Button>
@@ -45,9 +45,11 @@ export const AlumniHeader = () => {
             </Button>
           ))}
           <ActionLogout>
-            <Button size="sm" variant="outline">
-              Logout
-            </Button>
+            {(props) => (
+              <Button {...props} size="sm" variant="outline">
+                Logout
+              </Button>
+            )}
           </ActionLogout>
         </div>
       </div>

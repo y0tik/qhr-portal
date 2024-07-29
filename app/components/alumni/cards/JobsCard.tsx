@@ -99,7 +99,7 @@ export const JobsCard = ({ jobs }: Props) => {
               key={j.id}
               className="px-4 py-2.5 bg-secondary/50 shadow border pb-4 items-center gap-2 rounded-md  col-span-4"
             >
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <div>
                   <div className="font-semibold">{j.title}</div>
                   <div className="text-sm text-muted-foreground">
@@ -108,7 +108,7 @@ export const JobsCard = ({ jobs }: Props) => {
                 </div>
                 <Badge className="mt-1">{j.job_type}</Badge>
               </div>
-              <div className="flex justify-between items-end">
+              <div className="flex flex-wrap mt-3 lg:mt-0 justify-between gap-3 md:items-end">
                 <div className="flex gap-2">
                   {j.tags.map((t) => (
                     <Badge key={t} variant="outline">
@@ -119,7 +119,8 @@ export const JobsCard = ({ jobs }: Props) => {
                 <div className="flex gap-2">
                   <Button size="sm" className="h-8" variant="secondary">
                     <UserPlus className="w-4 h-4" />
-                    Refer Someone
+                    Refer{" "}
+                    <span className="hidden lg:inline-block">Someone</span>
                   </Button>
                   <Button size="sm" variant="outline" className="h-auto px-2">
                     <ArrowUpRight className="w-4 h-4" />

@@ -30,7 +30,7 @@ export const TicketsCard = ({ tickets, title, cta_url, cta_title }: Props) => {
           )}
         </div>
       </CardHeader>
-      <CardContent className="pt-2 pb-3">
+      <CardContent className="pt-2">
         <div className="grid -mt-4 gap-3 overflow-hidden">
           {tickets.map((t) => (
             <div
@@ -74,7 +74,7 @@ export const TicketsCard = ({ tickets, title, cta_url, cta_title }: Props) => {
 
 export const MockedAlumniTicketsCard = () => (
   <TicketsCard
-    tickets={tickets}
+    tickets={tickets.slice(0, 3)}
     title="My Service Request's"
     cta_url="/tickets/create"
     cta_title="New Request"
