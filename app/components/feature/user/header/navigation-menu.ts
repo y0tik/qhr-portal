@@ -1,11 +1,4 @@
-import { Role } from "~/types";
-
-// TODO EXPORT FROM COMMON
-export interface MenuItem {
-  to: string;
-  name: string;
-  role: Role[];
-}
+import { MenuItem } from "~/types";
 
 export const NAVIGATION_MENU: MenuItem[] = [
   { name: "Overview", to: "/overview", role: ["admin", "employee", "hr"] },

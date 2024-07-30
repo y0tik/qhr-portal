@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@remix-run/react";
 import { cn } from "~/lib/utils";
-import { MenuItem } from "./navigation-menu";
+import { MenuItem } from "~/types";
 
 export function MainNav({
   className,

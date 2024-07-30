@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect, useLoaderData } from "@remix-run/react";
-import AutoBreadcrumb from "~/components/auto-breadcrumb";
+import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
 import UserForm, { UserFormData, userResolver } from "~/forms/UserForm";
 import { requireAuth } from "~/server/auth-session.server";
 import { requireFormData } from "~/server/helper.server";
@@ -57,7 +57,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // +end API - PUT - /hr/$id
 };
 
-export default function UserPage() {
+export default function UserUpdatePage() {
   const { data } = useLoaderData<typeof loader>();
 
   return (

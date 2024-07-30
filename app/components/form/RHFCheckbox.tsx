@@ -5,7 +5,7 @@ import {
   FieldValues,
   Path,
 } from "react-hook-form";
-import { Label } from "../ui/label";
+import { Label } from "~/components/ui/label";
 
 type RHFCheckboxProps<T extends FieldValues> = {
   error?: FieldError;

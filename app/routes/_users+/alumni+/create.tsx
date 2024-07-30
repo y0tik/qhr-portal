@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { format } from "date-fns";
-import AutoBreadcrumb from "~/components/auto-breadcrumb";
+import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
 import AlumniForm, { AlumniFormData, alumniResolver } from "~/forms/AlumniForm";
 import { requireAuth } from "~/server/auth-session.server";
 import { requireFormData } from "~/server/helper.server";
@@ -47,7 +47,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // +end API - POST - /employees
 };
 
-export default function CreateAlumniPage() {
+export default function AlumniCreatePage() {
   return (
     <>
       <AutoBreadcrumb />

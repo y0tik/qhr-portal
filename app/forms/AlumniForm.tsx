@@ -5,7 +5,7 @@ import { RHFInput } from "~/components/form/RHFInput";
 import { useRemixForm } from "remix-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoadingButton } from "~/components/loading-btn";
+import { LoadingButton } from "~/components/ui/loading-btn";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";

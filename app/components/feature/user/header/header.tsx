@@ -1,7 +1,7 @@
 import { Input } from "~/components/ui/input";
 import { MainNav } from "./main-nav";
-import { NAVIGATION_MENU } from "./navigation-menu";
-import { UserNav } from "./user-nav";
+import { NAVIGATION_MENU } from "../navigation-menu";
+import { UserNav } from "../user-nav";
 import { User } from "~/types";
 
 export const ExampleCompanyLogo = () => {

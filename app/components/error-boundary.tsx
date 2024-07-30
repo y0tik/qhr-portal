@@ -1,7 +1,7 @@
 import { useNavigate, useRouteError } from "@remix-run/react";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui//alert";
 import { AlertCircle } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "~/components/ui//button";
 
 export function ErrorBoundary() {
   const error: unknown = useRouteError();

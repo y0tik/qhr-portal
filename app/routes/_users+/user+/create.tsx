@@ -1,5 +1,5 @@
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
-import AutoBreadcrumb from "~/components/auto-breadcrumb";
+import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
 import UserForm, { UserFormData, userResolver } from "~/forms/UserForm";
 import { requireFormData } from "~/server/helper.server";
 import { requireAuth } from "~/server/auth-session.server";
@@ -34,7 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // +end API - POST - /hr
 };
 
-export default function CreateUserPage() {
+export default function UserCreatePage() {
   return (
     <>
       <AutoBreadcrumb />

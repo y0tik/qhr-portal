@@ -1,5 +1,5 @@
 import { Edit, MoreHorizontal, Ticket, Upload } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,

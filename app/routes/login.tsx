@@ -17,7 +17,7 @@ import {
 } from "~/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RHFInput } from "~/components/form/RHFInput";
-import { LoadingButton } from "~/components/loading-btn";
+import { LoadingButton } from "~/components/ui/loading-btn";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { friendlyMsgForCode, requireFormData } from "~/server/helper.server";

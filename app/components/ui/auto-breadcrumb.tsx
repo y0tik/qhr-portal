@@ -1,5 +1,5 @@
 import { useLocation } from "@remix-run/react";
-import BreadcrumbHelper from "./ui/breadcrumb-helper";
+import BreadcrumbHelper from "./breadcrumb-helper";
 
 export default function AutoBreadcrumb({
   skipSegment = 0,

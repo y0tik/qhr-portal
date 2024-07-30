@@ -1,7 +1,7 @@
 import { useOutletContext } from "@remix-run/react";
 import { AuthSessionData } from "~/server/auth-session.server";
-import AdminOverview from "./AdminOverview";
-import HROverview from "./HROverview";
+import AdminOverview from "./admin-overview";
+import HROverview from "./hr-overview";
 export { ErrorBoundary } from "~/components/error-boundary";
 
 export default function RenderOverview() {

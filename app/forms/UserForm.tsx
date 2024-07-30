@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RHFCheckbox } from "~/components/form/RHFCheckbox";
 import { Label } from "~/components/ui/label";
-import { LoadingButton } from "~/components/loading-btn";
+import { LoadingButton } from "~/components/ui/loading-btn";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { ActionDeleteHRUser } from "~/routes/action+/user.delete.$id";

@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { json, useFetcher } from "@remix-run/react";
-import { LoadingButton } from "~/components/loading-btn";
+import { LoadingButton } from "~/components/ui/loading-btn";
 import { requireAuth } from "~/server/auth-session.server";
 import invariant from "tiny-invariant";
 import { ConfirmDialog } from "~/components/ui/confirm-dialog";

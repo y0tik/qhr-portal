@@ -26,7 +26,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ alumni: response, error: null });
 };
 
-export default function ListAlumniPage() {
+export default function AlumniListPage() {
   const { error, alumni } = useLoaderData<typeof loader>();
 
   return (

@@ -1,8 +1,8 @@
-import { MockedLatestNewsCard } from "~/components/alumni/cards/NewsCard";
-import { MockedCompanyOverviewCard } from "~/components/alumni/cards/CompanyOverviewCard";
-import { MockedAlumniTicketsCard } from "~/components/alumni/cards/TicketsCard";
-import { MockedJobsCard } from "~/components/alumni/cards/JobsCard";
-import { MockedDocumentCategoriesCard } from "~/components/alumni/cards/CategoriesCard";
+import { MockedLatestNewsCard } from "~/components/feature/alumni/news-card";
+import { MockedCompanyOverviewCard } from "~/components/feature/alumni/cmp-overview-card";
+import { MockedAlumniTicketsCard } from "~/components/feature/_common/tickets-card";
+import { MockedJobsCard } from "~/components/feature/alumni/jobs-card";
+import { MockedDocumentCategoriesCard } from "~/components/feature/alumni/categories-card";
 
 export default function AlumniOverviewPage() {
   return (

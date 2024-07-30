@@ -26,7 +26,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ users: response, error: null });
 };
 
-export default function ListUserPage() {
+export default function UserListPage() {
   const { error, users } = useLoaderData<typeof loader>();
 
   return (

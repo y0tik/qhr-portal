@@ -1,5 +1,5 @@
-import { Button } from "./ui/button";
-import { Card, CardTitle } from "./ui/card";
+import { Button } from "~/components/ui//button";
+import { Card, CardTitle } from "~/components/ui//card";
 
 export const PlanCard = () => {
   return (

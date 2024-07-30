@@ -1,8 +1,8 @@
 import { Link, useLoaderData, useLocation } from "@remix-run/react";
 import { loader } from "../../routes/_alumni+/_layout";
-import { ExampleCompanyLogo } from "~/components/header/header";
+import { ExampleCompanyLogo } from "~/components/feature/user/header";
 import { Button } from "~/components/ui/button";
-import { MenuItem } from "~/components/header/navigation-menu";
+import { MenuItem } from "~/types";
 import { ActionLogout } from "~/routes/action+/signout";
 
 // Define mock icons (replace these with actual icons from lucide-react or similar)

@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect, useLoaderData } from "@remix-run/react";
 import { format } from "date-fns/format";
-import AutoBreadcrumb from "~/components/auto-breadcrumb";
+import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
 import AlumniForm, { AlumniFormData, alumniResolver } from "~/forms/AlumniForm";
 import { requireAuth } from "~/server/auth-session.server";
 import { requireFormData } from "~/server/helper.server";
@@ -56,7 +56,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // +end API - PUT - /employees/$id
 };
 
-export default function UserPage() {
+export default function AlumniUpdatePage() {
   const { data } = useLoaderData<typeof loader>();
 
   return (

@@ -6,13 +6,11 @@ import {
   Users2Icon,
   type LucideIcon,
 } from "lucide-react";
-import { useMemo } from "react";
-import { PlanCard } from "~/components/plan-card";
-import TicketListCard from "~/components/ticket-list";
+import { PlanCard } from "~/components/feature/user/plan-card";
+import { MockedAlumniTicketsCard } from "~/components/feature/_common/tickets-card";
 import { Button } from "~/components/ui/button";
 import { Card, CardTitle } from "~/components/ui/card";
 import Statistic from "~/components/ui/statistic";
-import { tickets } from "~/fakedata";
 
 const tempStats: { name: string; value: number; Icon: LucideIcon }[] = [
   { name: "Files", value: 18910, Icon: FilesIcon },
@@ -21,22 +19,7 @@ const tempStats: { name: string; value: number; Icon: LucideIcon }[] = [
   { name: "Opened Tickets", value: 2, Icon: TicketIcon },
 ];
 
-const statusOrderForSorting = {
-  created: 0,
-  ongoing: 1,
-  "not-resolved": 2,
-  resolved: 3,
-};
-
 export default function AdminOverview() {
-  const sortedTickets = useMemo(
-    () =>
-      tickets.sort(
-        (a, b) =>
-          statusOrderForSorting[a.status] - statusOrderForSorting[b.status]
-      ),
-    []
-  );
   return (
     <div className="h-full flex flex-col">
       <div className="flex space-x-6">
@@ -81,7 +64,7 @@ export default function AdminOverview() {
           </Card>
         </div>
         <div className="w-6/12 flex flex-col">
-          <TicketListCard tickets={sortedTickets} />
+          <MockedAlumniTicketsCard />
         </div>
       </div>
     </div>
