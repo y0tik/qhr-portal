@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, Outlet, redirect, useLoaderData } from "@remix-run/react";
-import { AlumniHeader } from "~/components/alumni/AlumniHeader";
+import { AlumniHeader } from "~/components/feature/alumni/alumni-header";
 import { requireAuth } from "~/server/auth-session.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {

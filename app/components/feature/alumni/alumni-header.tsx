@@ -1,9 +1,9 @@
 import { Link, useLoaderData, useLocation } from "@remix-run/react";
-import { loader } from "../../routes/_alumni+/_layout";
-import { ExampleCompanyLogo } from "~/components/feature/user/header";
+import { loader } from "~/routes/_alumni+/_layout";
 import { Button } from "~/components/ui/button";
 import { MenuItem } from "~/types";
 import { ActionLogout } from "~/routes/action+/signout";
+import { ExampleCompanyLogo } from "../user/header/header";
 
 // Define mock icons (replace these with actual icons from lucide-react or similar)
 export const ALUMNI_NAVIGATION_MENU: MenuItem[] = [
