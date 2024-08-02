@@ -15,7 +15,7 @@ export const AlumniHeader = () => {
   const { pathname } = useLocation();
   const { uname } = useLoaderData<typeof loader>();
   return (
-    <div className="bg-secondary/80 border-b">
+    <div className="bg-secondary/70 backdrop-blur-lg z-[100] border-b sticky top-0">
       <div className="h-14 container grid grid-cols-5 items-center">
         <div className="col-span-2">
           <ExampleCompanyLogo />
