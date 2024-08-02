@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { json, Outlet, redirect, useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { Outlet, json, redirect, useLoaderData } from "@remix-run/react";
 import { AlumniHeader } from "~/components/feature/alumni/alumni-header";
 import { requireAuth } from "~/server/auth-session.server";
 
@@ -13,7 +13,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     cid: "",
   });
   const { user } = await requireAuth(request);
-  if (user.role != "employee") {
+  if (user.role !== "employee") {
     return redirect("/overview");
   }
 };

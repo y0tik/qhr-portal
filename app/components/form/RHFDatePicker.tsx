@@ -1,21 +1,21 @@
+import { format } from "date-fns/format";
+import { Calendar as CalendarIcon } from "lucide-react";
 import {
-  Control,
+  type Control,
   Controller,
-  FieldError,
-  FieldValues,
-  Path,
+  type FieldError,
+  type FieldValues,
+  type Path,
 } from "react-hook-form";
+import { Button } from "~/components/ui/button";
+import { Calendar } from "~/components/ui/calendar";
 import { Label } from "~/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { Button } from "~/components/ui/button";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { Calendar } from "~/components/ui/calendar";
 import { cn } from "~/lib/utils";
-import { format } from "date-fns/format";
 
 type RHFDatePickerProps<T extends FieldValues> = {
   error?: FieldError;
@@ -40,7 +40,7 @@ const DatePicker = ({
           variant={"outline"}
           className={cn(
             "w-[280px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            !date && "text-muted-foreground",
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
@@ -66,7 +66,7 @@ export const RHFDatePicker = <T extends FieldValues>({
       <Label htmlFor={name}>
         {displayName ?? name.charAt(0).toUpperCase() + name.slice(1)}
       </Label>
-      <div className="flex mt-1.5">
+      <div className="mt-1.5 flex">
         <Controller
           control={control}
           name={name}
@@ -76,7 +76,7 @@ export const RHFDatePicker = <T extends FieldValues>({
         />
       </div>
       {error && (
-        <div className="text-red-500 text-sm mt-1.5">
+        <div className="mt-1.5 text-red-500 text-sm">
           {error.message ?? "Required"}
         </div>
       )}

@@ -1,14 +1,14 @@
 import { Link } from "@remix-run/react";
 import {
-  FileText,
-  Mail,
   Calendar,
   Clipboard,
   File,
-  LucideIcon,
+  FileText,
+  type LucideIcon,
+  Mail,
   PiggyBank,
 } from "lucide-react";
-import { Card, CardContent, CardTitle, CardHeader } from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 type Category = {
   id: string;
@@ -88,7 +88,7 @@ const DocumentCategoriesCard = ({ title, categories }: Props) => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-end">
+        <div className="flex items-end justify-between">
           <CardTitle>{title}</CardTitle>
         </div>
       </CardHeader>
@@ -102,13 +102,13 @@ const DocumentCategoriesCard = ({ title, categories }: Props) => {
                 backgroundColor: c.color(0.2),
                 borderColor: c.color(0.2),
               }}
-              className="px-4 py-3 mt-3 relative shadow-lg hover:rotate-1 hover:scale-95 transition-transform hover:opacity-70 cursor-pointer flex items-center gap-2 rounded-md border-2 col-span-12 md:col-span-6 lg:col-span-4"
+              className="relative col-span-12 mt-3 flex cursor-pointer items-center gap-2 rounded-md border-2 px-4 py-3 shadow-lg transition-transform hover:rotate-1 hover:scale-95 hover:opacity-70 md:col-span-6 lg:col-span-4"
             >
               <div
-                className="bg-black absolute -top-2 h-2 left-0.5 rounded-t-md shadow-sm w-12"
+                className="-top-2 absolute left-0.5 h-2 w-12 rounded-t-md bg-black shadow-sm"
                 style={{ backgroundColor: c.color(1) }}
-              ></div>
-              <c.icon className="w-5 h-5" style={{ color: c.color(1) }} />
+              />
+              <c.icon className="h-5 w-5" style={{ color: c.color(1) }} />
               <div>{c.title}</div>
             </Link>
           ))}

@@ -1,11 +1,11 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
-import { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect, useLoaderData } from "@remix-run/react";
 import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
-import UserForm, { UserFormData, userResolver } from "~/forms/UserForm";
+import UserForm, { type UserFormData, userResolver } from "~/forms/UserForm";
 import { requireAuth } from "~/server/auth-session.server";
 import { requireFormData } from "~/server/helper.server";
-import { HrUser } from "~/types";
+import type { HrUser } from "~/types";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const id = params.id;
@@ -25,7 +25,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { data, errors } = await requireFormData<UserFormData>(
     request,
-    userResolver
+    userResolver,
   );
   if (!data) return json(errors);
 
@@ -39,7 +39,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // TODO :: remove hardcoded company
   if (!data.password) {
     // delete the field for API
-    delete data.password;
+    data.password = undefined;
   }
   const { error } = await api.put(`/hr/${data.id}`, {
     ...data,

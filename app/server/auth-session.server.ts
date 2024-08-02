@@ -1,7 +1,7 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
-import { Role } from "~/types";
-import { hasPermissions, Permission } from "./permission.server";
+import type { Role } from "~/types";
 import { createAPIForRequest } from "./api.server";
+import { type Permission, hasPermissions } from "./permission.server";
 
 export type AuthSessionData = {
   uname: string;
@@ -42,7 +42,7 @@ const getSessionFromRequest = async (req: Request) =>
 
 export const requireAuth = async (
   req: Request,
-  permissions?: Array<Permission>
+  permissions?: Array<Permission>,
 ) => {
   const session = await getSessionFromRequest(req);
   const { uname, email, atoken, id, role, cid } = session.data;
@@ -61,7 +61,7 @@ export const requireAuth = async (
 
 export const setAuthSession = async (
   req: Request,
-  { uname, email, atoken, id, role, cid }: AuthSessionData
+  { uname, email, atoken, id, role, cid }: AuthSessionData,
 ) => {
   const session = await getSessionFromRequest(req);
   session.set("uname", uname);

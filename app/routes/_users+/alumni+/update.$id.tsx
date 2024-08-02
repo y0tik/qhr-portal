@@ -1,12 +1,15 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
-import { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect, useLoaderData } from "@remix-run/react";
 import { format } from "date-fns/format";
 import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
-import AlumniForm, { AlumniFormData, alumniResolver } from "~/forms/AlumniForm";
+import AlumniForm, {
+  type AlumniFormData,
+  alumniResolver,
+} from "~/forms/AlumniForm";
 import { requireAuth } from "~/server/auth-session.server";
 import { requireFormData } from "~/server/helper.server";
-import { AlumniUser } from "~/types";
+import type { AlumniUser } from "~/types";
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const id = params.id;
@@ -26,14 +29,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { data, errors } = await requireFormData<AlumniFormData>(
     request,
-    alumniResolver
+    alumniResolver,
   );
   if (!data) return json(errors);
 
   // +start API - PUT - /employees/$id
   // TODO :: remove hardcoded company
   // delete the field for API
-  if (!data.password) delete data.password;
+  if (!data.password) data.password = undefined;
 
   const updatedData = {
     ...data,

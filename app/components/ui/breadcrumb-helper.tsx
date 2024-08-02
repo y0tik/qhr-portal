@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import React from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,7 +8,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./breadcrumb";
-import React from "react";
 
 type BreadcrumbItem = {
   name: string;
@@ -23,7 +23,7 @@ export default function BreadcrumbHelper({ items }: BreadcrumbHelperProps) {
     <Breadcrumb>
       <BreadcrumbList>
         {items.map((i) =>
-          i.to && i.to != "" ? (
+          i.to && i.to !== "" ? (
             <React.Fragment key={`br-${i.name}`}>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
@@ -34,11 +34,11 @@ export default function BreadcrumbHelper({ items }: BreadcrumbHelperProps) {
             </React.Fragment>
           ) : (
             <BreadcrumbItem key={`br-${i.name}`}>
-              <BreadcrumbPage className="text-primary font-semibold">
+              <BreadcrumbPage className="font-semibold text-primary">
                 {i.name}
               </BreadcrumbPage>
             </BreadcrumbItem>
-          )
+          ),
         )}
       </BreadcrumbList>
     </Breadcrumb>

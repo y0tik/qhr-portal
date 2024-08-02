@@ -1,4 +1,4 @@
-import { Role } from "~/types";
+import type { Role } from "~/types";
 
 export type Permission =
   | "read:users"
@@ -17,6 +17,6 @@ const PERMISSION_MAP: Record<Role, Array<Permission>> = {
 
 export function hasPermissions(role: Role, permissions: Array<Permission>) {
   return permissions.every((permission) =>
-    PERMISSION_MAP[role].includes(permission)
+    PERMISSION_MAP[role].includes(permission),
   );
 }

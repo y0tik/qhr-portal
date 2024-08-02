@@ -1,12 +1,12 @@
-import { DataTable } from "~/components/ui/data-table";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { Link, json, useLoaderData } from "@remix-run/react";
+import { PlusCircle } from "lucide-react";
 import { columns } from "~/components/column/alumni-column";
 import { Button } from "~/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { DataTable } from "~/components/ui/data-table";
 import { ENDPOINT_ALUMNI, PROJECT_NAME } from "~/constant";
-import { json, Link, useLoaderData } from "@remix-run/react";
-import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { requireAuth } from "~/server/auth-session.server";
-import { AlumniUser } from "~/types";
+import type { AlumniUser } from "~/types";
 
 export const meta: MetaFunction = () => [
   { title: `Alumni List ${PROJECT_NAME}` },
@@ -43,7 +43,7 @@ export default function AlumniListPage() {
             <div className="flex space-x-2">
               <Button variant="default" size="sm" asChild>
                 <Link to={`${ENDPOINT_ALUMNI}/create`}>
-                  <PlusCircle className="w-4 h-4 mr-2" />
+                  <PlusCircle className="mr-2 h-4 w-4" />
                   Create Alumni
                 </Link>
               </Button>

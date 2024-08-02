@@ -1,14 +1,14 @@
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "~/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { ArrowUpRight, UserPlus } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { ArrowUpRight, UserPlus } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 type Job = {
   id: string;
@@ -76,11 +76,11 @@ export const JobsCard = ({ jobs }: Props) => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-end -mt-2">
+        <div className="-mt-2 flex items-end justify-between">
           <CardTitle>Latest Job&apos;s</CardTitle>
           <div className="flex gap-2">
             <Select>
-              <SelectTrigger className="w-[120px] h-8 px-2">
+              <SelectTrigger className="h-8 w-[120px] px-2">
                 <SelectValue placeholder="Job Type" />
               </SelectTrigger>
               <SelectContent>
@@ -93,22 +93,22 @@ export const JobsCard = ({ jobs }: Props) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid -mt-1 gap-4 overflow-hidden">
+        <div className="-mt-1 grid gap-4 overflow-hidden">
           {jobs.map((j) => (
             <div
               key={j.id}
-              className="px-4 py-2.5 bg-secondary/50 shadow border pb-4 items-center gap-2 rounded-md  col-span-4"
+              className="col-span-4 items-center gap-2 rounded-md border bg-secondary/50 px-4 py-2.5 pb-4 shadow"
             >
-              <div className="flex justify-between items-start">
+              <div className="flex items-start justify-between">
                 <div>
                   <div className="font-semibold">{j.title}</div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-muted-foreground text-sm">
                     {j.location}
                   </div>
                 </div>
                 <Badge className="mt-1">{j.job_type}</Badge>
               </div>
-              <div className="flex flex-wrap mt-3 lg:mt-0 justify-between gap-3 md:items-end">
+              <div className="mt-3 flex flex-wrap justify-between gap-3 md:items-end lg:mt-0">
                 <div className="flex gap-2">
                   {j.tags.map((t) => (
                     <Badge key={t} variant="outline">
@@ -118,12 +118,12 @@ export const JobsCard = ({ jobs }: Props) => {
                 </div>
                 <div className="flex gap-2">
                   <Button size="sm" className="h-8" variant="secondary">
-                    <UserPlus className="w-4 h-4" />
+                    <UserPlus className="h-4 w-4" />
                     Refer{" "}
                     <span className="hidden lg:inline-block">Someone</span>
                   </Button>
                   <Button size="sm" variant="outline" className="h-auto px-2">
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="h-4 w-4" />
                   </Button>
                 </div>
               </div>

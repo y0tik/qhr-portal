@@ -1,12 +1,21 @@
 import {
-  ColumnDef,
-  VisibilityState,
+  type ColumnDef,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import React, { useState } from "react";
+import { Button } from "./button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "./dropdown-menu";
+import { Input } from "./input";
 import {
   Table,
   TableBody,
@@ -15,15 +24,6 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
-import React, { useState } from "react";
-import { Button } from "./button";
-import { Input } from "./input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-} from "./dropdown-menu";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -65,7 +65,7 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div className="flex items-center pb-4">
-        <div className="flex items-center gap-2 w-full">
+        <div className="flex w-full items-center gap-2">
           <Input
             value={globalFilter ?? ""}
             onChange={(e) => setGlobalFilter(String(e.target.value))}
@@ -116,7 +116,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -135,7 +135,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -154,7 +154,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between space-x-2 pt-4 select-none">
+      <div className="flex select-none items-center justify-between space-x-2 pt-4">
         <div className="text-muted-foreground">
           Showing Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}

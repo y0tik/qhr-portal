@@ -1,13 +1,18 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  ActionFunctionArgs,
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction,
   json,
-  LoaderFunctionArgs,
-  MetaFunction,
   redirect,
 } from "@remix-run/node";
 import { Form, useLoaderData, useNavigation } from "@remix-run/react";
-import { z } from "zod";
+import { jwtDecode } from "jwt-decode";
+import { AlertCircle } from "lucide-react";
 import { useRemixForm } from "remix-hook-form";
+import { z } from "zod";
+import { RHFInput } from "~/components/form/RHFInput";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import {
   Card,
   CardContent,
@@ -15,17 +20,12 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { RHFInput } from "~/components/form/RHFInput";
 import { LoadingButton } from "~/components/ui/loading-btn";
-import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import { AlertCircle } from "lucide-react";
-import { friendlyMsgForCode, requireFormData } from "~/server/helper.server";
-import { getAuthSession, setAuthSession } from "~/server/auth-session.server";
 import api from "~/server/api.server";
-import { LoginReponse } from "~/server/response.type";
-import { jwtDecode } from "jwt-decode";
-import { Role } from "~/types";
+import { getAuthSession, setAuthSession } from "~/server/auth-session.server";
+import { friendlyMsgForCode, requireFormData } from "~/server/helper.server";
+import type { LoginReponse } from "~/server/response.type";
+import type { Role } from "~/types";
 
 export const meta: MetaFunction = () => [
   { title: "Login - The Alumni Project" },
@@ -50,7 +50,7 @@ type FormData = z.infer<typeof schema>;
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await getAuthSession(request);
   if (session) {
-    const redirectTo = session.data.role == "employee" ? "/me" : "/overview";
+    const redirectTo = session.data.role === "employee" ? "/me" : "/overview";
     return redirect(redirectTo);
   }
   const params = new URL(request.url).searchParams;
@@ -89,7 +89,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     role: token.sub.role,
   });
   // redirect and with headers set
-  const redirectTo = token.sub.role == "employee" ? "/me" : "/overview";
+  const redirectTo = token.sub.role === "employee" ? "/me" : "/overview";
   return redirect(callbackUrl ?? redirectTo, headers);
   // +end API - /auth/login
 };
@@ -108,7 +108,7 @@ export default function LoginPage() {
     <Form
       replace
       onSubmit={handleSubmit}
-      className="h-full w-full flex-1 flex justify-center items-center"
+      className="flex h-full w-full flex-1 items-center justify-center"
       method="post"
     >
       <Card className="w-full max-w-sm">

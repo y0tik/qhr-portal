@@ -1,10 +1,10 @@
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
+import { type ActionFunctionArgs, redirect } from "@remix-run/node";
 import { json, useFetcher } from "@remix-run/react";
-import { LoadingButton } from "~/components/ui/loading-btn";
-import { requireAuth } from "~/server/auth-session.server";
 import invariant from "tiny-invariant";
-import { sleep } from "~/lib/utils";
 import { ConfirmDialog } from "~/components/ui/confirm-dialog";
+import { LoadingButton } from "~/components/ui/loading-btn";
+import { sleep } from "~/lib/utils";
+import { requireAuth } from "~/server/auth-session.server";
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const id = params.id;
@@ -32,7 +32,7 @@ export const ActionDeleteHRUser = ({ id }: { id: string }) => {
     <ConfirmDialog
       alert={{
         message: fetcher.data?.message ?? "",
-        type: fetcher.data?.type == "error" ? "error" : "success",
+        type: fetcher.data?.type === "error" ? "error" : "success",
       }}
       action={
         <LoadingButton

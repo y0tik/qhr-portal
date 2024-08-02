@@ -1,15 +1,15 @@
-import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
+import { type ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
-import UserForm, { UserFormData, userResolver } from "~/forms/UserForm";
-import { requireFormData } from "~/server/helper.server";
+import UserForm, { type UserFormData, userResolver } from "~/forms/UserForm";
 import { requireAuth } from "~/server/auth-session.server";
+import { requireFormData } from "~/server/helper.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const { api } = await requireAuth(request, ["write:users"]);
 
   const { data, errors } = await requireFormData<UserFormData>(
     request,
-    userResolver
+    userResolver,
   );
   if (!data) return json(errors);
 

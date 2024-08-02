@@ -1,12 +1,12 @@
 import { Input } from "~/components/ui/input";
+import type { User } from "~/types";
 import { MainNav } from "./main-nav";
 import { NAVIGATION_MENU } from "./navigation-menu";
 import { UserNav } from "./user-nav";
-import { User } from "~/types";
 
 export const ExampleCompanyLogo = () => {
   return (
-    <div className="relative z-20 flex items-center text-lg font-medium">
+    <div className="relative z-20 flex items-center font-medium text-lg">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -31,13 +31,13 @@ type HeaderProps = {
 export default function Header({ user }: HeaderProps) {
   const user_menu = NAVIGATION_MENU.filter((m) => m.role.includes(user.role));
   return (
-    <div className="bg-secondary/80 border-b">
+    <div className="border-b bg-secondary/80">
       <div className="flex h-16 items-center justify-between px-12">
         <div className="flex-1">
           <ExampleCompanyLogo />
         </div>
         <MainNav links={user_menu} className="justify-center" />
-        <div className="flex-1 ml-auto flex items-center justify-end space-x-4">
+        <div className="ml-auto flex flex-1 items-center justify-end space-x-4">
           <div>
             <Input
               type="search"

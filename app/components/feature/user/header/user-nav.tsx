@@ -1,4 +1,6 @@
+import { Link } from "@remix-run/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,10 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Button } from "~/components/ui/button";
-import { Link } from "@remix-run/react";
-import { User } from "~/types";
 import { ActionLogout } from "~/routes/action+/signout";
+import type { User } from "~/types";
 
 type UserNavProps = User;
 
@@ -31,8 +31,8 @@ export function UserNav({ username, email }: UserNavProps) {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{username}</p>
-            <p className="text-xs leading-none text-muted-foreground">
+            <p className="font-medium text-sm leading-none">{username}</p>
+            <p className="text-muted-foreground text-xs leading-none">
               {email}
             </p>
           </div>

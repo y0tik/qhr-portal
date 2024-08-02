@@ -1,19 +1,19 @@
-import React from "react";
+import { AlertCircle } from "lucide-react";
+import type React from "react";
 import {
   AlertDialog,
   AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  AlertDialogCancel,
 } from "~/components/ui/alert-dialog";
-import { Button } from "./button";
-import { AlertProp } from "~/types";
+import type { AlertProp } from "~/types";
 import { Alert, AlertDescription, AlertTitle } from "./alert";
-import { AlertCircle } from "lucide-react";
+import { Button } from "./button";
 
 export const ConfirmDialog = ({
   trigger,

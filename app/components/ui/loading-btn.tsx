@@ -1,5 +1,5 @@
-import { PropsWithChildren } from "react";
-import { Button, ButtonProps } from "~/components/ui/button";
+import type { PropsWithChildren } from "react";
+import { Button, type ButtonProps } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 type LoadingButtonProps = ButtonProps &
   PropsWithChildren<{
@@ -8,7 +8,7 @@ type LoadingButtonProps = ButtonProps &
 
 const Spinner = () => {
   return (
-    <div className="animate-spin w-4 h-4 border-t-2 border-x-primary-foreground rounded-full"></div>
+    <div className="h-4 w-4 animate-spin rounded-full border-x-primary-foreground border-t-2" />
   );
 };
 

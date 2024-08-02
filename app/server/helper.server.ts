@@ -1,4 +1,4 @@
-import { FieldErrors, FieldValues, Resolver } from "react-hook-form";
+import type { FieldErrors, FieldValues, Resolver } from "react-hook-form";
 import { getValidatedFormData } from "remix-hook-form";
 
 // Check if the required environment variable is set
@@ -23,7 +23,7 @@ export const friendlyMsgForCode = (code: string | null) => {
 // helper for formdata
 export const requireFormData = async <T extends FieldValues>(
   request: Request,
-  resolver: Resolver<T>
+  resolver: Resolver<T>,
 ): Promise<
   | {
       errors: {
@@ -51,13 +51,12 @@ export const requireFormData = async <T extends FieldValues>(
       },
       data: undefined,
     };
-  } else {
-    return {
-      errors: {
-        defaultValues: data.receivedValues, // Assuming receivedValues contains default values
-        errors: undefined,
-      },
-      data: data.data as T, // Since data should be of type T if errors is undefined
-    };
   }
+  return {
+    errors: {
+      defaultValues: data.receivedValues, // Assuming receivedValues contains default values
+      errors: undefined,
+    },
+    data: data.data as T, // Since data should be of type T if errors is undefined
+  };
 };

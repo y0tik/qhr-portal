@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@remix-run/react";
 import { cn } from "~/lib/utils";
-import { MenuItem } from "~/types";
+import type { MenuItem } from "~/types";
 
 export function MainNav({
   className,
@@ -19,8 +19,8 @@ export function MainNav({
           key={`link-${l.name}`}
           to={l.to}
           className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
-            l.to === pathname ? "text-primary" : "text-muted-foreground"
+            "font-medium text-sm transition-colors hover:text-primary",
+            l.to === pathname ? "text-primary" : "text-muted-foreground",
           )}
         >
           {l.name}

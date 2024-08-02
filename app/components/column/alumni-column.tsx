@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Edit, MoreHorizontal, Ticket, Upload } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
@@ -8,10 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { type ColumnDef } from "@tanstack/react-table";
+import type { AlumniUser } from "~/types";
 import { UserNameWithAvatar } from "./common";
-import { AlumniUser } from "~/types";
-import { Link } from "@remix-run/react";
 
 export const columns: ColumnDef<AlumniUser>[] = [
   {
@@ -46,17 +46,17 @@ export const columns: ColumnDef<AlumniUser>[] = [
       return (
         <div className="flex items-center justify-end gap-4">
           <Button variant="outline" size="sm">
-            <Upload className="h-4 w-4 mr-3" />
+            <Upload className="mr-3 h-4 w-4" />
             <span className="">Upload Files</span>
           </Button>
           <Button variant="outline" size="sm" asChild>
             <Link to={`/alumni/update/${alumni.id}`}>
-              <Edit className="h-4 w-4 mr-3" />
+              <Edit className="mr-3 h-4 w-4" />
               <span className="">Edit Details</span>
             </Link>
           </Button>
           <Button variant="outline" size="sm">
-            <Ticket className="-rotate-45 h-4 w-4 mr-2" />
+            <Ticket className="-rotate-45 mr-2 h-4 w-4" />
             <span className="">View Tickets</span>
           </Button>
           <DropdownMenu>
@@ -72,7 +72,7 @@ export const columns: ColumnDef<AlumniUser>[] = [
                 onClick={() => {
                   try {
                     navigator.clipboard.writeText(String(alumni.id));
-                  } catch (error) {
+                  } catch (_error) {
                     /* empty */
                   }
                 }}

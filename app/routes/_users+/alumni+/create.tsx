@@ -1,7 +1,10 @@
-import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
+import { type ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { format } from "date-fns";
 import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
-import AlumniForm, { AlumniFormData, alumniResolver } from "~/forms/AlumniForm";
+import AlumniForm, {
+  type AlumniFormData,
+  alumniResolver,
+} from "~/forms/AlumniForm";
 import { requireAuth } from "~/server/auth-session.server";
 import { requireFormData } from "~/server/helper.server";
 
@@ -10,7 +13,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { data, errors } = await requireFormData<AlumniFormData>(
     request,
-    alumniResolver
+    alumniResolver,
   );
   if (!data) return json(errors);
 
@@ -33,7 +36,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const { error } = await api.post(
     "/employees",
     { ...updatedData, company_id: 2 },
-    true
+    true,
   );
   if (error) {
     return json({

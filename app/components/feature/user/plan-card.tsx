@@ -5,7 +5,7 @@ export const PlanCard = () => {
   return (
     <Card className="px-6 py-6">
       <CardTitle className="text-lg">Current Plan</CardTitle>
-      <div className="px-4 py-2 rounded-md text-primary-foreground bg-primary mt-3">
+      <div className="mt-3 rounded-md bg-primary px-4 py-2 text-primary-foreground">
         Premium
       </div>
       <div className="mt-3 text-muted-foreground">

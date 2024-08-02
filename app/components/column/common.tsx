@@ -8,7 +8,7 @@ export const UserNameWithAvatar = ({ name }: { name: string }) => {
     .map((e) => e[0])
     .splice(0, 2);
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       <Avatar className="h-8 w-8">
         <AvatarImage src="" alt="@admin" />
         <AvatarFallback>{initials}</AvatarFallback>

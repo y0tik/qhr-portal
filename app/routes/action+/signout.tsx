@@ -1,6 +1,6 @@
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
+import { type ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form, useNavigation } from "@remix-run/react";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { sessionStore } from "~/server/auth-session.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -24,7 +24,7 @@ export const ActionLogout = ({ children, className }: Props) => {
   const { state } = useNavigation();
   const component =
     typeof children === "function" ? (
-      children({ disabled: state != "idle" })
+      children({ disabled: state !== "idle" })
     ) : (
       <button disabled={state !== "idle"} className={className} type="submit">
         {children}

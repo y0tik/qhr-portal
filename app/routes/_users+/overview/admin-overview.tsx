@@ -1,13 +1,13 @@
 import { Link } from "@remix-run/react";
 import {
   FilesIcon,
+  type LucideIcon,
   TicketIcon,
   User,
   Users2Icon,
-  type LucideIcon,
 } from "lucide-react";
-import { PlanCard } from "~/components/feature/user/plan-card";
 import { MockedAlumniTicketsCard } from "~/components/feature/_common/tickets-card";
+import { PlanCard } from "~/components/feature/user/plan-card";
 import { Button } from "~/components/ui/button";
 import { Card, CardTitle } from "~/components/ui/card";
 import Statistic from "~/components/ui/statistic";
@@ -21,7 +21,7 @@ const tempStats: { name: string; value: number; Icon: LucideIcon }[] = [
 
 export default function AdminOverview() {
   return (
-    <div className="h-full flex flex-col">
+    <div className="flex h-full flex-col">
       <div className="flex space-x-6">
         {tempStats.map((s) => (
           <div key={s.name} className="w-3/12">
@@ -35,7 +35,7 @@ export default function AdminOverview() {
           </div>
         ))}
       </div>
-      <div className="grow space-x-6 flex mt-6 min-h-0">
+      <div className="mt-6 flex min-h-0 grow space-x-6">
         <div className="w-3/12">
           <PlanCard />
         </div>
@@ -45,7 +45,7 @@ export default function AdminOverview() {
               <CardTitle className="text-base text-primary">
                 Shortcuts
               </CardTitle>
-              <div className="space-y-3 mt-4">
+              <div className="mt-4 space-y-3">
                 {[
                   { name: "Create User", to: "/user/create" },
                   { name: "Update Settings", to: "/settings" },
@@ -63,7 +63,7 @@ export default function AdminOverview() {
             </div>
           </Card>
         </div>
-        <div className="w-6/12 flex flex-col">
+        <div className="flex w-6/12 flex-col">
           <MockedAlumniTicketsCard />
         </div>
       </div>

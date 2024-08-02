@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Edit, MoreHorizontal, Ticket } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
@@ -8,10 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { type ColumnDef } from "@tanstack/react-table";
+import type { HrUser } from "~/types";
 import { UserNameWithAvatar } from "./common";
-import { HrUser } from "~/types";
-import { Link } from "@remix-run/react";
 
 export const columns: ColumnDef<HrUser>[] = [
   {
@@ -66,12 +66,12 @@ export const columns: ColumnDef<HrUser>[] = [
         <div className="flex items-center justify-end gap-4">
           <Button asChild variant="outline" size="sm">
             <Link to={`/user/update/${user.id}`}>
-              <Edit className="h-4 w-4 mr-3" />
+              <Edit className="mr-3 h-4 w-4" />
               <span className="">Edit</span>
             </Link>
           </Button>
           <Button variant="outline" size="sm">
-            <Ticket className="-rotate-45 h-4 w-4 mr-2" />
+            <Ticket className="-rotate-45 mr-2 h-4 w-4" />
             <span className="">View Tickets</span>
           </Button>
           <DropdownMenu modal>
@@ -87,7 +87,7 @@ export const columns: ColumnDef<HrUser>[] = [
                 onClick={() => {
                   try {
                     navigator.clipboard.writeText(String(user.id));
-                  } catch (error) {
+                  } catch (_error) {
                     /* empty */
                   }
                 }}

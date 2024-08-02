@@ -1,6 +1,6 @@
 import { redirect } from "@remix-run/react";
-import { API_ENDPOINT } from "./helper.server";
 import { sessionStore } from "./auth-session.server";
+import { API_ENDPOINT } from "./helper.server";
 
 class API {
   baseURL: string;
@@ -19,7 +19,7 @@ class API {
       throw redirect(`/login?code=207H2L&callbackUrl=${this.request.url}`, {
         headers: {
           "Set-Cookie": await sessionStore.destroySession(
-            await sessionStore.getSession(this.request.headers.get("Cookie"))
+            await sessionStore.getSession(this.request.headers.get("Cookie")),
           ),
         },
       });
@@ -27,7 +27,7 @@ class API {
   };
 
   private async handleResponse<T>(
-    response: Response
+    response: Response,
   ): Promise<{ response: T; error: string | undefined }> {
     if (!response.ok) {
       let errorBody: string;
@@ -37,10 +37,10 @@ class API {
         errorBody = "Could not read response body"; // Fallback message
       }
       console.error(
-        `Request failed: HTTP error! status: ${response.status}, body: ${errorBody}`
+        `Request failed: HTTP error! status: ${response.status}, body: ${errorBody}`,
       );
       throw new Error(
-        `Request failed: HTTP error! status: ${response.status}, body: ${errorBody}`
+        `Request failed: HTTP error! status: ${response.status}, body: ${errorBody}`,
       );
     }
     const res: T = await response.json();
@@ -55,7 +55,7 @@ class API {
   }
 
   async get<T>(
-    endpoint: string
+    endpoint: string,
   ): Promise<{ response: T; error: string | undefined }> {
     try {
       const response = await fetch(`${this.baseURL}${endpoint}`, {
@@ -74,7 +74,7 @@ class API {
   async post<T>(
     endpoint: string,
     data: object,
-    debug: boolean = false
+    debug = false,
   ): Promise<{ response: T; error: string | undefined }> {
     try {
       const fetchBody = {
@@ -87,7 +87,7 @@ class API {
       };
       if (debug) {
         console.log(
-          `Method :: ${fetchBody.method} -> ${this.baseURL}${endpoint}`
+          `Method :: ${fetchBody.method} -> ${this.baseURL}${endpoint}`,
         );
         console.log("fetch_body ", fetchBody);
       }
@@ -105,7 +105,7 @@ class API {
   async put<T>(
     endpoint: string,
     data: object,
-    debug: boolean = false
+    debug = false,
   ): Promise<{ response: T; error: string | undefined }> {
     try {
       const fetchBody = {
@@ -118,7 +118,7 @@ class API {
       };
       if (debug) {
         console.log(
-          `Method :: ${fetchBody.method} -> ${this.baseURL}${endpoint}`
+          `Method :: ${fetchBody.method} -> ${this.baseURL}${endpoint}`,
         );
         console.log("fetch_body ", fetchBody);
       }
@@ -135,7 +135,7 @@ class API {
 
   async delete<T>(
     endpoint: string,
-    debug: boolean = false
+    debug = false,
   ): Promise<{ response: T; error: string | undefined }> {
     try {
       const fetchBody = {
@@ -144,7 +144,7 @@ class API {
       };
       if (debug) {
         console.log(
-          `Method :: ${fetchBody.method} -> ${this.baseURL}${endpoint}`
+          `Method :: ${fetchBody.method} -> ${this.baseURL}${endpoint}`,
         );
         console.log("fetch_body ", fetchBody);
       }

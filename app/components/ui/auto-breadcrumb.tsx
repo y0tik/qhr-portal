@@ -25,7 +25,7 @@ export default function AutoBreadcrumb({
   navLinks[navLinks.length - 1].to = "";
 
   return (
-    <div className="pt-2 pb-4 -mt-2">
+    <div className="-mt-2 pt-2 pb-4">
       <BreadcrumbHelper items={navLinks} />
     </div>
   );

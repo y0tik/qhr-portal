@@ -1,8 +1,8 @@
 import { Link, useLoaderData, useLocation } from "@remix-run/react";
-import { loader } from "~/routes/_alumni+/_layout";
 import { Button } from "~/components/ui/button";
-import { MenuItem } from "~/types";
+import type { loader } from "~/routes/_alumni+/_layout";
 import { ActionLogout } from "~/routes/action+/signout";
+import type { MenuItem } from "~/types";
 import { ExampleCompanyLogo } from "../user/header/header";
 
 // Define mock icons (replace these with actual icons from lucide-react or similar)
@@ -15,17 +15,17 @@ export const AlumniHeader = () => {
   const { pathname } = useLocation();
   const { uname } = useLoaderData<typeof loader>();
   return (
-    <div className="bg-secondary/70 backdrop-blur-lg z-[100] border-b sticky top-0">
-      <div className="h-14 container grid grid-cols-5 items-center">
+    <div className="sticky top-0 z-[100] border-b bg-secondary/70 backdrop-blur-lg">
+      <div className="container grid h-14 grid-cols-5 items-center">
         <div className="col-span-2">
           <ExampleCompanyLogo />
         </div>
-        <div className="col-span-3 lg:col-span-1 text-right lg:text-center">
-          <Link to="/me" className="text-lg text-center text-primary">
+        <div className="col-span-3 text-right lg:col-span-1 lg:text-center">
+          <Link to="/me" className="text-center text-lg text-primary">
             Welcome, <b>{uname}</b>
           </Link>
         </div>
-        <div className="col-span-2 hidden lg:block text-right space-x-2">
+        <div className="col-span-2 hidden space-x-2 text-right lg:block">
           <Button asChild size="sm" variant="ghost">
             <Link to="/me">Home</Link>
           </Button>

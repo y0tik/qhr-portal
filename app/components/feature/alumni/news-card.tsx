@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
 import { Link } from "@remix-run/react";
 import { ArrowUpRight } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 type News = {
   title: string;
@@ -53,7 +53,7 @@ const NewsItem = ({ description, title, latest, img }: News) => {
         <div className="mt-0.5 line-clamp-1 text-sm opacity-80">
           {description}
         </div>
-        <div className="flex text-xs mt-2.5 text-muted-foreground gap-2 items-center">
+        <div className="mt-2.5 flex items-center gap-2 text-muted-foreground text-xs">
           {latest && <Badge>New</Badge>}
           <p>Published : 04/12/2023</p>
         </div>
@@ -68,17 +68,17 @@ export const NewsCard = ({ news, title }: Props) => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-end">
+        <div className="flex items-end justify-between">
           <CardTitle>{title}</CardTitle>
           <Button
             asChild
             variant="link"
             size="sm"
-            className="p-0 h-auto items-center"
+            className="h-auto items-center p-0"
           >
             <Link to="/company/news">
               View More
-              <ArrowUpRight className="w-4 h-4" />
+              <ArrowUpRight className="h-4 w-4" />
             </Link>
           </Button>
         </div>

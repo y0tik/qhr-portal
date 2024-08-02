@@ -1,5 +1,5 @@
+import type { LucideIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
-import { type LucideIcon } from "lucide-react";
 
 interface StatisticProps {
   title: string;
@@ -19,15 +19,15 @@ export default function Statistic({
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        <CardTitle className="font-medium text-sm">{title}</CardTitle>
         <Icon />
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">
+        <div className="font-bold text-2xl">
           {prefix}
           {number}
         </div>
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className="text-muted-foreground text-xs">{description}</p>
       </CardContent>
     </Card>
   );

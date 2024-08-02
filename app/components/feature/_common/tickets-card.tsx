@@ -4,7 +4,7 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { ticketColorMapping } from "~/constant";
-import { Ticket } from "~/types";
+import type { Ticket } from "~/types";
 
 export const tickets: Ticket[] = [
   {
@@ -150,33 +150,33 @@ export const TicketsCard = ({ tickets, title, cta_url, cta_title }: Props) => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-center -mt-2">
+        <div className="-mt-2 flex items-center justify-between">
           <CardTitle>{title}</CardTitle>
           {cta_url && (
             <Button size="sm" asChild variant="default" className="">
               <Link to={cta_url}>
                 {cta_title}
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="h-4 w-4" />
               </Link>
             </Button>
           )}
         </div>
       </CardHeader>
       <CardContent className="pt-2">
-        <div className="grid -mt-4 gap-3 overflow-hidden">
+        <div className="-mt-4 grid gap-3 overflow-hidden">
           {tickets.map((t) => (
             <div
               key={t.id}
-              className="px-4 border rounded-md py-3 pb-4 items-center gap-2"
+              className="items-center gap-2 rounded-md border px-4 py-3 pb-4"
             >
               <div>
                 <div className="font-semibold">{t.subject}</div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-muted-foreground text-sm">
                   {t.description}
                 </div>
               </div>
-              <div className="flex justify-between items-end mt-2">
-                <div className="text-muted-foreground flex gap-3 text-sm items-center">
+              <div className="mt-2 flex items-end justify-between">
+                <div className="flex items-center gap-3 text-muted-foreground text-sm">
                   <Badge
                     className="uppercase"
                     style={{
@@ -191,7 +191,7 @@ export const TicketsCard = ({ tickets, title, cta_url, cta_title }: Props) => {
                 </div>
                 <div className="flex gap-3">
                   <Button size="sm" variant="outline" className="h-8">
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="h-4 w-4" />
                     View
                   </Button>
                 </div>

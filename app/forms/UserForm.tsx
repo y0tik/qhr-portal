@@ -1,15 +1,15 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, useNavigation } from "@remix-run/react";
-import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
-import { RHFInput } from "~/components/form/RHFInput";
+import { AlertCircle } from "lucide-react";
 import { useRemixForm } from "remix-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { RHFCheckbox } from "~/components/form/RHFCheckbox";
+import { RHFInput } from "~/components/form/RHFInput";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/ui/loading-btn";
-import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import { AlertCircle } from "lucide-react";
 import { ActionDeleteHRUser } from "~/routes/action+/user.delete.$id";
 
 const schema = z
@@ -39,7 +39,7 @@ const schema = z
     {
       message: "Password should be greater than 5 Characters",
       path: ["password"],
-    }
+    },
   );
 
 export const userResolver = zodResolver(schema);
@@ -70,7 +70,7 @@ export default function UserForm({
         </Alert>
       )}
       <Card className="px-6 py-6">
-        <div className="grid grid-cols-3 gap-y-4 gap-x-8">
+        <div className="grid grid-cols-3 gap-x-8 gap-y-4">
           <RHFInput {...register("username")} error={errors.username} />
           <RHFInput {...register("email")} error={errors.email} />
 
@@ -78,10 +78,10 @@ export default function UserForm({
 
           <div className="mt-3">
             <Label>Role</Label>
-            <div className="text-sm text-muted-foreground mt-0.5">
+            <div className="mt-0.5 text-muted-foreground text-sm">
               Choose the roles you wish to assign to this user
             </div>
-            <div className="flex mt-4 gap-4">
+            <div className="mt-4 flex gap-4">
               <RHFCheckbox
                 displayName="HR"
                 name="role_hr"
@@ -99,10 +99,10 @@ export default function UserForm({
 
           <div className="mt-3">
             <Label>Permissions</Label>
-            <div className="text-sm text-muted-foreground mt-0.5">
+            <div className="mt-0.5 text-muted-foreground text-sm">
               Choose the permissions you wish to assign to this user
             </div>
-            <div className="flex mt-4 gap-4">
+            <div className="mt-4 flex gap-4">
               <RHFCheckbox
                 name="perm_read"
                 control={control}
@@ -127,12 +127,12 @@ export default function UserForm({
             </div>
           </div>
           {isEdit && (
-            <div className="text-sm -mt-2 text-muted-foreground">
+            <div className="-mt-2 text-muted-foreground text-sm">
               Enter a new password to change it, or leave it blank to keep the
               current password.
             </div>
           )}
-          <div className="mt-6 col-span-3 flex justify-between">
+          <div className="col-span-3 mt-6 flex justify-between">
             <div className="flex gap-4">
               <Button type="button" onClick={() => reset()} variant="outline">
                 Reset
