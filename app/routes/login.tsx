@@ -74,7 +74,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     cid: 10,
     uname: "username",
     id: 123,
-    role: "employee",
+    role: data.username === "admin" ? "admin" : "employee",
   });
   return redirect(callbackUrl ?? "/overview", headers);
 

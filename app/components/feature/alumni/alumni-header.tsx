@@ -48,7 +48,7 @@ export const AlumniHeader = ({ user: { uname: username } }: Props) => {
           ))}
           <ActionLogout>
             {(props) => (
-              <Button {...props} size="sm" variant="outline">
+              <Button {...props} size="sm" type="submit" variant="outline">
                 Logout
               </Button>
             )}

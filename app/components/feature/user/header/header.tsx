@@ -37,14 +37,12 @@ export default function UserHeader({ user }: HeaderProps) {
           <ExampleCompanyLogo />
         </div>
         <MainNav links={user_menu} className="justify-center" />
-        <div className="ml-auto flex flex-1 items-center justify-end space-x-4">
-          <div>
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="md:w-[100px] lg:w-[300px]"
-            />
-          </div>
+        <div className="ml-auto flex flex-1 items-center justify-end space-x-3">
+          <Input
+            type="search"
+            placeholder="Search..."
+            className="md:w-[100px] lg:w-[300px]"
+          />
           <UserNav {...user} />
         </div>
       </div>

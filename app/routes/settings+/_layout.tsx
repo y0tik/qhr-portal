@@ -18,6 +18,7 @@ const SETTINGS_MENU: MenuItem[] = [
 export default function SettingsIndexPage() {
   const location = useLocation();
   const user = useLoaderData<typeof loader>();
+  const menus = SETTINGS_MENU.filter((item) => item.role.includes(user.role));
   const header =
     user.role === "employee" ? (
       <AlumniHeader user={user} />
@@ -33,7 +34,7 @@ export default function SettingsIndexPage() {
         </div>
         <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
           <nav className="*:-ml-4 grid text-muted-foreground text-sm *:mr-12 *:rounded *:px-4 *:py-2 *:transition-colors [&_a:hover]:bg-secondary">
-            {SETTINGS_MENU.map((menu) => (
+            {menus.map((menu) => (
               <Link
                 key={menu.to}
                 to={menu.to}

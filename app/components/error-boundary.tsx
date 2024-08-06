@@ -1,4 +1,9 @@
-import { Link, isRouteErrorResponse, useRouteError } from "@remix-run/react";
+import {
+  Link,
+  isRouteErrorResponse,
+  useNavigate,
+  useRouteError,
+} from "@remix-run/react";
 import { AlertCircle } from "lucide-react";
 import { Button } from "~/components/ui/button";
 
@@ -37,6 +42,7 @@ const Message404 = () => (
 // RESPONSIVE
 export function ErrorBoundary() {
   const error = extractErrorType(useRouteError());
+  const navigate = useNavigate();
   const errorNode = error.status === "404" ? <Message404 /> : error.message;
 
   return (
@@ -59,6 +65,9 @@ export function ErrorBoundary() {
       <div className="flex flex-wrap justify-center gap-4">
         <Button asChild>
           <Link to="/">Back to Homepage</Link>
+        </Button>
+        <Button onClick={() => navigate(-1)} variant="secondary">
+          Go Back
         </Button>
         <Button asChild variant="secondary">
           <Link to="/support">Contact Support</Link>
