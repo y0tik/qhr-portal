@@ -1,29 +1,17 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet, json, redirect, useLoaderData } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { AlumniHeader } from "~/components/feature/alumni/alumni-header";
-import { requireAuth } from "~/server/auth-session.server";
+import { layoutSessionLoader } from "~/server/helper.server";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-  return json({
-    uname: "emp",
-    email: "test@test.com",
-    atoken: "",
-    id: "12",
-    role: "employee",
-    cid: "",
-  });
-  const { user } = await requireAuth(request);
-  if (user.role !== "employee") {
-    return redirect("/overview");
-  }
-};
+export const loader = layoutSessionLoader;
 
 export default function AlumniLayout() {
-  const session = useLoaderData<typeof loader>();
+  const user = useLoaderData<typeof loader>();
   return (
     <>
-      <AlumniHeader />
-      <Outlet context={session} />
+      <AlumniHeader user={user} />
+      <div className="container py-4">
+        <Outlet context={user} />
+      </div>
     </>
   );
 }

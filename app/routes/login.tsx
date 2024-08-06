@@ -68,30 +68,40 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json(errors);
   }
 
-  // +start API - /auth/login
-  const { response, error } = await api.post<LoginReponse>("/auth/login", data);
-  if (error) {
-    return json({
-      errors: { root: { message: "Invalid details provided" } },
-    });
-  }
-  // parse jwt and extract user id, user role & company id
-  const token = jwtDecode<{
-    sub: { username: string; id: number; role: Role };
-  }>(response.access_token);
-  // create auth session
   const headers = await setAuthSession(request, {
-    email: data.email,
-    atoken: response.access_token,
-    cid: token.sub.id,
-    uname: token.sub.username,
-    id: token.sub.id,
-    role: token.sub.role,
+    email: "test",
+    atoken: "test",
+    cid: 10,
+    uname: "username",
+    id: 123,
+    role: "employee",
   });
-  // redirect and with headers set
-  const redirectTo = token.sub.role === "employee" ? "/me" : "/overview";
-  return redirect(callbackUrl ?? redirectTo, headers);
-  // +end API - /auth/login
+  return redirect(callbackUrl ?? "/overview", headers);
+
+  // // +start API - /auth/login
+  // const { response, error } = await api.post<LoginReponse>("/auth/login", data);
+  // if (error) {
+  //   return json({
+  //     errors: { root: { message: "Invalid details provided" } },
+  //   });
+  // }
+  // // parse jwt and extract user id, user role & company id
+  // const token = jwtDecode<{
+  //   sub: { username: string; id: number; role: Role };
+  // }>(response.access_token);
+  // // create auth session
+  // const headers = await setAuthSession(request, {
+  //   email: data.email,
+  //   atoken: response.access_token,
+  //   cid: token.sub.id,
+  //   uname: token.sub.username,
+  //   id: token.sub.id,
+  //   role: token.sub.role,
+  // });
+  // // redirect and with headers set
+  // const redirectTo = token.sub.role === "employee" ? "/me" : "/overview";
+  // return redirect(callbackUrl ?? redirectTo, headers);
+  // // +end API - /auth/login
 };
 
 export default function LoginPage() {

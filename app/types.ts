@@ -1,4 +1,4 @@
-export type User = { username: string; email: string; role: Role };
+export type User = { uname: string; email: string; role: Role };
 export type HrUser = {
   id: number;
   username: string;

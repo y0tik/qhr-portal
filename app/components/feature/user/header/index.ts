@@ -1,2 +1,2 @@
-import Header from "./header";
-export default Header;
+import UserHeader from "./header";
+export default UserHeader;

@@ -7,11 +7,13 @@ export type Permission =
   | "read:alumni"
   | "write:alumni"
   | "delete:alumni"
+  | "overview"
+  | "crud:settings/company"
   | "self";
 
 const PERMISSION_MAP: Record<Role, Array<Permission>> = {
-  admin: ["read:users", "write:users", "delete:users"],
-  hr: ["read:alumni", "write:alumni", "delete:alumni"],
+  admin: ["overview","read:users", "write:users", "delete:users", "crud:settings/company"],
+  hr: ["overview", "read:alumni", "write:alumni", "delete:alumni"],
   employee: ["self"],
 };
 

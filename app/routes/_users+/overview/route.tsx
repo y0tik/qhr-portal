@@ -1,8 +1,16 @@
-import { useOutletContext } from "@remix-run/react";
-import type { AuthSessionData } from "~/server/auth-session.server";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { json, useOutletContext } from "@remix-run/react";
+import {
+  type AuthSessionData,
+  requireAuth,
+} from "~/server/auth-session.server";
 import AdminOverview from "./admin-overview";
 import HROverview from "./hr-overview";
-export { ErrorBoundary } from "~/components/error-boundary";
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  await requireAuth(request, ["overview"]);
+  return null;
+};
 
 export default function RenderOverview() {
   const session = useOutletContext<AuthSessionData>();

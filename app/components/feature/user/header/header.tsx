@@ -28,11 +28,11 @@ type HeaderProps = {
   user: User;
 };
 
-export default function Header({ user }: HeaderProps) {
+export default function UserHeader({ user }: HeaderProps) {
   const user_menu = NAVIGATION_MENU.filter((m) => m.role.includes(user.role));
   return (
-    <div className="border-b bg-secondary/80">
-      <div className="flex h-16 items-center justify-between px-12">
+    <div className="bg-secondary/80">
+      <div className="relative flex h-16 items-center justify-between px-12 after:absolute after:inset-x-0 after:bottom-0 after:h-[1px] after:bg-gray-200">
         <div className="flex-1">
           <ExampleCompanyLogo />
         </div>

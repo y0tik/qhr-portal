@@ -6,17 +6,15 @@ import { MockedLatestNewsCard } from "~/components/feature/alumni/news-card";
 
 export default function AlumniOverviewPage() {
   return (
-    <div className="container mx-auto flex-1 p-0 py-4 lg:px-8">
-      <div className="grid grid-cols-2 gap-4 bg-white lg:grid-cols-6">
-        <div className="col-span-3 flex flex-col gap-4">
-          <MockedCompanyOverviewCard />
-          <MockedLatestNewsCard />
-          <MockedAlumniTicketsCard />
-        </div>
-        <div className="col-span-3 flex flex-col gap-4">
-          <MockedDocumentCategoriesCard />
-          <MockedJobsCard />
-        </div>
+    <div className="grid grid-cols-2 gap-4 bg-white lg:grid-cols-6">
+      <div className="col-span-3 flex flex-col gap-4">
+        <MockedCompanyOverviewCard />
+        <MockedLatestNewsCard />
+        <MockedAlumniTicketsCard />
+      </div>
+      <div className="col-span-3 flex flex-col gap-4">
+        <MockedDocumentCategoriesCard />
+        <MockedJobsCard />
       </div>
     </div>
   );

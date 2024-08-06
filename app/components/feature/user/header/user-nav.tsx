@@ -13,16 +13,16 @@ import {
 import { ActionLogout } from "~/routes/action+/signout";
 import type { User } from "~/types";
 
-type UserNavProps = User;
+type Props = User;
 
-export function UserNav({ username, email }: UserNavProps) {
+export function UserNav({ uname: username, email }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage src="" alt="@admin" />
-            <AvatarFallback>
+            <AvatarFallback className="bg-gray-200">
               {(username.charAt(0) + username.charAt(1)).toUpperCase()}
             </AvatarFallback>
           </Avatar>
