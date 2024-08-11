@@ -3,7 +3,7 @@ import { json } from "@remix-run/react";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { FieldErrors, FieldValues, Resolver } from "react-hook-form";
 import { getValidatedFormData } from "remix-hook-form";
-import { requireAuth } from "~/server/auth-session.server";
+import { requirePermission } from "~/server/auth-session.server";
 
 // Check if the required environment variable is set
 if (!process.env.ALUMNI_CLIENT_CORE_ENDPOINT) {
@@ -66,6 +66,6 @@ export const requireFormData = async <T extends FieldValues>(
 };
 
 export const layoutSessionLoader = async ({ request }: LoaderFunctionArgs) => {
-  const { user } = await requireAuth(request);
+  const { user } = await requirePermission(request);
   return json(user);
 };

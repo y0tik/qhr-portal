@@ -1,13 +1,13 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect, useLoaderData } from "@remix-run/react";
-import { format } from "date-fns/format";
+import dayjs from "dayjs";
 import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
 import AlumniForm, {
   type AlumniFormData,
   alumniResolver,
 } from "~/forms/AlumniForm";
-import { requireAuth } from "~/server/auth-session.server";
+import { requirePermission } from "~/server/auth-session.server";
 import { requireFormData } from "~/server/helper.server";
 import type { AlumniUser } from "~/types";
 
@@ -15,7 +15,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const id = params.id;
   if (!id) return redirect("/alumni");
 
-  const { api } = await requireAuth(request, ["read:alumni"]);
+  const { api } = await requirePermission(request, ["read:alumni"]);
   const { error, response } = await api.get<AlumniUser>(`/employees/${id}`);
   if (error) {
     return redirect("/alumni");
@@ -25,7 +25,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const { api } = await requireAuth(request, ["write:alumni"]);
+  const { api } = await requirePermission(request, ["write:alumni"]);
 
   const { data, errors } = await requireFormData<AlumniFormData>(
     request,
@@ -40,8 +40,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const updatedData = {
     ...data,
-    joining_date: format(data.joining_date, "yyyy-MM-dd"),
-    last_working_date: format(data.last_working_date, "yyyy-MM-dd"),
+    joining_date: dayjs(data.joining_date).format("yyyy-MM-dd"),
+    last_working_date: dayjs(data.last_working_date).format("yyyy-MM-dd"),
   };
   const { error } = await api.put(`/hr/${updatedData.id}`, {
     ...updatedData,

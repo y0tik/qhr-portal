@@ -2,13 +2,13 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useOutletContext } from "@remix-run/react";
 import {
   type AuthSessionData,
-  requireAuth,
+  requirePermission,
 } from "~/server/auth-session.server";
 import AdminOverview from "./admin-overview";
 import HROverview from "./hr-overview";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  await requireAuth(request, ["overview"]);
+  await requirePermission(request, ["overview"]);
   return null;
 };
 

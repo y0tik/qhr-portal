@@ -3,7 +3,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect, useLoaderData } from "@remix-run/react";
 import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
 import UserForm, { type UserFormData, userResolver } from "~/forms/UserForm";
-import { requireAuth } from "~/server/auth-session.server";
+import { requirePermission } from "~/server/auth-session.server";
 import { requireFormData } from "~/server/helper.server";
 import type { HrUser } from "~/types";
 
@@ -11,7 +11,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const id = params.id;
   if (!id) return redirect("/user");
 
-  const { api } = await requireAuth(request, ["read:users"]);
+  const { api } = await requirePermission(request, ["read:users"]);
   const { error, response } = await api.get<HrUser>(`/hr/${id}`);
   if (error) {
     return redirect("/user");
@@ -21,7 +21,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const { api } = await requireAuth(request, ["write:users"]);
+  const { api } = await requirePermission(request, ["write:users"]);
 
   const { data, errors } = await requireFormData<UserFormData>(
     request,

@@ -6,9 +6,14 @@ type LoadingButtonProps = ButtonProps &
     loading: boolean;
   }>;
 
-const Spinner = () => {
+export const Spinner = ({ className }: { className?: string }) => {
   return (
-    <div className="h-4 w-4 animate-spin rounded-full border-x-primary-foreground border-t-2" />
+    <div
+      className={cn(
+        "h-4 w-4 animate-spin rounded-full border-x-primary-foreground border-t-2",
+        className,
+      )}
+    />
   );
 };
 

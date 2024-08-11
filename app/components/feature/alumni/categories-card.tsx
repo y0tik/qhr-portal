@@ -1,82 +1,93 @@
-import { Link } from "@remix-run/react";
+import { Link, useLocation, useNavigation } from "@remix-run/react";
 import {
+  Briefcase,
   Calendar,
   Clipboard,
   File,
+  FileIcon,
   FileText,
-  type LucideIcon,
   Mail,
   PiggyBank,
+  UserCheck,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 type Category = {
   id: string;
   title: string;
-  icon: LucideIcon;
-  color: (alpha?: number) => string;
+  color: string;
+  url?: string;
+  iconURL?: string;
 };
 
-const categories: Category[] = [
+const getIconByCategoryName = (iconName: string) => {
+  switch (iconName) {
+    case "payslips":
+      return FileText;
+    case "letters":
+      return Mail;
+    case "finance":
+      return PiggyBank;
+    case "contracts":
+      return File;
+    case "calendars":
+      return Calendar;
+    case "documentation":
+      return Clipboard;
+    case "job-postings":
+      return Briefcase;
+    case "training-materials":
+      return FileText; // Reusing the same icon for simplicity
+    case "exit-forms":
+      return FileText; // Reusing the same icon for simplicity
+    case "employee-records":
+      return UserCheck;
+    default:
+      return FileIcon;
+  }
+};
+
+export const categories: Category[] = [
   {
     id: "payslips",
     title: "Payslips",
-    icon: FileText,
-    color: (alpha = 0.3) => `rgba(34, 193, 195, ${alpha} )`,
+    color: "rgb(34, 193, 195)",
   },
   {
     id: "letters",
     title: "Letters",
-    icon: Mail,
-    color: (alpha = 0.3) => `rgba(255, 87, 34, ${alpha} )`,
+    color: "rgb(255, 87, 34)",
   },
   {
     id: "finance",
     title: "Finance",
-    icon: PiggyBank,
-    color: (alpha = 0.3) => `rgba(33, 150, 243, ${alpha} )`,
+    color: "rgb(33, 150, 243)",
   },
   {
     id: "contracts",
     title: "Contracts",
-    icon: File,
-    color: (alpha = 0.3) => `rgba(96, 125, 139, ${alpha} )`,
+    color: "rgb(96, 125, 139)",
   },
   {
     id: "calendars",
     title: "Calendars",
-    icon: Calendar,
-    color: (alpha = 0.3) => `rgba(76, 175, 80, ${alpha} )`,
+    color: "rgb(76, 175, 80)",
   },
   {
     id: "documentation",
     title: "Documentation",
-    icon: Clipboard,
-    color: (alpha = 0.3) => `rgba(255, 193, 7, ${alpha} )`,
+    color: "rgb(255, 193, 7)",
   },
-  // {
-  //   id: "job-postings",
-  //   title: "Job Postings",
-  //   icon: Briefcase,
-  //   () =>color: "rgba(255, 64, 129, ) // Pink
-  // },
   {
     id: "training-materials",
     title: "Training Materials",
-    icon: FileText, // Reusing the same icon for simplicity
-    color: (alpha = 0.3) => `rgba(0, 188, 212, ${alpha} )`,
+    color: "rgb(0, 188, 212)",
   },
   {
     id: "exit-forms",
     title: "Exit Forms",
-    icon: FileText, // Reusing the same icon for simplicity
-    color: (alpha = 0.3) => `rgba(239, 83, 80, ${alpha} )`,
+    color: "rgb(239, 83, 80)",
   },
-  // {
-  //   id: "employee-records",
-  //   title: "Employee Records",
-  //   icon: UserCheck,
-  //   () =>color: "rgba(156, 39, 176, ) // Palpha = 0.3urple
 ].sort((a, b) => (a.title.length < b.title.length ? 1 : -1));
 
 type Props = {
@@ -84,7 +95,39 @@ type Props = {
   title: string;
 };
 
-const DocumentCategoriesCard = ({ title, categories }: Props) => {
+// TODO Add variant compact and fullfilling
+// TODO chore: convert rgb to hex for easier alpha change
+// TODO chore: add variant for compact also
+export const CategoryListRaw = ({ categories }: { categories: Category[] }) => {
+  const { pathname } = useLocation();
+  const { location } = useNavigation();
+
+  return categories.map((c) => {
+    const Icon = getIconByCategoryName(c.id);
+    const color20 = c.color.replace("rgb", "rgba").replace(")", ",0.2)");
+    const url = `/documents/${c.id}`;
+    const active = url === (location?.pathname ?? pathname);
+
+    return (
+      <Link
+        to={url}
+        key={c.title}
+        data-active={active}
+        style={{ backgroundColor: color20, borderColor: color20 }}
+        className="relative select-none mt-3 flex cursor-pointer items-center gap-2 rounded-md border-2 px-4 py-3 shadow-lg transition-transform"
+      >
+        <div
+          className="-top-2 absolute left-0.5 h-2 w-12 rounded-t-md bg-black shadow-sm"
+          style={{ backgroundColor: c.color }}
+        />
+        <Icon className="h-5 w-5" style={{ color: c.color }} />
+        <div>{c.title}</div>
+      </Link>
+    );
+  });
+};
+
+export const DocumentCategoriesCard = ({ title, categories }: Props) => {
   return (
     <Card>
       <CardHeader>
@@ -93,25 +136,8 @@ const DocumentCategoriesCard = ({ title, categories }: Props) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-12 gap-4">
-          {categories.map((c) => (
-            <Link
-              to={`/documents/${c.id}`}
-              key={c.title}
-              style={{
-                backgroundColor: c.color(0.2),
-                borderColor: c.color(0.2),
-              }}
-              className="relative col-span-12 mt-3 flex cursor-pointer items-center gap-2 rounded-md border-2 px-4 py-3 shadow-lg transition-transform hover:rotate-1 hover:scale-95 hover:opacity-70 md:col-span-6 lg:col-span-4"
-            >
-              <div
-                className="-top-2 absolute left-0.5 h-2 w-12 rounded-t-md bg-black shadow-sm"
-                style={{ backgroundColor: c.color(1) }}
-              />
-              <c.icon className="h-5 w-5" style={{ color: c.color(1) }} />
-              <div>{c.title}</div>
-            </Link>
-          ))}
+        <div className="grid md:grid-cols-3 gap-4 *:will-change-transform [&>:hover]:rotate-1 [&>:hover]:scale-95 [&>:hover]:opacity-70">
+          <CategoryListRaw categories={categories} />
         </div>
       </CardContent>
     </Card>

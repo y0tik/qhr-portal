@@ -4,14 +4,14 @@ import invariant from "tiny-invariant";
 import { ConfirmDialog } from "~/components/ui/confirm-dialog";
 import { LoadingButton } from "~/components/ui/loading-btn";
 import { sleep } from "~/lib/utils";
-import { requireAuth } from "~/server/auth-session.server";
+import { requirePermission } from "~/server/auth-session.server";
 
 export const action = async ({ params, request }: ActionFunctionArgs) => {
   const id = params.id;
   invariant(id, "hr user account id is required");
 
   await sleep(2000);
-  const { session, api } = await requireAuth(request, ["delete:users"]);
+  const { session, api } = await requirePermission(request, ["delete:users"]);
   const { error } = await api.delete(`/hr/${id}`, true);
   if (error) {
     session.flash("message", {

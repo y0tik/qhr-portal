@@ -1,4 +1,4 @@
-import { format } from "date-fns/format";
+import dayjs from "dayjs";
 import { Calendar as CalendarIcon } from "lucide-react";
 import {
   type Control,
@@ -44,7 +44,7 @@ const DatePicker = ({
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? dayjs(date).format("PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

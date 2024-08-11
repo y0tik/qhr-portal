@@ -40,7 +40,7 @@ const schema = z.object({
     .regex(/^[a-zA-Z0-9_]+$/, {
       message: "Username can only contain letters, numbers, and underscores.",
     }),
-  email: z.string().email().min(1),
+  // email: z.string().email().min(1),
   password: z.string().min(1),
 });
 
@@ -76,7 +76,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     id: 123,
     role: data.username === "admin" ? "admin" : "employee",
   });
-  return redirect(callbackUrl ?? "/overview", headers);
+  const redirectTo = data.username === "employee" ? "/me" : "/overview";
+  return redirect(callbackUrl ?? redirectTo, headers);
 
   // // +start API - /auth/login
   // const { response, error } = await api.post<LoginReponse>("/auth/login", data);
@@ -136,7 +137,7 @@ export default function LoginPage() {
             </Alert>
           )}
           <RHFInput error={errors.username} {...register("username")} />
-          <RHFInput error={errors.email} {...register("email")} />
+          {/* <RHFInput error={errors.email} {...register("email")} /> */}
           <RHFInput
             error={errors.password}
             autoComplete=""

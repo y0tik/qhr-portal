@@ -5,7 +5,7 @@ import { columns } from "~/components/column/user-column";
 import { Button } from "~/components/ui/button";
 import { DataTable } from "~/components/ui/data-table";
 import { ENDPOINT_USER, PROJECT_NAME } from "~/constant";
-import { requireAuth } from "~/server/auth-session.server";
+import { requirePermission } from "~/server/auth-session.server";
 import type { HrUser } from "~/types";
 
 export const meta: MetaFunction = () => [
@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => [
 ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { api } = await requireAuth(request, ["read:users"]);
+  const { api } = await requirePermission(request, ["read:users"]);
 
   const { error, response } = await api.get<HrUser[]>("/hr");
   if (error) {

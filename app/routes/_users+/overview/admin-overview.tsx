@@ -6,25 +6,29 @@ import {
   User,
   Users2Icon,
 } from "lucide-react";
-import { MockedAlumniTicketsCard } from "~/components/feature/_common/tickets-card";
+import {
+  MockedAlumniTicketsCard,
+  TicketsCard,
+  tickets,
+} from "~/components/feature/_common/tickets-card";
 import { PlanCard } from "~/components/feature/user/plan-card";
 import { Button } from "~/components/ui/button";
-import { Card, CardTitle } from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import Statistic from "~/components/ui/statistic";
 
 const tempStats: { name: string; value: number; Icon: LucideIcon }[] = [
   { name: "Files", value: 18910, Icon: FilesIcon },
-  { name: "Users", value: 3, Icon: Users2Icon },
+  // { name: "Users", value: 3, Icon: Users2Icon },
   { name: "Alumni", value: 10, Icon: User },
   { name: "Opened Tickets", value: 2, Icon: TicketIcon },
 ];
 
 export default function AdminOverview() {
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex space-x-6">
+    <div className="grid grid-cols-1 grid-rows-12 lg:grid-cols-12 gap-5">
+      <div className="grid col-span-7 gap-5 grid-cols-3">
         {tempStats.map((s) => (
-          <div key={s.name} className="w-3/12">
+          <div key={s.name}>
             <Statistic
               title={s.name}
               number={s.value}
@@ -34,38 +38,36 @@ export default function AdminOverview() {
             />
           </div>
         ))}
-      </div>
-      <div className="mt-6 flex min-h-0 grow space-x-6">
-        <div className="w-3/12">
-          <PlanCard />
-        </div>
-        <div className="w-3/12">
+        <div className="col-span-3 space-y-5">
           <Card>
-            <div className="p-6">
-              <CardTitle className="text-base text-primary">
-                Shortcuts
-              </CardTitle>
-              <div className="mt-4 space-y-3">
+            <CardHeader>
+              <CardTitle>Shortcuts</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-3 flex-wrap">
+                {/* TODO ADD ICONS */}
                 {[
                   { name: "Create User", to: "/user/create" },
+                  { name: "Bulk Upload", to: "/bulk" },
                   { name: "Update Settings", to: "/settings" },
                 ].map((e) => (
-                  <Button
-                    className="w-full"
-                    variant="outline"
-                    key={e.name}
-                    asChild
-                  >
+                  <Button variant="outline" key={e.name} asChild>
                     <Link to={e.to}>{e.name}</Link>
                   </Button>
                 ))}
               </div>
-            </div>
+            </CardContent>
           </Card>
+          <PlanCard />
         </div>
-        <div className="flex w-6/12 flex-col">
-          <MockedAlumniTicketsCard />
-        </div>
+      </div>
+      <div className="col-span-5 row-span-12 overflow-hidden">
+        <TicketsCard
+          tickets={tickets.slice(0, 10)}
+          title="Latest Service Requests"
+          cta_url="/tickets"
+          cta_title="Manage"
+        />
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ export const sessionStore = createCookieSessionStorage<
 const getSessionFromRequest = async (req: Request) =>
   sessionStore.getSession(req.headers.get("Cookie"));
 
-export const requireAuth = async (
+export const requirePermission = async (
   req: Request,
   permissions?: Array<Permission>,
 ) => {
