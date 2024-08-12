@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigation } from "@remix-run/react";
+import { type VariantProps, cva } from "class-variance-authority";
 import {
   Briefcase,
   Calendar,
@@ -6,6 +7,8 @@ import {
   File,
   FileIcon,
   FileText,
+  FolderClosed,
+  FolderOpen,
   Mail,
   PiggyBank,
   UserCheck,
@@ -95,32 +98,69 @@ type Props = {
   title: string;
 };
 
-// TODO Add variant compact and fullfilling
 // TODO chore: convert rgb to hex for easier alpha change
-// TODO chore: add variant for compact also
-export const CategoryListRaw = ({ categories }: { categories: Category[] }) => {
+
+const categoryVars = cva(
+  "will-change-transform relative text-sm select-none flex cursor-pointer items-center gap-3 transition-[filter,transform,shadow,background-color,color]",
+  {
+    variants: {
+      compact: {
+        relaxed: "border-2 px-4 py-3 rounded-md",
+        tight:
+          "px-5 py-4 bg-secondary hover:bg-primary hover:text-primary-foreground",
+      },
+      hover: {
+        normal:
+          "data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
+        fancy: "hover:rotate-1 hover:scale-95 hover:opacity-70",
+        grayscale:
+          "data-[active=true]:grayscale-0 hover:grayscale-0 grayscale hover:scale-[0.98] data-[active=true]:-translate-y-1 data-[active=true]:shadow-lg",
+      },
+    },
+    defaultVariants: { hover: "fancy", compact: "relaxed" },
+  },
+);
+
+export const CategoryListRaw = ({
+  categories,
+  compact,
+  hover,
+}: { categories: Category[] } & VariantProps<typeof categoryVars>) => {
   const { pathname } = useLocation();
   const { location } = useNavigation();
+  const isCompact = compact === "tight";
 
   return categories.map((c) => {
-    const Icon = getIconByCategoryName(c.id);
-    const color20 = c.color.replace("rgb", "rgba").replace(")", ",0.2)");
     const url = `/documents/${c.id}`;
     const active = url === (location?.pathname ?? pathname);
+    const color20 = c.color.replace("rgb", "rgba").replace(")", ",0.2)");
+    const Icon = isCompact
+      ? active
+        ? FolderOpen
+        : FolderClosed
+      : getIconByCategoryName(c.id);
+    const style = isCompact
+      ? {}
+      : { backgroundColor: color20, borderColor: color20 };
 
     return (
       <Link
         to={url}
         key={c.title}
         data-active={active}
-        style={{ backgroundColor: color20, borderColor: color20 }}
-        className="relative select-none mt-3 flex cursor-pointer items-center gap-2 rounded-md border-2 px-4 py-3 shadow-lg transition-transform"
+        style={style}
+        className={categoryVars({ hover, compact })}
       >
-        <div
-          className="-top-2 absolute left-0.5 h-2 w-12 rounded-t-md bg-black shadow-sm"
-          style={{ backgroundColor: c.color }}
+        {!isCompact && (
+          <div
+            className="-top-2 absolute left-0.5 h-2 w-12 rounded-t-md bg-black shadow-sm"
+            style={{ backgroundColor: c.color }}
+          />
+        )}
+        <Icon
+          className="h-5 w-5"
+          style={{ color: isCompact ? undefined : c.color }}
         />
-        <Icon className="h-5 w-5" style={{ color: c.color }} />
         <div>{c.title}</div>
       </Link>
     );
@@ -136,8 +176,8 @@ export const DocumentCategoriesCard = ({ title, categories }: Props) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid md:grid-cols-3 gap-4 *:will-change-transform [&>:hover]:rotate-1 [&>:hover]:scale-95 [&>:hover]:opacity-70">
-          <CategoryListRaw categories={categories} />
+        <div className="grid md:grid-cols-3 gap-4 mt-2 gap-y-6 *:will-change-transform">
+          <CategoryListRaw categories={categories} compact="relaxed" />
         </div>
       </CardContent>
     </Card>

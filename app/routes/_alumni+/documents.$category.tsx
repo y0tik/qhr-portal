@@ -1,6 +1,13 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect, useLoaderData, useNavigation } from "@remix-run/react";
-import { DownloadIcon, EyeIcon, SortAsc, TimerIcon } from "lucide-react";
+import {
+  Form,
+  json,
+  redirect,
+  useLoaderData,
+  useNavigation,
+  useSearchParams,
+} from "@remix-run/react";
+import { DownloadIcon, EyeIcon, SortAsc, SortDesc } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Spinner } from "~/components/ui/loading-btn";
 import { dateToFullString, sleep } from "~/lib/utils";
@@ -104,12 +111,25 @@ const mockFilesByCategory: Record<string, File[]> = {
   ],
 };
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const categoryName = params.category;
+  const url = new URLSearchParams(request.url);
+  const sortingAsc = url.get("sort") === "asc";
   if (!categoryName) return redirect("/documents");
   await sleep(2000);
   const files: File[] = mockFilesByCategory[categoryName] ?? [];
-  return json({ name: categoryName, files });
+  return json({
+    name: categoryName,
+    files: files.sort((a, b) =>
+      sortingAsc
+        ? a.created_at < b.created_at
+          ? 1
+          : -1
+        : a.created_at > b.created_at
+          ? 1
+          : -1,
+    ),
+  });
 };
 
 type File = {
@@ -149,6 +169,9 @@ export const FilesListRaw = ({ files }: { files: File[] }) => {
 
 export default function DocumentCategoryListView() {
   const { name, files } = useLoaderData<typeof loader>();
+  const [get] = useSearchParams();
+  const sortingAsc = get.get("sort") === "asc";
+  const SortingIcon = sortingAsc ? SortAsc : SortDesc;
   const { state } = useNavigation();
   return (
     <div className="grid gap-4">
@@ -158,10 +181,16 @@ export default function DocumentCategoryListView() {
           <b className="text-primary">{name}</b>
         </div>
         <div>
-          {/* TODO make this functioning */}
-          <Button size="sm-icon">
-            <SortAsc className="w-4 h-4" />
-          </Button>
+          <Form>
+            <Button
+              size="sm-icon"
+              name="sort"
+              type="submit"
+              value={sortingAsc ? "desc" : "asc"}
+            >
+              <SortingIcon className="w-4 h-4" />
+            </Button>
+          </Form>
         </div>
       </div>
       <div className="grid relative gap-4 rounded-md grid-cols-3 p-4 bg-secondary/30 shadow-inner">
