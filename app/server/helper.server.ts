@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import { type LoaderFunctionArgs, createCookie } from "@remix-run/node";
 import { json } from "@remix-run/react";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { FieldErrors, FieldValues, Resolver } from "react-hook-form";
@@ -16,6 +16,7 @@ export const API_ENDPOINT = process.env.ALUMNI_CLIENT_CORE_ENDPOINT;
 const CODE_MAP: { [key: string]: string } = {
   "1ZVGUE": "Please login to continue",
   "207H2L": "Session expired, Please login to continue",
+  "204l2X": "OTP Timeout, Please login again",
   default: "Please try again later",
 };
 
@@ -23,6 +24,12 @@ export const friendlyMsgForCode = (code: string | null) => {
   if (!code) return "";
   return CODE_MAP[code] ? CODE_MAP[code] : CODE_MAP.default;
 };
+
+// verifyOTP
+export const verifyOTP = createCookie("verifyOTP", {
+  maxAge: 60 * 5, // expires in 5 minutes
+  sameSite: "strict",
+});
 
 // helper for formdata
 export const requireFormData = async <T extends FieldValues>(

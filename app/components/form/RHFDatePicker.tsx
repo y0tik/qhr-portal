@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { cn } from "~/lib/utils";
+import { FormFieldError } from "./form-primitives";
 
 type RHFDatePickerProps<T extends FieldValues> = {
   error?: FieldError;
@@ -63,10 +64,10 @@ export const RHFDatePicker = <T extends FieldValues>({
 }: RHFDatePickerProps<T>) => {
   return (
     <div className={className}>
-      <Label htmlFor={name}>
+      <Label htmlFor={name} className="mb-2.5">
         {displayName ?? name.charAt(0).toUpperCase() + name.slice(1)}
       </Label>
-      <div className="mt-1.5 flex">
+      <div className="flex">
         <Controller
           control={control}
           name={name}
@@ -75,11 +76,7 @@ export const RHFDatePicker = <T extends FieldValues>({
           )}
         />
       </div>
-      {error && (
-        <div className="mt-1.5 text-red-500 text-sm">
-          {error.message ?? "Required"}
-        </div>
-      )}
+      <FormFieldError error={error} />
     </div>
   );
 };

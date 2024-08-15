@@ -6,6 +6,7 @@ import {
   type Path,
 } from "react-hook-form";
 import { Label } from "~/components/ui/label";
+import { FormFieldError } from "./form-primitives";
 
 type RHFCheckboxProps<T extends FieldValues> = {
   error?: FieldError;
@@ -46,11 +47,7 @@ export const RHFCheckbox = <T extends FieldValues>({
           {displayName ?? name.charAt(0).toUpperCase() + name.slice(1)}
         </Label>
       </div>
-      {error && (
-        <div className="mt-1.5 text-red-500 text-sm">
-          {error.message ?? "Required"}
-        </div>
-      )}
+      <FormFieldError error={error} />
     </div>
   );
 };

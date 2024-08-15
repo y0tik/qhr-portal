@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import type { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { FormFieldError } from "./form-primitives";
 
 type RHFInputProps = UseFormRegisterReturn &
   React.InputHTMLAttributes<HTMLInputElement> & {
@@ -25,11 +26,7 @@ export const RHFInput = forwardRef<HTMLInputElement, RHFInputProps>(
           {...props}
           ref={ref}
         />
-        {error && (
-          <div className="mt-1.5 text-red-500 text-sm">
-            {error.message ?? "Required"}
-          </div>
-        )}
+        <FormFieldError error={error} />
       </div>
     );
   },

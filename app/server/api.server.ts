@@ -16,13 +16,16 @@ class API {
   checkIfUnauthorized = async (error: string) => {
     if (!this.request) return;
     if (error.includes("401")) {
-      throw redirect(`/login?code=207H2L&callbackUrl=${this.request.url}`, {
-        headers: {
-          "Set-Cookie": await sessionStore.destroySession(
-            await sessionStore.getSession(this.request.headers.get("Cookie")),
-          ),
+      throw redirect(
+        `/login?code=207H2L&callbackUrl=${encodeURIComponent(this.request.url)}`,
+        {
+          headers: {
+            "Set-Cookie": await sessionStore.destroySession(
+              await sessionStore.getSession(this.request.headers.get("Cookie")),
+            ),
+          },
         },
-      });
+      );
     }
   };
 

@@ -26,8 +26,9 @@ export const LoadingButton = ({
   return (
     <Button
       disabled={loading}
-      {...props}
       className={cn("gap-2", props.className)}
+      size={size}
+      {...props}
     >
       {loading && (
         <div className="">

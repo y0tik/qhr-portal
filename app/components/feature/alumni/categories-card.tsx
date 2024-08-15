@@ -99,6 +99,7 @@ type Props = {
 };
 
 // TODO chore: convert rgb to hex for easier alpha change
+// TODO chore: variants naming can be better
 
 const categoryVars = cva(
   "will-change-transform relative text-sm select-none flex cursor-pointer items-center gap-3 transition-[filter,transform,shadow,background-color,color]",
@@ -112,7 +113,7 @@ const categoryVars = cva(
       hover: {
         normal:
           "data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-        fancy: "hover:rotate-1 hover:scale-95 hover:opacity-70",
+        fancy: "hover:rotate-1 hover:scale-95 hover:opacity-70 shadow",
         grayscale:
           "data-[active=true]:grayscale-0 hover:grayscale-0 grayscale hover:scale-[0.98] data-[active=true]:-translate-y-1 data-[active=true]:shadow-lg",
       },

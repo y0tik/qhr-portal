@@ -9,6 +9,7 @@ import { Button } from "~/components/ui/button";
 
 type extractErrorReturn = {
   message: string;
+  detailed_description: undefined | string;
   status: "404" | "501" | "Ooops!";
 };
 
@@ -21,6 +22,11 @@ const extractErrorType = (error: unknown): extractErrorReturn => {
     _default.message = error.message.replace("E#20BPL4", "");
     return _default;
   }
+
+  if (process.env.NODE_ENV === "development") {
+    _default.detailed_description = (error as Error)?.message;
+  }
+
   if (!isRouteErrorResponse(error)) return _default;
   if (error.status >= 500) _default.status = "501";
   if (error.status === 404) _default.status = "404";
@@ -54,6 +60,11 @@ export function ErrorBoundary() {
           {error.status}
         </div>
         <div className="mt-5 md:mt-6 text-lg">{errorNode}</div>
+        {error.detailed_description && (
+          <div className="mt-2 text-sm text-red-700">
+            ErrorStack : {error.detailed_description}
+          </div>
+        )}
       </div>
       <div className="text-center mt-2 px-6 md:mt-6 md:px-0">
         <h2 className="font-semibold text-2xl">Need Assistance ?</h2>
