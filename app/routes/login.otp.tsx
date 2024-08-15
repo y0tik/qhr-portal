@@ -103,11 +103,11 @@ export default function Page() {
   return (
     <LoginPageLayout>
       <Form ref={formRef} replace className="max-w-md w-full" method="post">
-        <Card className="p-2">
+        <Card className="p-2 shadow-md">
           <CardHeader className="text-center">
             <Label className="text-xl font-semibold">Enter OTP</Label>
             <CardDescription className="leading-snug">
-              We have sent a one time password to j***.d***@ex****.com
+              We have sent a one time password to the resgister email
             </CardDescription>
           </CardHeader>
           <CardContent>

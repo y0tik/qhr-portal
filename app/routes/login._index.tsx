@@ -6,13 +6,15 @@ import {
   json,
   replace as redirect,
 } from "@remix-run/node";
-import { Form, useLoaderData, useNavigation } from "@remix-run/react";
+import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
 import { jwtDecode } from "jwt-decode";
+import { MailIcon } from "lucide-react";
 import { useRemixForm } from "remix-hook-form";
 import { z } from "zod";
 import { ErrorAlert } from "~/components/ErrorAlert";
 import LoginPageLayout from "~/components/LoginPageLayout";
 import { RHFInput } from "~/components/form/RHFInput";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -26,6 +28,7 @@ import api from "~/server/api.server";
 import { getAuthSession, setAuthSession } from "~/server/auth-session.server";
 import {
   friendlyMsgForCode,
+  getRedirectURLByRole,
   requireFormData,
   verifyOTP,
 } from "~/server/helper.server";
@@ -54,9 +57,8 @@ type FormData = z.infer<typeof schema>;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await getAuthSession(request);
-  if (session) {
-    const redirectTo = session.data.role === "employee" ? "/me" : "/overview";
-    return redirect(redirectTo);
+  if (session?.data.role) {
+    return redirect(getRedirectURLByRole(session.data.role));
   }
   const params = new URL(request.url).searchParams;
   return json({
@@ -131,6 +133,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   // +end API - /auth/login
 };
 
+const Divider = () => (
+  <div className="relative w-full text-center">
+    <div className="absolute left-0 right-0 top-1/2 z-[1] h-[1px] bg-secondary" />
+    <div className="relative text-center bg-white px-2 text-sm text-muted-foreground inline-block z-[1]">
+      OR
+    </div>
+  </div>
+);
 export default function LoginPage() {
   const {
     handleSubmit,
@@ -149,15 +159,17 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         method="post"
       >
-        <Card className="p-2">
+        <Card className="p-2 shadow-md">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold">Welcome</CardTitle>
             <CardDescription>Login to your account</CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-4">
+          <CardContent className="grid gap-3 text-sm">
             {!isSubmitting && (error || errors.root?.message) && (
               // Display Redirect Errors & Form Error
-              <ErrorAlert>{errors.root?.message || error}</ErrorAlert>
+              <ErrorAlert className="mb-1">
+                {errors.root?.message || error}
+              </ErrorAlert>
             )}
             <RHFInput error={errors.username} {...register("username")} />
             {/* <RHFInput error={errors.email} {...register("email")} /> */}
@@ -167,8 +179,11 @@ export default function LoginPage() {
               {...register("password")}
               type="password"
             />
+            <Link to="/login/email?intent=reset" className="text-center">
+              Forgot Password ?
+            </Link>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex-col gap-2">
             <LoadingButton
               className="w-full"
               loading={isSubmitting}
@@ -176,6 +191,13 @@ export default function LoginPage() {
             >
               Sign In
             </LoadingButton>
+            <Divider />
+            <Button asChild className="w-full" variant="outline">
+              <Link to="/login/email?intent=magic">
+                <MailIcon className="w-4 h-4" />
+                Login With Email
+              </Link>
+            </Button>
           </CardFooter>
         </Card>
       </Form>

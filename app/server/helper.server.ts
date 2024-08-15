@@ -4,6 +4,7 @@ import { json } from "@remix-run/react";
 import type { FieldErrors, FieldValues, Resolver } from "react-hook-form";
 import { getValidatedFormData } from "remix-hook-form";
 import { requirePermission } from "~/server/auth-session.server";
+import { Role } from "~/types";
 
 // Check if the required environment variable is set
 if (!process.env.ALUMNI_CLIENT_CORE_ENDPOINT) {
@@ -75,4 +76,8 @@ export const requireFormData = async <T extends FieldValues>(
 export const layoutSessionLoader = async ({ request }: LoaderFunctionArgs) => {
   const { user } = await requirePermission(request);
   return json(user);
+};
+
+export const getRedirectURLByRole = (role: Role) => {
+  return role === "employee" ? "/me" : "/overview";
 };
