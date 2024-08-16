@@ -90,7 +90,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     // TODO make server call
   }
 
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.ALUMNI_USE_MOCK_LOGIN) {
     const headers = await setAuthSession(request, {
       email: "test",
       atoken: "test",

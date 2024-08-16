@@ -4,7 +4,7 @@ import { json } from "@remix-run/react";
 import type { FieldErrors, FieldValues, Resolver } from "react-hook-form";
 import { getValidatedFormData } from "remix-hook-form";
 import { requirePermission } from "~/server/auth-session.server";
-import { Role } from "~/types";
+import type { Role } from "~/types";
 
 // Check if the required environment variable is set
 if (!process.env.ALUMNI_CLIENT_CORE_ENDPOINT) {
