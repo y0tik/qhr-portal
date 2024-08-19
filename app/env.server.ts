@@ -4,8 +4,16 @@ import z from "zod";
 const EnvironmentSchema = z.object({
   ALUMNUX_COOKIE_SECRET: z.string().min(40),
   ALUMNUX_CORE_ENDPOINT: z.string().min(1).url(),
-  ALUMNUX_OTP_STEP: z.coerce.boolean().default(false),
-  ALUMNUX_USE_MOCK_LOGIN: z.coerce.boolean().default(false),
+  ALUMNUX_OTP_STEP: z
+    .string()
+    .toLowerCase()
+    .transform((x) => x === "true")
+    .pipe(z.boolean()),
+  ALUMNUX_USE_MOCK_LOGIN: z
+    .string()
+    .toLowerCase()
+    .transform((x) => x === "true")
+    .pipe(z.boolean()),
 
   // KEYCLOAK
   ALUMNUX_KEYCLOAK_CALLBACK_URL: z.string().min(1),
@@ -13,7 +21,11 @@ const EnvironmentSchema = z.object({
   ALUMNUX_KEYCLOAK_CLIENT_SECRET: z.string().min(1),
   ALUMNUX_KEYCLOAK_REALM: z.string().min(1),
   ALUMNUX_KEYCLOAK_DOMAIN: z.string().min(1),
-  ALUMNUX_KEYCLOAK_USE_SSL: z.coerce.boolean(),
+  ALUMNUX_KEYCLOAK_USE_SSL: z
+    .string()
+    .toLowerCase()
+    .transform((x) => x === "true")
+    .pipe(z.boolean()),
 });
 
 export const env = EnvironmentSchema.parse(process.env);

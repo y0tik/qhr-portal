@@ -39,7 +39,10 @@ const keycloakStrategy = new KeycloakStrategy(
     // TODO call backend for meta info
     console.log({ accessToken, refreshToken, extraParams, profile });
     const { getMockUser } = features.enableMockLogin();
-    return getMockUser("keycloak");
+    return {
+      ...getMockUser(profile.name.givenName),
+      email: profile.emails[0].value,
+    };
   },
 );
 
