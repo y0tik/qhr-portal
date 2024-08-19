@@ -15,5 +15,5 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
-  server: { port: 3000 },
+  server: { port: process.env.PORT ? Number(process.env.PORT) : 3000 },
 });

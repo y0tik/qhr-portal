@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 import type { PropsWithChildren } from "react";
+
 const AlumnuxLogo = () => (
   <svg viewBox="0 0 182 90" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
@@ -60,6 +61,7 @@ const AlumnuxLogo = () => (
     />
   </svg>
 );
+
 export default function LoginPageLayout({ children }: PropsWithChildren) {
   return (
     <div className="flex h-full w-full flex-1 flex-col items-center justify-center">

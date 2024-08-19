@@ -27,9 +27,11 @@ import {
 } from "~/components/ui/input-otp";
 import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/ui/loading-btn";
-import { setAuthSession } from "~/server/auth-session.server";
-import { verifyOTP } from "~/server/helper.server";
-import type { Role } from "~/types";
+import { env } from "~/env.server";
+import { setSession } from "~/services/session.server";
+import { features } from "~/utils/features.server";
+import { verifyOTP } from "~/utils/otp.cookie.server";
+import type { Role } from "~/utils/types";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
@@ -47,7 +49,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export async function action({ request }: ActionFunctionArgs) {
   const params = new URL(request.url).searchParams;
   const callbackUrl = params.get("callbackURL");
-  // const callbackUrl = decodeURIComponent(params.get("callbackUrl") ?? "");
 
   const formData = await request.formData();
   const otp = formData.get("otp");
@@ -56,27 +57,20 @@ export async function action({ request }: ActionFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const cookie: { username: string } | null =
     await verifyOTP.parse(cookieHeader);
+
   // check if verifyOTP is cookie is set
   if (!cookie) {
     return redirect("/login?code=204l2X");
   }
 
-  if (otp === "000000") {
-    const sessionHeader = await setAuthSession(request, {
-      email: "test",
-      atoken: "test",
-      cid: 10,
-      uname: "username",
-      id: 123,
-      role: ((role: string): Role =>
-        role === "admin" ? "admin" : role === "employee" ? "employee" : "hr")(
-        cookie.username,
-      ),
-    });
-
+  const { enable, getMockUser } = features.enableMockLogin();
+  if (enable && otp === "000000") {
+    const sessionHeader = await setSession(
+      request,
+      getMockUser(cookie.username),
+    );
     // clear 'verifyOtp' cookie and set auth session
-    const redirectTo = cookie.username === "employee" ? "/me" : "/overview";
-    return redirect(callbackUrl ?? redirectTo, {
+    return redirect(callbackUrl ?? "/", {
       headers: [
         ["Set-Cookie", sessionHeader.headers["Set-Cookie"]],
         ["Set-Cookie", await verifyOTP.serialize("", { maxAge: 1 })],

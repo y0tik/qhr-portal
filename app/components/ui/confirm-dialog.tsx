@@ -11,9 +11,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
-import type { AlertProp } from "~/types";
 import { Alert, AlertDescription, AlertTitle } from "./alert";
 import { Button } from "./button";
+
+export type AlertProp = { type: "error" | "success"; message: string };
 
 export const ConfirmDialog = ({
   trigger,

@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { Button, type ButtonProps } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
+import { cn } from "~/utils/utils";
 type LoadingButtonProps = ButtonProps &
   PropsWithChildren<{
     loading: boolean;

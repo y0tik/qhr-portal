@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { cn } from "~/lib/utils";
+import { cn } from "~/utils/utils";
 import { FormFieldError } from "./form-primitives";
 
 type RHFDatePickerProps<T extends FieldValues> = {

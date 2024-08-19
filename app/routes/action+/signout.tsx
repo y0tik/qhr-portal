@@ -1,7 +1,7 @@
 import { type ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form, useNavigation } from "@remix-run/react";
 import type { ReactNode } from "react";
-import { sessionStore } from "~/server/auth-session.server";
+import { sessionStore } from "~/services/session.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const session = await sessionStore.getSession(request.headers.get("Cookie"));

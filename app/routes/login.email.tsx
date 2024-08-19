@@ -27,8 +27,8 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/ui/loading-btn";
-import { getAuthSession } from "~/server/auth-session.server";
-import { getRedirectURLByRole } from "~/server/helper.server";
+import { getSession } from "~/services/session.server";
+import { dashboardURL } from "~/utils/const";
 
 export const meta: MetaFunction = ({ location }) => {
   const intent = new URLSearchParams(location.search).get("intent");
@@ -39,10 +39,11 @@ export const meta: MetaFunction = ({ location }) => {
       : "Login to Alumni Project using email magic link";
   return [{ title }, { name: "description", content }];
 };
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session = await getAuthSession(request);
+  const session = await getSession(request);
   if (session?.data.role) {
-    return redirect(getRedirectURLByRole(session.data.role));
+    return redirect(dashboardURL(session.data.role));
   }
   return null;
 };

@@ -24,20 +24,26 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { LoadingButton } from "~/components/ui/loading-btn";
-import api from "~/server/api.server";
-import { getAuthSession, setAuthSession } from "~/server/auth-session.server";
-import {
-  friendlyMsgForCode,
-  getRedirectURLByRole,
-  requireFormData,
-  verifyOTP,
-} from "~/server/helper.server";
-import type { LoginReponse } from "~/server/response.type";
-import type { Role } from "~/types";
+import api from "~/services/api.server";
+import { getSession, setSession } from "~/services/session.server";
+import { formatProjectTitle } from "~/utils/const";
+import { getMessageForCode } from "~/utils/errorUtils.server";
+import { features } from "~/utils/features.server";
+import { useFormData } from "~/utils/formdata.server";
+import { dashboardURL } from "~/utils/const";
+import { verifyOTP as otp } from "~/utils/otp.cookie.server";
+
+import type { Role } from "~/utils/types";
+export type LoginReponse = {
+  access_token: string;
+};
+type TokenType = {
+  sub: { username: string; id: number; role: Role };
+};
 
 export const meta: MetaFunction = () => [
-  { title: "Login - The Alumni Project" },
-  { name: "description", content: "Login to Alumni Project" },
+  { title: formatProjectTitle("Login") },
+  { name: "description", content: "Login to the alumnux project" },
 ];
 
 const schema = z.object({
@@ -56,70 +62,49 @@ const resolver = zodResolver(schema);
 type FormData = z.infer<typeof schema>;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session = await getAuthSession(request);
-  if (session?.data.role) {
-    return redirect(getRedirectURLByRole(session.data.role));
-  }
+  const session = await getSession(request);
+  if (session?.data.role) return redirect(dashboardURL(session.data.role));
+
   const params = new URL(request.url).searchParams;
-  return json({
-    error: friendlyMsgForCode(params.get("code")),
-  });
+  return json({ error: getMessageForCode(params.get("code")) });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const params = new URL(request.url).searchParams;
   const callbackUrl = params.get("callbackUrl");
-  const useOTP = process.env.ALUMNI_OTP_STEP ?? false;
 
-  const { data, errors } = await requireFormData<FormData>(request, resolver);
-  if (!data) {
-    return json(errors);
-  }
+  const { data, errors } = await useFormData(request, resolver);
+  if (!data) return json(errors);
 
-  if (useOTP) {
-    // create cookie to store username and redirect to OTP page
+  // feat: OTP
+  if (features.enableOTP()) {
     const base = "/login/otp";
-    return redirect(
-      `${base}${callbackUrl ? `?callbackURL=${callbackUrl}` : ""}`,
-      {
-        headers: {
-          "Set-Cookie": await verifyOTP.serialize({ username: data.username }),
-        },
+    const cbQuery = callbackUrl ? `?callbackURL=${callbackUrl}` : "";
+    return redirect(`${base}${cbQuery}`, {
+      headers: {
+        "Set-Cookie": await otp.serialize({ username: data.username }),
       },
-    );
-    // TODO make server call
-  }
-
-  if (process.env.ALUMNI_USE_MOCK_LOGIN) {
-    const headers = await setAuthSession(request, {
-      email: "test",
-      atoken: "test",
-      cid: 10,
-      uname: "username",
-      id: 123,
-      role: ((role: string): Role =>
-        role === "admin" ? "admin" : role === "employee" ? "employee" : "hr")(
-        data.username,
-      ),
     });
-    const redirectTo = data.username === "employee" ? "/me" : "/overview";
-    return redirect(callbackUrl ?? redirectTo, headers);
   }
 
-  // +start API - /auth/login
+  // TODO :: REMOVE
+  // check if mock login is available
+  const { enable, getMockUser } = features.enableMockLogin();
+  if (enable) {
+    const headers = await setSession(request, getMockUser(data.username));
+    return redirect(callbackUrl ?? dashboardURL(data.role), headers);
+  }
+
   const { response, error } = await api.post<LoginReponse>("/auth/login", data);
   if (error) {
     return json({
       errors: { root: { message: "Invalid details provided" } },
     });
   }
-  // parse jwt and extract user id, user role & company id
-  const token = jwtDecode<{
-    sub: { username: string; id: number; role: Role };
-  }>(response.access_token);
-  // create auth session
-  const headers = await setAuthSession(request, {
-    // TODO use proper email
+
+  const token: TokenType = jwtDecode(response.access_token);
+  const headers = await setSession(request, {
+    // Use email from response
     email: "test@test.com",
     atoken: response.access_token,
     cid: token.sub.id,
@@ -127,20 +112,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     id: token.sub.id,
     role: token.sub.role,
   });
-  // redirect and with headers set
-  const redirectTo = token.sub.role === "employee" ? "/me" : "/overview";
-  return redirect(callbackUrl ?? redirectTo, headers);
-  // +end API - /auth/login
+
+  return redirect(callbackUrl ?? dashboardURL(data.role), headers);
 };
 
-const Divider = () => (
-  <div className="relative w-full text-center">
-    <div className="absolute left-0 right-0 top-1/2 z-[1] h-[1px] bg-secondary" />
-    <div className="relative text-center bg-white px-2 text-sm text-muted-foreground inline-block z-[1]">
-      OR
-    </div>
-  </div>
-);
 export default function LoginPage() {
   const {
     handleSubmit,
@@ -204,3 +179,12 @@ export default function LoginPage() {
     </LoginPageLayout>
   );
 }
+
+const Divider = () => (
+  <div className="relative w-full text-center">
+    <div className="absolute left-0 right-0 top-1/2 z-[1] h-[1px] bg-secondary" />
+    <div className="relative text-center bg-white px-2 text-sm text-muted-foreground inline-block z-[1]">
+      OR
+    </div>
+  </div>
+);
