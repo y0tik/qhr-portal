@@ -45,7 +45,9 @@ export function ErrorDisplay() {
       </div>
       <div className="flex flex-wrap justify-center gap-4">
         <Button asChild>
-          <Link to="/">Back to Homepage</Link>
+          <Link to="/" replace>
+            Back to Homepage
+          </Link>
         </Button>
         <Button onClick={() => navigate(-1)} variant="secondary">
           Go Back

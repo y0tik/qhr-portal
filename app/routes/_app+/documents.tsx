@@ -7,8 +7,8 @@ import {
   categories,
 } from "~/components/cards/categories-card";
 import { Button } from "~/components/ui/button";
+import { requirePermission } from "~/services/permission.server";
 import { cn } from "~/utils/utils";
-import { requirePermission } from "~/services/session.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requirePermission(request, ["self"]);

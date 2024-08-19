@@ -1,12 +1,11 @@
-import { type LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { getSession } from "~/services/session.server";
-import { dashboardURL } from "~/utils/const";
+import { type LoaderFunctionArgs, replace } from "@remix-run/node";
+import { authenticator } from "~/services/auth.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session = await getSession(request);
-  return redirect(
-    session?.data.role ? dashboardURL(session.data.role) : "/login",
-  );
+  await authenticator.isAuthenticated(request, {
+    successRedirect: "/me",
+    failureRedirect: "/login",
+  });
 };
 
 export default function Index() {

@@ -1,6 +1,5 @@
-import { redirect } from "@remix-run/react";
-import { sessionStore } from "./session.server";
 import { env } from "~/env.server";
+import { authenticator } from "./auth.server";
 
 class API {
   baseURL: string;
@@ -16,16 +15,9 @@ class API {
   checkIfUnauthorized = async (error: string) => {
     if (!this.request) return;
     if (error.includes("401")) {
-      throw redirect(
-        `/login?code=207H2L&callbackUrl=${encodeURIComponent(this.request.url)}`,
-        {
-          headers: {
-            "Set-Cookie": await sessionStore.destroySession(
-              await sessionStore.getSession(this.request.headers.get("Cookie")),
-            ),
-          },
-        },
-      );
+      throw authenticator.logout(this.request, {
+        redirectTo: `/login?code=207H2L&callbackUrl=${encodeURIComponent(this.request.url)}`,
+      });
     }
   };
 

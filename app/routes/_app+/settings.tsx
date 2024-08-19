@@ -1,4 +1,4 @@
-import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
+import { Link, Outlet, useLocation } from "@remix-run/react";
 import type { ReactNode } from "react";
 import type { MenuItem } from "~/utils/types";
 

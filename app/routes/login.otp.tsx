@@ -1,9 +1,8 @@
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import {
-  Form,
+  type Form,
   Link,
   json,
-  replace as redirect,
   useActionData,
   useNavigation,
 } from "@remix-run/react";
@@ -27,22 +26,12 @@ import {
 } from "~/components/ui/input-otp";
 import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/ui/loading-btn";
-import { env } from "~/env.server";
-import { setSession } from "~/services/session.server";
-import { features } from "~/utils/features.server";
-import { verifyOTP } from "~/utils/otp.cookie.server";
-import type { Role } from "~/utils/types";
+import { authenticator } from "~/services/auth.server";
+import { useVerifyOTP } from "~/utils/otp.cookie.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie: { username: string } | null =
-    await verifyOTP.parse(cookieHeader);
-
-  // check if verifyOTP is cookie is set
-  if (!cookie) {
-    return redirect("/login?code=204l2X");
-  }
-
+  // only allow get when verifyOTP cookie is set
+  await useVerifyOTP(request, "/login?code=204l2X");
   return null;
 }
 
@@ -50,35 +39,20 @@ export async function action({ request }: ActionFunctionArgs) {
   const params = new URL(request.url).searchParams;
   const callbackUrl = params.get("callbackURL");
 
-  const formData = await request.formData();
+  const formData = await request.clone().formData();
   const otp = formData.get("otp");
   if (!otp || otp === "") return json({ error: "Please enter otp" });
 
-  const cookieHeader = request.headers.get("Cookie");
-  const cookie: { username: string } | null =
-    await verifyOTP.parse(cookieHeader);
-
-  // check if verifyOTP is cookie is set
-  if (!cookie) {
-    return redirect("/login?code=204l2X");
+  const _verifyOTP = useVerifyOTP(request, "/login?code=204l2X");
+  if (otp !== "000000") {
+    return json({ error: "Invalid OTP" });
   }
 
-  const { enable, getMockUser } = features.enableMockLogin();
-  if (enable && otp === "000000") {
-    const sessionHeader = await setSession(
-      request,
-      getMockUser(cookie.username),
-    );
-    // clear 'verifyOtp' cookie and set auth session
-    return redirect(callbackUrl ?? "/", {
-      headers: [
-        ["Set-Cookie", sessionHeader.headers["Set-Cookie"]],
-        ["Set-Cookie", await verifyOTP.serialize("", { maxAge: 1 })],
-      ],
-    });
-  }
-
-  return json({ error: "Invalid OTP" });
+  return await authenticator.authenticate("user-pass", request, {
+    successRedirect: callbackUrl ?? "/",
+    failureRedirect: "/login",
+    throwOnError: true,
+  });
 }
 
 export default function Page() {
@@ -96,7 +70,7 @@ export default function Page() {
 
   return (
     <LoginPageLayout>
-      <Form ref={formRef} replace className="max-w-md w-full" method="post">
+      <form ref={formRef} className="max-w-md w-full" method="post">
         <Card className="p-2 shadow-md">
           <CardHeader className="text-center">
             <Label className="text-xl font-semibold">Enter OTP</Label>
@@ -154,7 +128,7 @@ export default function Page() {
             </Button>
           </Link>
         </div>
-      </Form>
+      </form>
     </LoginPageLayout>
   );
 }

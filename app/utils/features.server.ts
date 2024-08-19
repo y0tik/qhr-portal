@@ -11,9 +11,9 @@ export const features = {
       return {
         email: faker.internet.email(),
         atoken: faker.string.alphanumeric(30),
-        cid: faker.number.int(),
+        cid: faker.string.uuid(),
         uname: uname,
-        id: faker.number.int(),
+        id: faker.string.uuid(),
         role,
       };
     },

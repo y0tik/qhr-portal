@@ -4,7 +4,7 @@ import {
   type LoaderFunctionArgs,
   type MetaFunction,
   json,
-  replace as redirect,
+  redirect,
 } from "@remix-run/node";
 import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
 import { jwtDecode } from "jwt-decode";
@@ -24,21 +24,15 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { LoadingButton } from "~/components/ui/loading-btn";
-import api from "~/services/api.server";
-import { getSession, setSession } from "~/services/session.server";
 import { formatProjectTitle } from "~/utils/const";
 import { getMessageForCode } from "~/utils/errorUtils.server";
 import { features } from "~/utils/features.server";
 import { useFormData } from "~/utils/formdata.server";
 import { dashboardURL } from "~/utils/const";
 import { verifyOTP as otp } from "~/utils/otp.cookie.server";
-
-import type { Role } from "~/utils/types";
+import { authenticator } from "~/services/auth.server";
 export type LoginReponse = {
   access_token: string;
-};
-type TokenType = {
-  sub: { username: string; id: number; role: Role };
 };
 
 export const meta: MetaFunction = () => [
@@ -62,8 +56,8 @@ const resolver = zodResolver(schema);
 type FormData = z.infer<typeof schema>;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session = await getSession(request);
-  if (session?.data.role) return redirect(dashboardURL(session.data.role));
+  const user = await authenticator.isAuthenticated(request);
+  if (user !== null) return redirect(dashboardURL(user.role));
 
   const params = new URL(request.url).searchParams;
   return json({ error: getMessageForCode(params.get("code")) });
@@ -73,7 +67,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const params = new URL(request.url).searchParams;
   const callbackUrl = params.get("callbackUrl");
 
-  const { data, errors } = await useFormData(request, resolver);
+  const { data, errors } = await useFormData(request.clone(), resolver);
   if (!data) return json(errors);
 
   // feat: OTP
@@ -87,33 +81,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     });
   }
 
-  // TODO :: REMOVE
-  // check if mock login is available
-  const { enable, getMockUser } = features.enableMockLogin();
-  if (enable) {
-    const headers = await setSession(request, getMockUser(data.username));
-    return redirect(callbackUrl ?? dashboardURL(data.role), headers);
-  }
-
-  const { response, error } = await api.post<LoginReponse>("/auth/login", data);
-  if (error) {
-    return json({
-      errors: { root: { message: "Invalid details provided" } },
-    });
-  }
-
-  const token: TokenType = jwtDecode(response.access_token);
-  const headers = await setSession(request, {
-    // Use email from response
-    email: "test@test.com",
-    atoken: response.access_token,
-    cid: token.sub.id,
-    uname: token.sub.username,
-    id: token.sub.id,
-    role: token.sub.role,
+  await authenticator.authenticate("user-pass", request, {
+    successRedirect: callbackUrl ?? dashboardURL(data.role),
   });
-
-  return redirect(callbackUrl ?? dashboardURL(data.role), headers);
 };
 
 export default function LoginPage() {

@@ -1,15 +1,10 @@
 import { type ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form, useNavigation } from "@remix-run/react";
 import type { ReactNode } from "react";
-import { sessionStore } from "~/services/session.server";
+import { authenticator } from "~/services/auth.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const session = await sessionStore.getSession(request.headers.get("Cookie"));
-  return redirect("/login", {
-    headers: {
-      "Set-Cookie": await sessionStore.destroySession(session),
-    },
-  });
+  return authenticator.logout(request, { redirectTo: "/login" });
 };
 
 type Props = {

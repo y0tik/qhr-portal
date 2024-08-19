@@ -27,23 +27,26 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/ui/loading-btn";
+import { authenticator } from "~/services/auth.server";
 import { getSession } from "~/services/session.server";
-import { dashboardURL } from "~/utils/const";
+import { dashboardURL, formatProjectTitle } from "~/utils/const";
 
 export const meta: MetaFunction = ({ location }) => {
   const intent = new URLSearchParams(location.search).get("intent");
-  const title = `${intent === "reset" ? "Reset Password" : "Email Login"} - The Alumni Project`;
+  const title = formatProjectTitle(
+    intent === "reset" ? "Reset Password" : "Email Login",
+  );
   const content =
     intent === "reset"
       ? "Reset Password"
-      : "Login to Alumni Project using email magic link";
+      : "Login to Alumnux Project using email magic link";
   return [{ title }, { name: "description", content }];
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session = await getSession(request);
-  if (session?.data.role) {
-    return redirect(dashboardURL(session.data.role));
+  const user = await authenticator.isAuthenticated(request);
+  if (user?.role) {
+    return redirect(dashboardURL(user.role));
   }
   return null;
 };
@@ -58,12 +61,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 
   const intent = searchParams.get("intent");
+
   if (!(intent === "reset" || intent === "magic")) {
-    console.log(intent);
     return redirect("/login/email?intent=magic");
   }
 
-  console.log(intent);
   const isResetIntent = intent === "reset";
   if (isResetIntent) {
     // TODO send reset email

@@ -4,7 +4,7 @@ import { MockedCompanyOverviewCard } from "~/components/cards/cmp-overview-card"
 import { MockedJobsCard } from "~/components/cards/jobs-card";
 import { MockedLatestNewsCard } from "~/components/cards/news-card";
 import { MockedAlumniTicketsCard } from "~/components/cards/TicketsCard";
-import { requirePermission } from "~/services/session.server";
+import { requirePermission } from "~/services/permission.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requirePermission(request, ["self"]);
