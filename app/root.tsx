@@ -7,7 +7,7 @@ import {
   useNavigation,
 } from "@remix-run/react";
 import "./tailwind.css";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import TopLoadingBar, { type LoadingBarRef } from "react-top-loading-bar";
 import { ErrorDisplay } from "./components/ErrorBoundary";
 
@@ -49,21 +49,37 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const TopProgressBar = () => {
+const TopProgressBar = ({ delay = 500 }: { delay: number }) => {
   const { state } = useNavigation();
   const ref = useRef<LoadingBarRef>(null);
+  const timer = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
-    if (!ref.current) return;
-    if (state === "idle") ref.current.complete();
-    else ref.current.continuousStart(0);
-  }, [state]);
-  return <TopLoadingBar color="#00214d" ref={ref} />;
+    const loaderInit = () => {
+      if (!ref.current) return;
+      ref.current.continuousStart(0);
+    };
+
+    if (timer.current && state === "idle") {
+      clearTimeout(timer.current);
+      ref.current?.complete();
+    }
+
+    if (timer.current && state === "loading") {
+      clearTimeout(timer.current);
+      timer.current = setTimeout(loaderInit, delay);
+    }
+
+    return () => clearTimeout(timer.current ?? undefined);
+  }, [state, delay]);
+
+  return <TopLoadingBar color="#55286F" ref={ref} />;
 };
 
 export default function App() {
   return (
     <>
-      <TopProgressBar />
+      <TopProgressBar delay={500} />
       <Outlet />
     </>
   );

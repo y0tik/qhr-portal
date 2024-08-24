@@ -1,8 +1,8 @@
-import { useLoaderData } from "@remix-run/react";
-import type { layoutSessionLoader } from "~/routes/_app+/_layout";
+import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
+import type { loader } from "~/routes/_app+/_layout";
 
 export const useUser = () => {
-  const user = useLoaderData<typeof layoutSessionLoader>();
+  const user = useRouteLoaderData<typeof loader>("routes/_app+/_layout");
   if (!user) {
     throw new Error("Cannot find user");
   }

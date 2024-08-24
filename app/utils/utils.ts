@@ -45,3 +45,16 @@ export const extractErrorType = (error: unknown): extractErrorReturn => {
   if (error.status === 404) _default.status = "404";
   return _default;
 };
+
+export function extractModuleNameFromURL(url: string) {
+  const safeURL = url.replace(/\/+/g, "/");
+  let moduleString = safeURL.slice(safeURL.indexOf("/m/") + 3);
+  if (moduleString.indexOf("/") >= 0) {
+    moduleString = moduleString.slice(0, moduleString.indexOf("/"));
+  }
+  return moduleString;
+}
+
+export function uppercase(word: string) {
+  return word[0].toUpperCase() + word.slice(1);
+}

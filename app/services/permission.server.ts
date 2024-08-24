@@ -1,6 +1,8 @@
 import type { Role } from "~/utils/types";
 import { authenticator } from "./auth.server";
 import { redirect } from "@remix-run/react";
+import { env } from "~/env.server";
+import { features } from "~/utils/features.server";
 
 export type Permission =
   | "read:users"
@@ -35,6 +37,10 @@ export const requirePermission = async (
   request: Request,
   permissions: Array<Permission>,
 ) => {
+  const { enable, getMockUser } = features.enableMockLogin();
+  if (enable) {
+    return getMockUser();
+  }
   const user = await authenticator.isAuthenticated(request);
   if (!user) throw redirect("/login");
   if (!hasPermissions(user.role, permissions)) throw new Error("Unauthorized");

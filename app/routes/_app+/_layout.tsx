@@ -1,23 +1,25 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json, Outlet, useLoaderData } from "@remix-run/react";
-import { AlumniHeader } from "~/components/AlumniHeader";
-import AppContainer from "~/components/MainContainer";
+import { json, Outlet } from "@remix-run/react";
 import { requirePermission } from "~/services/permission.server";
+import { Sidebar } from "../../components/Sidebar";
+import type { ReactNode } from "react";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await requirePermission(request, ["self"]);
   return json(user);
 };
 
-export const layoutSessionLoader = loader;
-
 export default function AlumniLayout() {
   return (
-    <AppContainer>
-      <AlumniHeader />
-      <div className="container min-h-[calc(100vh-4rem-2px)] py-4">
+    <div className="h-screen flex flex-row">
+      <Sidebar />
+      <MainContainer>
         <Outlet />
-      </div>
-    </AppContainer>
+      </MainContainer>
+    </div>
   );
 }
+
+const MainContainer = ({ children }: { children: ReactNode }) => {
+  return <div className="flex-grow flex flex-col">{children}</div>;
+};
