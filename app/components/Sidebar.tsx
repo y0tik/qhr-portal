@@ -7,7 +7,7 @@ import {
   LogOut,
   PinIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MODULES, type MenuItemType, SIDEBAR_TOP_MENU } from "~/utils/const";
 import { cn, extractModuleName } from "~/utils/utils";
 
@@ -40,7 +40,18 @@ const LogoQHR = ({ className }: { className: string }) => {
 };
 
 export const Sidebar = () => {
-  const [pinned, setPinned] = useState(true);
+  const [pinned, setPinned] = useState<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    if (pinned === undefined) {
+      setPinned(
+        localStorage.getItem("qhr-user-pref-sidebar-pinned") === "true",
+      );
+    } else {
+      localStorage.setItem("qhr-user-pref-sidebar-pinned", String(pinned));
+    }
+  }, [pinned]);
+
   return (
     <div
       data-pinned={pinned}
