@@ -14,7 +14,7 @@ import { UserNameWithAvatar } from "./common";
 import {
   ALUMNUX_USER_UPDATE,
   roleColorMapping,
-  TICKETS_FOR_USER,
+  TICKETS_ASSIGNED_TO_USER,
 } from "~/utils/const";
 import { relativeTimeFromNow, uppercase } from "~/utils/utils";
 import { Badge } from "../ui/badge";
@@ -70,7 +70,7 @@ export const columns: ColumnDef<EntityUser>[] = [
             </Link>
           </Button>
           <Button asChild variant="outline" size="xs">
-            <Link to={TICKETS_FOR_USER(user.id)}>
+            <Link to={TICKETS_ASSIGNED_TO_USER(user.id)}>
               <Ticket className="-rotate-45 size-3.5" />
               <span className="">View Tickets</span>
             </Link>

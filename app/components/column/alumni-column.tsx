@@ -10,10 +10,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import type { AlumniUser } from "~/utils/types";
+import type { EntityAlumni } from "~/utils/types";
 import { UserNameWithAvatar } from "./common";
+import {
+  formatDateLong,
+  formatDateShort,
+  relativeTimeFromNow,
+} from "~/utils/utils";
+import { ALUMNUX_ALUMNI_UPDATE, TICKETS_BY_USER } from "~/utils/const";
 
-export const columns: ColumnDef<AlumniUser>[] = [
+export const columns: ColumnDef<EntityAlumni>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -24,40 +30,48 @@ export const columns: ColumnDef<AlumniUser>[] = [
     accessorKey: "email",
     header: "Email",
   },
-  // {
-  //   accessorKey: "fileCount",
-  //   header: "Files",
-  // },
   {
-    accessorKey: "leavingDte",
+    header: "Last Login",
+    cell: ({ row }) => {
+      const user = row.original;
+      return <div>{relativeTimeFromNow(user.last_login_at)}</div>;
+    },
+  },
+  {
+    header: "Files",
+    accessorFn: (a) => a.fileCount,
+  },
+  {
+    header: "Requests",
+    accessorFn: (a) => a.requestCount,
+  },
+  {
     header: "Leaving Date",
-    cell: ({ row }) => row.original.last_working_date,
+    cell: ({ row }) => formatDateShort(row.original.last_working_date),
   },
-  {
-    accessorKey: "joiningDte",
-    header: "Joining Date",
-    cell: ({ row }) => row.original.joining_date,
-  },
+  // {
+  //   accessorKey: "joiningDte",
+  //   header: "Joining Date",
+  //   cell: ({ row }) => formatDateShort(row.original.joining_date),
+  // },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
       const alumni = row.original;
       return (
-        <div className="flex items-center justify-end gap-4">
-          <Button variant="outline" size="sm">
-            <Upload className="mr-3 h-4 w-4" />
-            <span className="">Upload Files</span>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <Link to={`/alumni/update/${alumni.id}`}>
-              <Edit className="mr-3 h-4 w-4" />
-              <span className="">Edit Details</span>
+        <div className="flex items-center justify-end gap-3">
+          <Button variant="outline" size="xs" asChild>
+            <Link to={ALUMNUX_ALUMNI_UPDATE(alumni.id)}>
+              <Edit className="size-3.5" />
+              <span>Edit</span>
             </Link>
           </Button>
-          <Button variant="outline" size="sm">
-            <Ticket className="-rotate-45 mr-2 h-4 w-4" />
-            <span className="">View Tickets</span>
+          <Button asChild variant="outline" size="xs">
+            <Link to={TICKETS_BY_USER(alumni.id)}>
+              <Ticket className="-rotate-45 size-3.5" />
+              <span>View Requests</span>
+            </Link>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -81,6 +95,8 @@ export const columns: ColumnDef<AlumniUser>[] = [
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Reset Password</DropdownMenuItem>
+              <DropdownMenuItem>Upload Files</DropdownMenuItem>
+              <DropdownMenuItem>Raise Request</DropdownMenuItem>
               <DropdownMenuItem>Archive Account</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

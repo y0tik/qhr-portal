@@ -25,6 +25,14 @@ export const relativeTimeFromNow = (date: Date | string) => {
   return dayjs(date).fromNow();
 };
 
+export const formatDateShort = (date: Date | string) => {
+  return dayjs(date).format("MM/DD/YYYY");
+};
+
+export const formatDateLong = (date: Date | string) => {
+  return dayjs(date).format("MM/DD/YYYY - hh:mm A");
+};
+
 type extractErrorReturn = {
   message: string;
   detailed_description: undefined | string;

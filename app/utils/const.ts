@@ -78,10 +78,10 @@ export const MODULE_MENU_ALUMNUX: Moduleitem[] = [
     children: [{ title: "Create", to: "/m/alumnux/user/create" }],
   },
   {
-    title: "Employee",
-    to: "/m/alumnux/employee",
+    title: "Alumni",
+    to: "/m/alumnux/alumni",
     icon: UserIcon,
-    children: [{ title: "Create", to: "/m/alumnux/employee/create" }],
+    children: [{ title: "Create", to: "/m/alumnux/alumni/create" }],
   },
 ];
 
@@ -118,8 +118,12 @@ export const MODULE_COMMAND_MENU = [
 ];
 
 export const ALUMNUX_USER_CREATE = "/m/alumnux/user/create";
-export const ALUMNUX_BULK_CREATE = "/m/alumnux/user/create/bulk";
+export const ALUMNUX_USER_BULK_CREATE = "/m/alumnux/user/create/bulk";
 export const ALUMNUX_USER_UPDATE = (id: string | number) =>
   `/m/alumnux/user/update/${id}`;
-export const TICKETS_FOR_USER = (id: string | number) =>
+export const TICKETS_ASSIGNED_TO_USER = (id: string | number) =>
   `/m/tickets/user/${id}`;
+export const ALUMNUX_ALUMNI_CREATE = "/m/alumnux/alumni/create";
+export const ALUMNUX_ALUMNI_UPDATE = (id: string | number) =>
+  `/m/alumnux/alumni/update/${id}`;
+export const TICKETS_BY_USER = (id: string | number) => `/m/tickets/user/${id}`;
