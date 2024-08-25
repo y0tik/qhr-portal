@@ -1,8 +1,15 @@
-import { Link } from "@remix-run/react";
-import { HelpCircle, LogOut, PinIcon } from "lucide-react";
+import { Link, useLocation } from "@remix-run/react";
+import {
+  ArrowLeftCircle,
+  ArrowRight,
+  ArrowRightCircle,
+  HelpCircle,
+  LogOut,
+  PinIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { MODULES, type MenuItemType, SIDEBAR_TOP_MENU } from "~/utils/const";
-import { cn } from "~/utils/utils";
+import { cn, extractModuleName } from "~/utils/utils";
 
 const LogoQHR = ({ className }: { className: string }) => {
   return (
@@ -38,24 +45,26 @@ export const Sidebar = () => {
     <div
       data-pinned={pinned}
       className={cn(
-        "flex transition-all bg-red-50 group w-[var(--sidebar-width)] flex-col gap-6 duration-200",
+        "flex transition-all group w-[var(--sidebar-width)] flex-col gap-7 duration-200 border-r bg-primary/5",
         pinned
           ? "[--sidebar-width:240px]"
           : "[--sidebar-width:60px] hover:w-[220px]",
       )}
     >
-      <div className="pl-7 pr-6 pt-8 flex justify-between items-center relative">
-        <LogoQHR className="h-8" />
+      <div className="px-6 pt-8 flex justify-between items-center relative">
+        <div className="relative flex-shrink-0 w-6 h-8 -translate-x-1.5 transition-[transform,width] overflow-hidden group-data-[pinned=true]:w-20 group-hover:w-20 group-data-[pinned=true]:translate-x-0 group-hover:translate-x-0">
+          <LogoQHR className="h-8 w-20 absolute left-0 inset-y-0 " />
+        </div>
         <button
           type="button"
-          className="bg-purple/20 p-1 rounded text-purple opacity-0 group-hover:opacity-100 group-data-[pinned=true]:opacity-100"
+          className="bg-primary/20 p-1 rounded text-primary opacity-0 group-hover:opacity-100 group-data-[pinned=true]:opacity-100"
           onClick={() => setPinned((p) => !p)}
         >
           <PinIcon className="w-4 h-4 group-data-[pinned=true]:rotate-45 transition-transform" />
         </button>
       </div>
       <SideBarMenu menus={SIDEBAR_TOP_MENU} />
-      <div className="space-y-2 transition-transform group-data-[pinned=true]:translate-y-2 group-hover:translate-y-0 -translate-y-8">
+      <div className="-mt-2 space-y-2 transition-transform group-data-[pinned=true]:translate-y-2 group-hover:translate-y-0 -translate-y-8 overflow-hidden">
         <div
           className={cn(
             "text-muted-foreground pl-6 text-lg transition-[width]",
@@ -102,25 +111,25 @@ const SideBarMenu = ({ menus }: { menus: MenuItemType[] }) => {
 };
 
 const baseStyle =
-  "flex items-center gap-3 px-6 transition-[colors,transform] cursor-pointer";
+  "flex items-center gap-3 px-6 transition-[color,background-color,transform] cursor-pointer";
 const sidebarShrinkStyle =
   "group-data-[pinned=true]:w-full group-hover:w-full w-0 overflow-hidden transition-[width]";
 const MenuItemStyle = {
   menu: {
-    base: "py-3 hover:bg-purple/15 data-[active]:bg-purple/10 data-[active]:font-semibold data-[active]:text-purple data-[active]:hover:bg-purple/15 text-sm",
-    hover: "hover:bg-purple/15 data-[active]:hover:bg-purple/15",
+    base: "py-3 hover:bg-primary/15 data-[active=true]:bg-primary/10 data-[active=true]:font-semibold data-[active=true]:text-primary data-[active=true]:hover:bg-primary/15 text-sm",
+    hover: "hover:bg-primary/15 data-[active]:hover:bg-primary/15",
     svgStyle: "flex-shrink-0 text-current transition-colors size-3.5",
   },
   module: {
     base: "group-data-[pinned=true]:translate-x-0 py-4 group-data-[pinned=true]:mr-0 -mr-1.5 group-hover:mr-0 -translate-x-1.5 group-hover:translate-x-0",
-    hover: "bg-purple hover:bg-purple/90 text-white",
+    hover: "bg-primary hover:bg-primary/90 text-white",
     svgStyle: "flex-shrink-0",
   },
 };
 
 const SidebarMenuItem = ({
   type,
-  to,
+  to = "#",
   icon: Icon,
   title,
   onClick,
@@ -134,15 +143,21 @@ const SidebarMenuItem = ({
 }) => {
   const style = MenuItemStyle[type];
   const Comp = element ?? Link;
+  const { pathname } = useLocation();
+  const active =
+    type === "menu"
+      ? pathname === to
+      : extractModuleName(to) === extractModuleName(pathname);
   return (
     <Comp
-      key={to}
-      to={to ?? "#"}
+      to={to}
+      data-active={active}
       className={cn(baseStyle, style.base, style.hover, className)}
       onClick={onClick}
     >
       <Icon className={style.svgStyle} />
       <span className={sidebarShrinkStyle}>{title}</span>
+      {type === "module" && active && <ArrowRight className="size-6" />}
     </Comp>
   );
 };
