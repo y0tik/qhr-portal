@@ -1,4 +1,9 @@
 import { ErrorDisplay } from "~/components/ErrorBoundary";
+import {
+  ModuleContainer,
+  ModuleContent,
+  ModuleHeader,
+} from "~/components/module";
 
 // for 404 that starts with /m, handle it here
 // as a result we get to keep the sidebar,
@@ -6,5 +11,12 @@ import { ErrorDisplay } from "~/components/ErrorBoundary";
 // better ux
 
 export default function Page() {
-  return <ErrorDisplay />;
+  return (
+    <ModuleContainer>
+      <ModuleHeader />
+      <ModuleContent>
+        <ErrorDisplay />
+      </ModuleContent>
+    </ModuleContainer>
+  );
 }

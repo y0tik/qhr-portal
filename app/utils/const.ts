@@ -54,10 +54,10 @@ export const LOWER_MENUS = [
 ];
 
 export const MODULES = [
+  { title: "Alumnux", to: "/m/alumnux", icon: FoldersIcon },
   { title: "Jobs", to: "/m/jobs", icon: BriefcaseBusiness },
   { title: "Recruit", to: "/m/recruit", icon: ShieldCheckIcon },
   { title: "Training", to: "/m/training", icon: LeafyGreen },
-  { title: "Alumnux", to: "/m/alumnux", icon: FoldersIcon },
   { title: "Helpdesk", to: "/m/helpdesk", icon: HelpingHand },
 ];
 

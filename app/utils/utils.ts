@@ -46,7 +46,7 @@ export const extractErrorType = (error: unknown): extractErrorReturn => {
   return _default;
 };
 
-export function extractModuleNameFromURL(url: string) {
+export function extractModuleName(url: string) {
   const safeURL = url.replace(/\/+/g, "/");
   let moduleString = safeURL.slice(safeURL.indexOf("/m/") + 3);
   if (moduleString.indexOf("/") >= 0) {

@@ -18,7 +18,7 @@ import { ActionLogout } from "~/routes/action+/signout";
 
 export const HeaderContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="h-14 bg-purple flex justify-between items-center px-6">
+    <div className="h-14 bg-primary flex justify-between items-center px-6">
       {children}
     </div>
   );
@@ -37,7 +37,7 @@ export const HeaderUserGroup = () => {
 export const UserNotification = () => {
   return (
     <div>
-      <div className="rounded-full h-8 w-8 grid text-purple place-items-center border bg-white">
+      <div className="rounded-full h-8 w-8 grid text-primary place-items-center border bg-white">
         <BellIcon className="w-4 h-4 text-current" />
       </div>
     </div>

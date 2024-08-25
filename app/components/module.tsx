@@ -36,7 +36,7 @@ export const ModuleMenu = ({ menu }: { menu: Moduleitem[] }) => {
         <Link
           key={el.to}
           to={el.to}
-          className="px-2 py-1 rounded text-white hover:bg-white/20 transition-colors cursor-pointer data-[active]:bg-purple/10 data-[active]:font-semibold data-[active]:text-purple data-[active]:hover:bg-white/20 text-sm"
+          className="px-2 py-1 rounded text-white hover:bg-white/20 transition-colors cursor-pointer data-[active]:bg-primary/10 data-[active]:font-semibold data-[active]:text-primary data-[active]:hover:bg-white/20 text-sm"
         >
           {el.title}
         </Link>
