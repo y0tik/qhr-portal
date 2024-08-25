@@ -8,7 +8,7 @@ import type { EntityAlumni, EntityUser } from "~/utils/types";
 function generateFakeUserEntity(): EntityUser[] {
   const users: EntityUser[] = [];
   const generationCount = faker.number.int(100);
-  for (let i = 0; i < generationCount; i++) {
+  for (let i = 1; i <= generationCount; i++) {
     users.push({
       id: i,
       username: faker.person.fullName(),
@@ -25,9 +25,10 @@ function generateFakeUserEntity(): EntityUser[] {
 function generateFakeAlumniEntity(): EntityAlumni[] {
   const employees: EntityAlumni[] = [];
   const generationCount = faker.number.int(100);
-  for (let i = 0; i < generationCount; i++) {
+  for (let i = 1; i <= generationCount; i++) {
     employees.push({
       id: i,
+      emp_id: faker.string.alphanumeric(10),
       username: faker.person.fullName(),
       email: faker.internet.email(),
       last_login_at: faker.date.past().toISOString(),
@@ -49,14 +50,14 @@ export const mockData = {
   alumni: generateFakeAlumniEntity(),
 };
 
-export const returnDataOrThrowErrorOnProbability = <T>(
+export const useProbability = <T>(
   probability: number,
-  data: T,
+  func: () => T,
   error: Error,
 ) => {
   const newProbability = probability / 100;
   if (Math.random() < newProbability) {
-    return data;
+    return func();
   }
   throw error;
 };

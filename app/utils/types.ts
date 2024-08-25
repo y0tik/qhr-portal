@@ -24,6 +24,7 @@ export type EntityUser = {
 export type EntityAlumni = {
   id: number;
   username: string;
+  emp_id: string;
   email: string;
   created_at: string;
   updated_at: string;

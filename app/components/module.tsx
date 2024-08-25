@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { HeaderContainer, HeaderUserGroup } from "~/components/header";
 import type { Moduleitem } from "~/utils/const";
@@ -30,13 +30,15 @@ export const ModuleHeaderWrapper = ({ children }: { children?: ReactNode }) => {
 };
 
 export const ModuleMenu = ({ menu }: { menu: Moduleitem[] }) => {
+  const { pathname } = useLocation();
   return (
     <div className="flex gap-2">
       {menu.map((el) => (
         <Link
           key={el.to}
           to={el.to}
-          className="px-2 py-1 rounded text-white hover:bg-white/20 transition-colors cursor-pointer data-[active]:bg-primary/10 data-[active]:font-semibold data-[active]:text-primary data-[active]:hover:bg-white/20 text-sm"
+          data-active={pathname.startsWith(el.to)}
+          className="px-2 py-1 rounded text-white hover:bg-white/20 transition-colors cursor-pointer data-[active=true]:bg-white/10 data-[active=true]:font-semibold data-[active]:hover:bg-white/20 text-sm"
         >
           {el.title}
         </Link>

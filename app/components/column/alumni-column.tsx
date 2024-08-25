@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Edit, MoreHorizontal, Ticket, Upload } from "lucide-react";
+import { Edit, MoreHorizontal, Ticket } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -11,12 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import type { EntityAlumni } from "~/utils/types";
-import { UserNameWithAvatar } from "./common";
-import {
-  formatDateLong,
-  formatDateShort,
-  relativeTimeFromNow,
-} from "~/utils/utils";
+import { formatDateShort, relativeTimeFromNow } from "~/utils/utils";
 import { ALUMNUX_ALUMNI_UPDATE, TICKETS_BY_USER } from "~/utils/const";
 
 export const columns: ColumnDef<EntityAlumni>[] = [
@@ -24,7 +19,10 @@ export const columns: ColumnDef<EntityAlumni>[] = [
     accessorKey: "name",
     header: "Name",
     enableHiding: false,
-    cell: ({ row }) => <UserNameWithAvatar name={row.original.username} />,
+    cell: ({ row }) => {
+      const alumni = row.original;
+      return <div>{alumni.username}</div>;
+    },
   },
   {
     accessorKey: "email",
@@ -33,8 +31,8 @@ export const columns: ColumnDef<EntityAlumni>[] = [
   {
     header: "Last Login",
     cell: ({ row }) => {
-      const user = row.original;
-      return <div>{relativeTimeFromNow(user.last_login_at)}</div>;
+      const alumni = row.original;
+      return <div>{relativeTimeFromNow(alumni.last_login_at)}</div>;
     },
   },
   {

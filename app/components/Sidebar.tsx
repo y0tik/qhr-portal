@@ -56,7 +56,7 @@ export const Sidebar = () => {
     <div
       data-pinned={pinned}
       className={cn(
-        "flex transition-all group w-[var(--sidebar-width)] flex-col gap-7 duration-200 border-r bg-primary/5",
+        "flex flex-shrink-0 transition-all group w-[var(--sidebar-width)] flex-col gap-7 duration-200 border-r bg-primary/5",
         pinned
           ? "[--sidebar-width:240px]"
           : "[--sidebar-width:60px] hover:w-[220px]",

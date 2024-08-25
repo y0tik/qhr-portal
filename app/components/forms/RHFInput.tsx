@@ -21,6 +21,7 @@ export const RHFInput = forwardRef<HTMLInputElement, RHFInputProps>(
         </Label>
         <Input
           className="mt-1.5"
+          id={name}
           name={name}
           error={error}
           {...props}

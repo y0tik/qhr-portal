@@ -6,10 +6,7 @@ import { Button } from "~/components/ui/button";
 import { DataTable } from "~/components/ui/data-table";
 import { requirePermission } from "~/services/permission.server";
 import { ALUMNUX_ALUMNI_CREATE, PROJECT_NAME } from "~/utils/const";
-import {
-  mockData,
-  returnDataOrThrowErrorOnProbability,
-} from "~/utils/mockData.server";
+import { mockData, useProbability } from "~/utils/mockData.server";
 
 // TODO: Add proper meta data
 export const meta: MetaFunction = () => [
@@ -19,9 +16,9 @@ export const meta: MetaFunction = () => [
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requirePermission(request, ["read:alumni"]);
 
-  const list = returnDataOrThrowErrorOnProbability(
+  const list = useProbability(
     90,
-    mockData.alumni,
+    () => mockData.alumni,
     new Error(
       "Please ignore, this is a mock error message. Should be hit 10 percent of the time, please refresh the page.",
     ),

@@ -45,7 +45,7 @@ const DatePicker = ({
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? dayjs(date).format("PPP") : <span>Pick a date</span>}
+          {date ? dayjs(date).format("DD/MM/YYYY") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -64,10 +64,10 @@ export const RHFDatePicker = <T extends FieldValues>({
 }: RHFDatePickerProps<T>) => {
   return (
     <div className={className}>
-      <Label htmlFor={name} className="mb-2.5">
+      <Label htmlFor={name}>
         {displayName ?? name.charAt(0).toUpperCase() + name.slice(1)}
       </Label>
-      <div className="flex">
+      <div className="flex mt-1.5">
         <Controller
           control={control}
           name={name}

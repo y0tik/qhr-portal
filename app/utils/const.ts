@@ -117,12 +117,15 @@ export const MODULE_COMMAND_MENU = [
   },
 ];
 
+export const ALUMNUX_USER = "/m/alumnux/user";
 export const ALUMNUX_USER_CREATE = "/m/alumnux/user/create";
 export const ALUMNUX_USER_BULK_CREATE = "/m/alumnux/user/create/bulk";
 export const ALUMNUX_USER_UPDATE = (id: string | number) =>
   `/m/alumnux/user/update/${id}`;
 export const TICKETS_ASSIGNED_TO_USER = (id: string | number) =>
   `/m/tickets/user/${id}`;
+
+export const ALUMNUX_ALUMNI = "/m/alumnux/alumni";
 export const ALUMNUX_ALUMNI_CREATE = "/m/alumnux/alumni/create";
 export const ALUMNUX_ALUMNI_UPDATE = (id: string | number) =>
   `/m/alumnux/alumni/update/${id}`;

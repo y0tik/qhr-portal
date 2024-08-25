@@ -3,14 +3,14 @@ import { Form, useNavigation } from "@remix-run/react";
 import { AlertCircle } from "lucide-react";
 import { useRemixForm } from "remix-hook-form";
 import { z } from "zod";
-import { RHFCheckbox } from "~/components/form/RHFCheckbox";
-import { RHFInput } from "~/components/form/RHFInput";
+import { RHFCheckbox } from "~/components/forms/RHFCheckbox";
+import { RHFInput } from "~/components/forms/RHFInput";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/ui/loading-btn";
-import { ActionDeleteHRUser } from "~/routes/action+/user.delete.$id";
+// import { ActionDeleteHRUser } from "~/routes/action+/user.delete.$id";
 
 const schema = z
   .object({
@@ -73,7 +73,6 @@ export default function UserForm({
         <div className="grid grid-cols-3 gap-x-8 gap-y-4">
           <RHFInput {...register("username")} error={errors.username} />
           <RHFInput {...register("email")} error={errors.email} />
-
           <RHFInput {...register("password")} error={errors.password} />
 
           <div className="mt-3">
@@ -137,7 +136,15 @@ export default function UserForm({
               <Button type="button" onClick={() => reset()} variant="outline">
                 Reset
               </Button>
-              {isEdit && <ActionDeleteHRUser id={String(defaultValues.id)} />}
+              {isEdit && (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => reset()}
+                >
+                  Delete
+                </Button>
+              )}
             </div>
             <LoadingButton loading={isSubmitting} type="submit">
               Submit
