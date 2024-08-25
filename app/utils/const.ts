@@ -13,6 +13,7 @@ import {
   UserIcon,
   UsersIcon,
 } from "lucide-react";
+import { Role } from "./types";
 
 export const ticketColorMapping = {
   created: ["#4DB8FF", "#000000"], // Light blue background, black foreground
@@ -21,7 +22,8 @@ export const ticketColorMapping = {
   resolved: ["#4CAF50", "#000000"], // Green background, black foreground
 };
 
-export const roleColorMapping = {
+type EmittedRole = "hr" | "support";
+export const roleColorMapping: Record<EmittedRole, [string, string]> = {
   hr: ["#FFC107", "#000000"], // Amber background, black foreground
   support: ["#9C27B0", "#FFFFFF"], // Purple background, white foreground
 };
@@ -114,3 +116,10 @@ export const MODULE_COMMAND_MENU = [
     items: convertModuleToCommandList(MODULE_MENU_ALUMNUX),
   },
 ];
+
+export const ALUMNUX_USER_CREATE = "/m/alumnux/user/create";
+export const ALUMNUX_BULK_CREATE = "/m/alumnux/user/create/bulk";
+export const ALUMNUX_USER_UPDATE = (id: string | number) =>
+  `/m/alumnux/user/update/${id}`;
+export const TICKETS_FOR_USER = (id: string | number) =>
+  `/m/tickets/user/${id}`;

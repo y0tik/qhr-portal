@@ -1,13 +1,13 @@
 import { env } from "~/env.server";
 import { faker } from "@faker-js/faker";
-import type { Role, User } from "./types";
+import type { Role, SessionUser } from "./types";
 
 export const features = {
   enableMockLogin: () => {
     return {
       enable: env.QHR_MOCK_LOGIN,
       getMockUser: (uname?: string) => {
-        const user: User = {
+        const user: SessionUser = {
           cid: faker.string.uuid(),
           email: faker.internet.email(),
           id: faker.string.uuid(),

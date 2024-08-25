@@ -15,7 +15,7 @@ import { MailIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { z } from "zod";
 import LoginPageLayout from "~/components/LoginPageLayout";
-import { FormFieldError } from "~/components/form-input/form-primitives";
+import { FormFieldError } from "~/components/forms/form-primitives";
 import {
   Card,
   CardContent,

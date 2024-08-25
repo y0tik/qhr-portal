@@ -13,7 +13,7 @@ import { useRemixForm } from "remix-hook-form";
 import { z } from "zod";
 import { ErrorAlert } from "~/components/ErrorAlert";
 import LoginPageLayout from "~/components/LoginPageLayout";
-import { RHFInput } from "~/components/form-input/RHFInput";
+import { RHFInput } from "~/components/forms/RHFInput";
 import { Button } from "~/components/ui/button";
 import {
   Card,

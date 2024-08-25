@@ -154,8 +154,8 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex select-none items-center justify-between space-x-2 pt-4">
-        <div className="text-muted-foreground">
+      <div className="flex select-none justify-between space-x-2 pt-4">
+        <div className="text-muted-foreground text-sm px-4 border rounded-md py-2">
           Showing Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </div>

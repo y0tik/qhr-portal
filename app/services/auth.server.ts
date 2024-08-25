@@ -1,13 +1,13 @@
 import { Authenticator } from "remix-auth";
 import { sessionStorage } from "~/services/session.server";
 import { FormStrategy } from "remix-auth-form";
-import type { User } from "~/utils/types";
+import type { SessionUser } from "~/utils/types";
 import { features } from "~/utils/features.server";
 import { useVerifyOTP } from "~/utils/otp.cookie.server";
 import { KeycloakStrategy } from "remix-auth-keycloak";
 import { env } from "~/env.server";
 
-export const authenticator = new Authenticator<User>(sessionStorage);
+export const authenticator = new Authenticator<SessionUser>(sessionStorage);
 
 authenticator.use(
   new FormStrategy(async ({ form, request }) => {

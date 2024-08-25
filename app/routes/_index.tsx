@@ -4,13 +4,10 @@ import { authenticator } from "~/services/auth.server";
 import { features } from "~/utils/features.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  if (!features.enableMockLogin().enable) {
-    await authenticator.isAuthenticated(request, {
-      successRedirect: "/me",
-      failureRedirect: "/login",
-    });
-  }
-  return null;
+  await authenticator.isAuthenticated(request, {
+    successRedirect: "/me",
+    failureRedirect: "/login",
+  });
 };
 
 export default function Index() {

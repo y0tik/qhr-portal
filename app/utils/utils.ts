@@ -1,8 +1,10 @@
 import { isRouteErrorResponse } from "@remix-run/react";
 import { type ClassValue, clsx } from "clsx";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+dayjs.extend(relativeTime);
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -17,6 +19,10 @@ export const checkbox = () =>
 
 export const dateToFullString = (date: Date | string) => {
   return dayjs(date).format("MM/DD/YYYY - hh:mm A");
+};
+
+export const relativeTimeFromNow = (date: Date | string) => {
+  return dayjs(date).fromNow();
 };
 
 type extractErrorReturn = {

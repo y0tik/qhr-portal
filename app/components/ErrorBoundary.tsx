@@ -5,7 +5,7 @@ import { extractErrorType } from "~/utils/utils";
 
 const NotFoundMessage = () => (
   <>
-    <p className="mb-1 font-bold text-3xl text-gray-900 tracking-tight md:text-xl dark:text-white">
+    <p className="mb-1 font-bold text-3xl text-gray-900 tracking-tight md:text-xl">
       Something&apos;s missing.
     </p>
     <p className="font-light text-gray-500 text-lg dark:text-gray-400">

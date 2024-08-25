@@ -48,9 +48,7 @@ export const CompanyOverviewCard = ({
               className="flex flex-col items-center justify-center"
             >
               <dt className="mb-1 font-extrabold text-3xl">{e.stat}</dt>
-              <dd className="text-sm text-white text-opacity-60 dark:text-gray-400">
-                {e.name}
-              </dd>
+              <dd className="text-sm text-white text-opacity-60">{e.name}</dd>
             </div>
           ))}
         </div>
