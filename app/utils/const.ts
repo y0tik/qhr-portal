@@ -117,6 +117,7 @@ export const MODULE_COMMAND_MENU = [
   },
 ];
 
+export const dashboardURL = (r?: string) => "/dashboard";
 export const ALUMNUX_USER = "/m/alumnux/user";
 export const ALUMNUX_USER_CREATE = "/m/alumnux/user/create";
 export const ALUMNUX_USER_BULK_CREATE = "/m/alumnux/user/create/bulk";

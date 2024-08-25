@@ -28,7 +28,6 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { LoadingButton } from "~/components/ui/loading-btn";
 import { authenticator } from "~/services/auth.server";
-import { getSession } from "~/services/session.server";
 import { dashboardURL, formatProjectTitle } from "~/utils/const";
 
 export const meta: MetaFunction = ({ location }) => {
