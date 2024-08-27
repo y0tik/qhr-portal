@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { Link } from "@remix-run/react";
-import { BellIcon } from "lucide-react";
+import { Link, useNavigation } from "@remix-run/react";
+import { BellIcon, Loader2 } from "lucide-react";
 import { CommandMenu } from "~/components/ComandMenu";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -15,18 +15,33 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { useUser } from "~/hooks/useUser";
 import { ActionLogout } from "~/routes/action+/signout";
+import { cn } from "~/utils/utils";
 
 export const HeaderContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="h-14 bg-primary flex justify-between items-center px-6">
+    <div className="h-14 bg-primary flex justify-between items-center px-6 flex-shrink-0">
       {children}
     </div>
+  );
+};
+
+export const AppStatus = () => {
+  const { state } = useNavigation();
+  const isLoading = state === "loading";
+  return (
+    <Loader2
+      className={cn(
+        "size-4 text-white/80 animate-spin transition-opacity",
+        isLoading ? "opacity-100" : "opacity-0",
+      )}
+    />
   );
 };
 
 export const HeaderUserGroup = () => {
   return (
     <div className="flex gap-3 items-center">
+      <AppStatus />
       <CommandMenu />
       <UserNotification />
       <UserProfile />
