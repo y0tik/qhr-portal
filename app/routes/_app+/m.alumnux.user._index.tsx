@@ -10,7 +10,7 @@ import {
   ALUMNUX_USER_CREATE,
   PROJECT_NAME,
 } from "~/utils/const";
-import { mockData, useProbability } from "~/utils/mockData.server";
+import { mockData, runWithProbability } from "~/utils/mockData.server";
 
 // TODO: Add proper meta data
 export const meta: MetaFunction = () => [
@@ -20,7 +20,7 @@ export const meta: MetaFunction = () => [
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requirePermission(request, ["read:users"]);
 
-  const users = useProbability(
+  const users = runWithProbability(
     90,
     () => mockData.users,
     new Error(
@@ -35,7 +35,7 @@ export default function Page() {
   const { users } = useLoaderData<typeof loader>();
 
   return (
-    <div className="border-dashed rounded-lg h-full p-2">
+    <div className="border-dashed rounded-lg h-full px-2">
       <DataTable
         columns={columns}
         data={users}

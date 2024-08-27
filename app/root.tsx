@@ -49,7 +49,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const TopProgressBar = ({ delay = 500 }: { delay: number }) => {
+const TopProgressBar = ({ delay = 300 }: { delay: number }) => {
   const { state } = useNavigation();
   const ref = useRef<LoadingBarRef>(null);
   const timer = useRef<NodeJS.Timeout | null>(null);
@@ -79,7 +79,7 @@ const TopProgressBar = ({ delay = 500 }: { delay: number }) => {
 export default function App() {
   return (
     <>
-      <TopProgressBar delay={500} />
+      <TopProgressBar delay={300} />
       <Outlet />
     </>
   );

@@ -5,7 +5,7 @@ import { features } from "~/utils/features.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await authenticator.isAuthenticated(request, {
-    successRedirect: "/me",
+    successRedirect: "/dashboard",
     failureRedirect: "/login",
   });
 };

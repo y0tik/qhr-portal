@@ -9,8 +9,8 @@ import UserForm, {
 } from "~/components/forms/UserForm";
 import { requirePermission } from "~/services/permission.server";
 import { ALUMNUX_USER } from "~/utils/const";
-import { mockData, useProbability } from "~/utils/mockData.server";
-import { useFormData } from "~/utils/formdata.server";
+import { mockData, runWithProbability } from "~/utils/mockData.server";
+import { getFormData } from "~/utils/formdata.server";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { sleep } from "~/utils/utils";
@@ -29,14 +29,14 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
   await requirePermission(request, ["read:users", "write:users"]);
 
-  const { data, errors } = await useFormData<UserFormData>(
+  const { data, errors } = await getFormData<UserFormData>(
     request,
     userResolver,
   );
   if (!data) return json(errors);
 
   await sleep(500);
-  useProbability(
+  runWithProbability(
     90,
     () => {},
     new Error(
@@ -66,7 +66,7 @@ export default function Page() {
   const navigate = useNavigate();
 
   return (
-    <div className="border-dashed rounded-lg flex flex-col px-4 py-2">
+    <div className="border-dashed rounded-lg flex flex-col px-3">
       <div className="flex mb-4 gap-2 items-center">
         <Button
           variant="ghost"

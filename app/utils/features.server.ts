@@ -1,6 +1,6 @@
 import { env } from "~/env.server";
 import { faker } from "@faker-js/faker";
-import type { Role, SessionUser } from "./types";
+import type { SessionUser } from "./types";
 
 export const features = {
   enableMockLogin: () => {

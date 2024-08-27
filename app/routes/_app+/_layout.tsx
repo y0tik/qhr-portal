@@ -5,7 +5,7 @@ import { Sidebar } from "../../components/Sidebar";
 import type { ReactNode } from "react";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const user = await requirePermission(request, ["self"]);
+  const user = await requirePermission(request, []);
   return json(user);
 };
 

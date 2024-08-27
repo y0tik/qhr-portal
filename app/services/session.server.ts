@@ -7,7 +7,7 @@ export const sessionStorage = createCookieSessionStorage({
     sameSite: "lax",
     path: "/",
     httpOnly: true,
-    secrets: [env.ALUMNUX_COOKIE_SECRET],
+    secrets: [env.QHR_COOKIE_SECRET],
     // secure: process.env.NODE_ENV === "production",
     secure: false,
   },

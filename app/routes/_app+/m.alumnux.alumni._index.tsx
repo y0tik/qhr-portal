@@ -1,12 +1,13 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { Link, json, useLoaderData, useRouteError } from "@remix-run/react";
+import { Link, json, useLoaderData } from "@remix-run/react";
 import { PlusCircle } from "lucide-react";
 import { columns } from "~/components/column/alumni-column";
 import { Button } from "~/components/ui/button";
 import { DataTable } from "~/components/ui/data-table";
 import { requirePermission } from "~/services/permission.server";
 import { ALUMNUX_ALUMNI_CREATE, PROJECT_NAME } from "~/utils/const";
-import { mockData, useProbability } from "~/utils/mockData.server";
+import { mockData, runWithProbability } from "~/utils/mockData.server";
+import { sleep } from "~/utils/utils";
 
 // TODO: Add proper meta data
 export const meta: MetaFunction = () => [
@@ -15,8 +16,8 @@ export const meta: MetaFunction = () => [
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   await requirePermission(request, ["read:alumni"]);
-
-  const list = useProbability(
+  await sleep(2000);
+  const list = runWithProbability(
     90,
     () => mockData.alumni,
     new Error(
@@ -31,7 +32,7 @@ export default function Page() {
   const { list } = useLoaderData<typeof loader>();
 
   return (
-    <div className="border-dashed rounded-lg h-full p-2">
+    <div className="border-dashed rounded-lg h-full px-2">
       <DataTable
         columns={columns}
         data={list}

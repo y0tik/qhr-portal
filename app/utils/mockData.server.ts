@@ -50,7 +50,7 @@ export const mockData = {
   alumni: generateFakeAlumniEntity(),
 };
 
-export const useProbability = <T>(
+export const runWithProbability = <T>(
   probability: number,
   func: () => T,
   error: Error,

@@ -1,4 +1,4 @@
-import { useLoaderData, useRouteLoaderData } from "@remix-run/react";
+import { useRouteLoaderData } from "@remix-run/react";
 import type { loader } from "~/routes/_app+/_layout";
 
 export const useUser = () => {

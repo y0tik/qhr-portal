@@ -1,8 +1,6 @@
 import type { Role } from "~/utils/types";
 import { authenticator } from "./auth.server";
 import { redirect } from "@remix-run/react";
-import { env } from "~/env.server";
-import { features } from "~/utils/features.server";
 
 export type Permission =
   | "read:users"
@@ -12,19 +10,20 @@ export type Permission =
   | "write:alumni"
   | "delete:alumni"
   | "overview"
-  | "crud:settings/company"
   | "self";
 
 const PERMISSION_MAP: Record<Role, Array<Permission>> = {
   admin: [
-    "overview",
     "read:users",
     "write:users",
     "delete:users",
-    "crud:settings/company",
+    "read:alumni",
+    "write:alumni",
+    "delete:alumni",
   ],
-  hr: ["overview", "read:alumni", "write:alumni", "delete:alumni"],
+  hr: ["read:alumni", "write:alumni", "delete:alumni"],
   employee: ["self"],
+  support: [],
 };
 
 export function hasPermissions(role: Role, permissions: Array<Permission>) {
@@ -37,10 +36,6 @@ export const requirePermission = async (
   request: Request,
   permissions: Array<Permission>,
 ) => {
-  const { enable, getMockUser } = features.enableMockLogin();
-  if (enable) {
-    return getMockUser();
-  }
   const user = await authenticator.isAuthenticated(request);
   if (!user) throw redirect("/login");
   if (!hasPermissions(user.role, permissions)) throw new Error("Unauthorized");

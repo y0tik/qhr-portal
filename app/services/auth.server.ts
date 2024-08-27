@@ -1,18 +1,19 @@
 import { Authenticator } from "remix-auth";
 import { sessionStorage } from "~/services/session.server";
 import { FormStrategy } from "remix-auth-form";
-import type { SessionUser } from "~/utils/types";
+import type { Role, SessionUser } from "~/utils/types";
 import { features } from "~/utils/features.server";
 import { useVerifyOTP } from "~/utils/otp.cookie.server";
 import { KeycloakStrategy } from "remix-auth-keycloak";
 import { env } from "~/env.server";
+import { MockStrategy } from "~/utils/mockStrategy";
 
 export const authenticator = new Authenticator<SessionUser>(sessionStorage);
 
 authenticator.use(
-  new FormStrategy(async ({ form, request }) => {
+  new FormStrategy(async ({ request }) => {
     // TODO :: fix me
-    const _verifyOTP = await useVerifyOTP(request);
+    await useVerifyOTP(request);
 
     // the type of this user must match the type you pass to the Authenticator
     // the strategy will automatically inherit the type if you instantiate
@@ -46,3 +47,13 @@ const keycloakStrategy = new KeycloakStrategy(
 );
 
 authenticator.use(keycloakStrategy, "keycloak");
+
+const mockStrategy = new MockStrategy(
+  { throwOnProduction: !env.QHR_MOCK_LOGIN },
+  async ({ userId }) => {
+    const { getMockUser } = features.enableMockLogin();
+    const user = getMockUser(userId);
+    return { ...user, role: "admin" as Role };
+  },
+);
+authenticator.use(mockStrategy, "mock");

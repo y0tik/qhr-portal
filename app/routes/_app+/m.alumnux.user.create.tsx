@@ -1,29 +1,28 @@
 import { type ActionFunctionArgs, json, redirect } from "@remix-run/node";
-import AutoBreadcrumb from "~/components/ui/auto-breadcrumb";
 import UserForm, {
   type UserFormData,
   userResolver,
 } from "~/components/forms/UserForm";
 import { requirePermission } from "~/services/permission.server";
-import { useFormData } from "~/utils/formdata.server";
+import { getFormData } from "~/utils/formdata.server";
 import { sleep } from "~/utils/utils";
 import { ALUMNUX_USER } from "~/utils/const";
 import { Button } from "~/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "@remix-run/react";
-import { useProbability } from "~/utils/mockData.server";
+import { runWithProbability } from "~/utils/mockData.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   await requirePermission(request, ["write:users"]);
 
-  const { data, errors } = await useFormData<UserFormData>(
+  const { data, errors } = await getFormData<UserFormData>(
     request,
     userResolver,
   );
   if (!data) return json(errors);
 
   await sleep(1000);
-  useProbability(
+  runWithProbability(
     90,
     () => {},
     new Error(
@@ -36,7 +35,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function Page() {
   const navigate = useNavigate();
   return (
-    <div className="border-dashed rounded-lg h-full px-4 py-2">
+    <div className="border-dashed rounded-lg h-full px-3">
       <div className="flex mb-4 gap-2 items-center">
         <Button
           variant="ghost"

@@ -37,7 +37,11 @@ export const ModuleMenu = ({ menu }: { menu: Moduleitem[] }) => {
         <Link
           key={el.to}
           to={el.to}
-          data-active={pathname.startsWith(el.to)}
+          data-active={
+            el.activeType === "exact"
+              ? pathname === el.to
+              : pathname.startsWith(el.to)
+          }
           className="px-2 py-1 rounded text-white hover:bg-white/20 transition-colors cursor-pointer data-[active=true]:bg-white/10 data-[active=true]:font-semibold data-[active]:hover:bg-white/20 text-sm"
         >
           {el.title}

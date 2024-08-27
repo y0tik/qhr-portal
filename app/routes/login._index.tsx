@@ -8,7 +8,7 @@ import {
 } from "@remix-run/node";
 import { Form, Link, useLoaderData, useNavigation } from "@remix-run/react";
 import { jwtDecode } from "jwt-decode";
-import { MailIcon } from "lucide-react";
+import { BugIcon, MailIcon } from "lucide-react";
 import { useRemixForm } from "remix-hook-form";
 import { z } from "zod";
 import { ErrorAlert } from "~/components/ErrorAlert";
@@ -27,7 +27,7 @@ import { LoadingButton } from "~/components/ui/loading-btn";
 import { formatProjectTitle } from "~/utils/const";
 import { getMessageForCode } from "~/utils/errorUtils.server";
 import { features } from "~/utils/features.server";
-import { useFormData } from "~/utils/formdata.server";
+import { getFormData } from "~/utils/formdata.server";
 import { dashboardURL } from "~/utils/const";
 import { verifyOTP as otp } from "~/utils/otp.cookie.server";
 import { authenticator } from "~/services/auth.server";
@@ -68,7 +68,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const params = new URL(request.url).searchParams;
   const callbackUrl = params.get("callbackUrl");
 
-  const { data, errors } = await useFormData(request.clone(), resolver);
+  const { data, errors } = await getFormData(request.clone(), resolver);
   if (!data) return json(errors);
 
   // feat: OTP
@@ -147,6 +147,12 @@ export default function LoginPage() {
                 Login With Email
               </Link>
             </Button>
+            <Form action="/login/mock" className="w-full" method="post">
+              <Button type="submit" className="w-full" variant="outline">
+                <BugIcon className="size-4" />
+                Login With Mock
+              </Button>
+            </Form>
           </CardFooter>
         </Card>
       </div>

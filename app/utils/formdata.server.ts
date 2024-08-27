@@ -2,7 +2,7 @@ import type { FieldValues, Resolver } from "react-hook-form";
 import { getValidatedFormData } from "remix-hook-form";
 
 // return validated data or a react hook errors and default values
-export const useFormData = async <T extends FieldValues>(
+export const getFormData = async <T extends FieldValues>(
   request: Request,
   resolver: Resolver<T>,
 ) => {

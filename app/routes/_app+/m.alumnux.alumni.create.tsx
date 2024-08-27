@@ -8,21 +8,21 @@ import AlumniForm, {
 import { Button } from "~/components/ui/button";
 import { requirePermission } from "~/services/permission.server";
 import { ALUMNUX_ALUMNI } from "~/utils/const";
-import { useFormData } from "~/utils/formdata.server";
-import { useProbability } from "~/utils/mockData.server";
+import { getFormData } from "~/utils/formdata.server";
+import { runWithProbability } from "~/utils/mockData.server";
 import { sleep } from "~/utils/utils";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   await requirePermission(request, ["write:alumni"]);
 
-  const { data, errors } = await useFormData<AlumniFormData>(
+  const { data, errors } = await getFormData<AlumniFormData>(
     request,
     alumniResolver,
   );
   if (!data) return json(errors);
 
   await sleep(1000);
-  useProbability(
+  runWithProbability(
     90,
     () => {},
     new Error(
@@ -35,7 +35,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function Page() {
   const navigate = useNavigate();
   return (
-    <div className="border-dashed rounded-lg h-full flex flex-col px-4 py-2">
+    <div className="border-dashed rounded-lg h-full flex flex-col px-3">
       <div className="flex mb-4 gap-2 items-center">
         <Button
           variant="ghost"
