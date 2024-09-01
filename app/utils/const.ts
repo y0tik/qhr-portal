@@ -13,6 +13,7 @@ import {
   UserIcon,
   UsersIcon,
 } from "lucide-react";
+import type React from "react";
 
 export const ticketColorMapping = {
   created: ["#4DB8FF", "#000000"], // Light blue background, black foreground

@@ -3,6 +3,7 @@ import { ArrowRight, HelpCircle, LogOut, PinIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { MODULES, type MenuItemType, SIDEBAR_TOP_MENU } from "~/utils/const";
 import { cn, extractModuleName } from "~/utils/utils";
+import { ThemeSwitcherMenuItem } from "./ThemeToggle";
 
 const LogoQHR = ({ className }: { className: string }) => {
   return (
@@ -49,7 +50,7 @@ export const Sidebar = () => {
     <div
       data-pinned={pinned}
       className={cn(
-        "flex top-0 bottom-0 sticky flex-shrink-0 transition-all group w-[var(--sidebar-width)] flex-col gap-7 duration-200 border-r bg-accent text-accent-foreground",
+        "flex sticky top-0 flex-shrink-0 transition-all group w-[var(--sidebar-width)] flex-col gap-7 duration-200 border-r bg-accent text-accent-foreground",
         pinned
           ? "[--sidebar-width:240px]"
           : "[--sidebar-width:60px] hover:w-[220px]",
@@ -81,6 +82,7 @@ export const Sidebar = () => {
       </div>
       <div className="flex-1" />
       <div className="pb-4">
+        <ThemeSwitcherMenuItem />
         <SidebarMenuItem
           type="menu"
           icon={LogOut}
@@ -104,7 +106,7 @@ const SideBarModules = ({ menus }: { menus: MenuItemType[] }) => {
   ));
 };
 
-const SideBarMenu = ({ menus }: { menus: MenuItemType[] }) => {
+export const SideBarMenu = ({ menus }: { menus: MenuItemType[] }) => {
   return (
     <div>
       {menus.map((el) => (
@@ -115,7 +117,7 @@ const SideBarMenu = ({ menus }: { menus: MenuItemType[] }) => {
 };
 
 const baseStyle =
-  "flex items-center gap-3 px-6 transition-[color,background-color,transform] cursor-pointer";
+  "flex items-center whitespace-nowrap gap-3 px-6 transition-[color,background-color,transform] cursor-pointer";
 const sidebarShrinkStyle =
   "group-data-[pinned=true]:w-full group-hover:w-full w-0 overflow-hidden transition-[width]";
 const MenuItemStyle = {
@@ -131,7 +133,7 @@ const MenuItemStyle = {
   },
 };
 
-const SidebarMenuItem = ({
+export const SidebarMenuItem = ({
   type,
   to = "#",
   icon: Icon,
@@ -139,6 +141,7 @@ const SidebarMenuItem = ({
   onClick,
   element,
   className,
+  ...rest
 }: MenuItemType & {
   type: keyof typeof MenuItemStyle;
   element?: "a" | "button";
@@ -152,12 +155,14 @@ const SidebarMenuItem = ({
     type === "menu"
       ? pathname === to
       : extractModuleName(to) === extractModuleName(pathname);
+
   return (
     <Comp
       to={to}
       data-active={active}
       className={cn(baseStyle, style.base, style.hover, className)}
       onClick={onClick}
+      {...rest}
     >
       <Icon className={style.svgStyle} />
       <span className={sidebarShrinkStyle}>{title}</span>

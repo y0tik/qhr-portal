@@ -1,4 +1,4 @@
-import { Moon, Sun } from "lucide-react";
+import { type LucideIcon, Moon, Sun } from "lucide-react";
 import { Theme, useTheme } from "remix-themes";
 
 import { Button } from "./ui/button";
@@ -8,6 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { SidebarMenuItem } from "./Sidebar";
+import { forwardRef } from "react";
 
 export function ThemeToggle() {
   const [, setTheme] = useTheme();
@@ -33,3 +35,31 @@ export function ThemeToggle() {
     </DropdownMenu>
   );
 }
+
+export function ThemeSwitcherMenuItem() {
+  const [theme, setTheme] = useTheme();
+
+  function toggle() {
+    setTheme(theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT);
+  }
+
+  return (
+    <SidebarMenuItem
+      onClick={toggle}
+      data-lte={theme === Theme.LIGHT}
+      type="menu"
+      icon={ThemeToggleIcon}
+      title={`Switch to ${theme === Theme.LIGHT ? "Dark" : "Light"}`}
+      className="py-2 group"
+    />
+  );
+}
+
+// eslint-disable-next-line react/prop-types
+const ThemeToggleIcon: LucideIcon = forwardRef(({ className }) => (
+  <div className={className}>
+    <Moon className="group-data-[lte=false]:opacity-0 group-data-[lte=true]:opacity-100 size-4 absolute" />
+    <Sun className="absolute group-data-[lte=false]:opacity-100 group-data-[lte=true]:opacity-0 size-4" />
+  </div>
+));
+ThemeToggleIcon.displayName = "ThemeToggleIcon";
