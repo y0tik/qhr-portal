@@ -1,11 +1,11 @@
 import {
-  ActivityIcon,
   BriefcaseBusiness,
   CircleArrowRight,
   DotIcon,
   FoldersIcon,
   HelpingHand,
   HomeIcon,
+  LayoutDashboardIcon,
   LeafyGreen,
   type LucideIcon,
   Settings,
@@ -13,7 +13,6 @@ import {
   UserIcon,
   UsersIcon,
 } from "lucide-react";
-import { Role } from "./types";
 
 export const ticketColorMapping = {
   created: ["#4DB8FF", "#000000"], // Light blue background, black foreground
@@ -68,20 +67,60 @@ export type Moduleitem = {
   to: string;
   icon?: LucideIcon;
   children?: Moduleitem[];
+  activeType?: "exact" | "prefix";
 };
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const dashboardURL = (_r?: string) => "/dashboard";
+export const ALUMNUX_USER = "/m/alumnux/user";
+export const ALUMNUX_USER_CREATE = "/m/alumnux/user/create";
+export const ALUMNUX_USER_BULK_CREATE = "/m/alumnux/user/create/bulk";
+export const ALUMNUX_USER_UPDATE = (id: string | number) =>
+  `/m/alumnux/user/update/${id}`;
+export const TICKETS_ASSIGNED_TO_USER = (id: string | number) =>
+  `/m/tickets/user/${id}`;
+
+export const ALUMNUX_ALUMNI = "/m/alumnux/alumni";
+export const ALUMNUX_ALUMNI_CREATE = "/m/alumnux/alumni/create";
+export const ALUMNUX_ALUMNI_UPDATE = (id: string | number) =>
+  `/m/alumnux/alumni/update/${id}`;
+export const TICKETS_BY_USER = (id: string | number) => `/m/tickets/user/${id}`;
 
 export const MODULE_MENU_ALUMNUX: Moduleitem[] = [
   {
+    title: "Overview",
+    to: "/m/alumnux",
+    icon: LayoutDashboardIcon,
+    activeType: "exact",
+  },
+  {
     title: "User",
-    to: "/m/alumnux/user",
+    to: ALUMNUX_USER,
     icon: UserIcon,
-    children: [{ title: "Create", to: "/m/alumnux/user/create" }],
+    children: [{ title: "Create", to: ALUMNUX_USER_CREATE }],
   },
   {
     title: "Alumni",
-    to: "/m/alumnux/alumni",
+    to: ALUMNUX_ALUMNI,
     icon: UserIcon,
-    children: [{ title: "Create", to: "/m/alumnux/alumni/create" }],
+    children: [{ title: "Create", to: ALUMNUX_ALUMNI_CREATE }],
+  },
+];
+
+const JOBS_INDEX = "/m/jobs";
+const JOBS_ALL = "/m/jobs/all";
+
+export const MODULE_MENU_JOBS: Moduleitem[] = [
+  {
+    title: "Overview",
+    to: JOBS_INDEX,
+    icon: LayoutDashboardIcon,
+    activeType: "exact",
+  },
+  {
+    title: "All Jobs",
+    to: JOBS_ALL,
+    icon: UserIcon,
   },
 ];
 
@@ -115,19 +154,8 @@ export const MODULE_COMMAND_MENU = [
     category: "Alumnux",
     items: convertModuleToCommandList(MODULE_MENU_ALUMNUX),
   },
+  {
+    category: "Jobs",
+    items: convertModuleToCommandList(MODULE_MENU_JOBS),
+  },
 ];
-
-export const dashboardURL = (r?: string) => "/dashboard";
-export const ALUMNUX_USER = "/m/alumnux/user";
-export const ALUMNUX_USER_CREATE = "/m/alumnux/user/create";
-export const ALUMNUX_USER_BULK_CREATE = "/m/alumnux/user/create/bulk";
-export const ALUMNUX_USER_UPDATE = (id: string | number) =>
-  `/m/alumnux/user/update/${id}`;
-export const TICKETS_ASSIGNED_TO_USER = (id: string | number) =>
-  `/m/tickets/user/${id}`;
-
-export const ALUMNUX_ALUMNI = "/m/alumnux/alumni";
-export const ALUMNUX_ALUMNI_CREATE = "/m/alumnux/alumni/create";
-export const ALUMNUX_ALUMNI_UPDATE = (id: string | number) =>
-  `/m/alumnux/alumni/update/${id}`;
-export const TICKETS_BY_USER = (id: string | number) => `/m/tickets/user/${id}`;

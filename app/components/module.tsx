@@ -42,7 +42,7 @@ export const ModuleMenu = ({ menu }: { menu: Moduleitem[] }) => {
               ? pathname === el.to
               : pathname.startsWith(el.to)
           }
-          className="px-2 py-1 rounded text-white hover:bg-white/20 transition-colors cursor-pointer data-[active=true]:bg-white/10 data-[active=true]:font-semibold data-[active]:hover:bg-white/20 text-sm"
+          className="px-2 py-1 rounded transition-colors cursor-pointer data-[active=true]:bg-primary/10 bg-primary-foreground data-[active]: text-sm"
         >
           {el.title}
         </Link>

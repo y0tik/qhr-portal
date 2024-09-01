@@ -104,6 +104,9 @@ importers:
       remix-hook-form:
         specifier: ^5.0.1
         version: 5.0.1(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.3))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.52.1(react@18.3.1))(react@18.3.1)
+      remix-themes:
+        specifier: ^1.5.0
+        version: 1.5.0(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.3))(@remix-run/server-runtime@2.11.2(typescript@5.5.3))
       tailwind-merge:
         specifier: ^2.3.0
         version: 2.3.0
@@ -3740,6 +3743,12 @@ packages:
       react: ^18.2.0
       react-dom: ^18.2.0
       react-hook-form: ^7.51.0
+
+  remix-themes@1.5.0:
+    resolution: {integrity: sha512-U7uUCynxOGDYs2EFu6Ivlfm/hxG6EqfCoIE9wC/L6ozJv0NNOsPIsp7qtUqRGRxLwOWqZk2J77uPz9oraYIBfw==}
+    peerDependencies:
+      '@remix-run/react': '>= 1'
+      '@remix-run/server-runtime': '>= 1'
 
   require-like@0.1.2:
     resolution: {integrity: sha512-oyrU88skkMtDdauHDuKVrgR+zuItqr6/c//FXzvmxRGMexSDc6hNvJInGW3LL46n+8b50RykrvwSUIIQH2LQ5A==}
@@ -8432,6 +8441,11 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-hook-form: 7.52.1(react@18.3.1)
+
+  remix-themes@1.5.0(@remix-run/react@2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.3))(@remix-run/server-runtime@2.11.2(typescript@5.5.3)):
+    dependencies:
+      '@remix-run/react': 2.11.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.3)
+      '@remix-run/server-runtime': 2.11.2(typescript@5.5.3)
 
   require-like@0.1.2: {}
 

@@ -1,46 +1,42 @@
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import "./tailwind.css";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import TopLoadingBar, { type LoadingBarRef } from "react-top-loading-bar";
-import { ErrorDisplay } from "./components/ErrorBoundary";
+import { themeSessionResolver } from "./services/theme.server";
+import "./tailwind.css";
+import {
+  PreventFlashOnWrongTheme,
+  ThemeProvider,
+  useTheme,
+} from "remix-themes";
+export { ErrorDisplay as ErrorBoundary } from "./components/ErrorBoundary";
 
-export function ErrorBoundary() {
-  return <ErrorDisplay />;
-  // return (
-  // <>
-  //   <html lang="en" className="h-full">
-  //     <head>
-  //       <meta charSet="utf-8" />
-  //       <meta name="viewport" content="width=device-width, initial-scale=1" />
-  //       <Meta />
-  //       <Links />
-  //     </head>
-  //     <body>
-  //       <ErrorDisplay />
-  //       <Scripts />
-  //     </body>
-  //   </html>
-  // </>
-  // );
+export async function loader({ request }: LoaderFunctionArgs) {
+  const theme = await themeSessionResolver(request);
+  return { theme: theme.getTheme() };
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+function Layout({ children }: { children: React.ReactNode }) {
+  const data = useLoaderData<typeof loader>();
+  const [theme] = useTheme();
   return (
-    <html lang="en">
+    <html lang="en" className={theme ?? ""}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+        <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
         <Links />
       </head>
-      <body className="flex h-screen flex-col">
+      <body className="flex h-screen flex-col bg-background">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -49,38 +45,29 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const TopProgressBar = ({ delay = 300 }: { delay: number }) => {
+const TopProgressBar = () => {
   const { state } = useNavigation();
   const ref = useRef<LoadingBarRef>(null);
-  const timer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const loaderInit = () => {
-      if (!ref.current) return;
-      ref.current.continuousStart(0);
-    };
-
-    if (timer.current && state === "idle") {
-      clearTimeout(timer.current);
+    if (state === "idle") {
       ref.current?.complete();
+    } else if (state === "loading") {
+      ref.current?.continuousStart(0);
     }
-
-    if (timer.current && state === "loading") {
-      clearTimeout(timer.current);
-      timer.current = setTimeout(loaderInit, delay);
-    }
-
-    return () => clearTimeout(timer.current ?? undefined);
-  }, [state, delay]);
+  }, [state]);
 
   return <TopLoadingBar color="#55286F" ref={ref} />;
 };
 
-export default function App() {
+export default function AppWithTheme() {
+  const data = useLoaderData<typeof loader>();
   return (
-    <>
-      <TopProgressBar delay={300} />
-      <Outlet />
-    </>
+    <ThemeProvider specifiedTheme={data.theme} themeAction="/action/set-theme">
+      <Layout>
+        <TopProgressBar />
+        <Outlet />
+      </Layout>
+    </ThemeProvider>
   );
 }

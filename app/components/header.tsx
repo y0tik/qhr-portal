@@ -16,10 +16,11 @@ import {
 import { useUser } from "~/hooks/useUser";
 import { ActionLogout } from "~/routes/action+/signout";
 import { cn } from "~/utils/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
 export const HeaderContainer = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="h-14 bg-primary flex justify-between items-center px-6 flex-shrink-0">
+    <div className="h-14 border-b flex justify-between items-center px-4 flex-shrink-0">
       {children}
     </div>
   );
@@ -31,7 +32,7 @@ export const AppStatus = () => {
   return (
     <Loader2
       className={cn(
-        "size-4 text-white/80 animate-spin transition-opacity",
+        "size-4 animate-spin transition-opacity",
         isLoading ? "opacity-100" : "opacity-0",
       )}
     />
@@ -52,7 +53,7 @@ export const HeaderUserGroup = () => {
 export const UserNotification = () => {
   return (
     <div>
-      <div className="rounded-full h-8 w-8 grid text-primary place-items-center border bg-white">
+      <div className="rounded-full h-8 w-8 grid text-primary place-items-center border ">
         <BellIcon className="w-4 h-4 text-current" />
       </div>
     </div>
@@ -82,6 +83,10 @@ export const UserProfile = () => {
             </p>
           </div>
         </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <ThemeToggle />
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
