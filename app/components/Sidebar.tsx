@@ -49,7 +49,7 @@ export const Sidebar = () => {
     <div
       data-pinned={pinned}
       className={cn(
-        "flex flex-shrink-0 transition-all group w-[var(--sidebar-width)] flex-col gap-7 duration-200 border-r bg-accent text-accent-foreground",
+        "flex top-0 bottom-0 sticky flex-shrink-0 transition-all group w-[var(--sidebar-width)] flex-col gap-7 duration-200 border-r bg-accent text-accent-foreground",
         pinned
           ? "[--sidebar-width:240px]"
           : "[--sidebar-width:60px] hover:w-[220px]",

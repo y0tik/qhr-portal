@@ -2,9 +2,13 @@ import { Link, useLocation } from "@remix-run/react";
 import type { ReactNode } from "react";
 import { HeaderContainer, HeaderUserGroup } from "~/components/header";
 import type { Moduleitem } from "~/utils/const";
+import { cn } from "~/utils/utils";
 
-export const ModuleContent = ({ children }: { children: ReactNode }) => {
-  return <div className="flex-grow px-4 py-4 w-full">{children}</div>;
+export const ModuleContent = ({
+  children,
+  className,
+}: { children: ReactNode; className?: string }) => {
+  return <div className={cn(className, "flex-grow w-full")}>{children}</div>;
 };
 
 export const ModuleContainer = ({ children }: { children: ReactNode }) => {

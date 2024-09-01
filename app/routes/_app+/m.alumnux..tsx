@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <ModuleContainer>
       <ModuleHeader menu={MODULE_MENU_ALUMNUX} />
-      <ModuleContent>
+      <ModuleContent className="p-4">
         <Outlet />
       </ModuleContent>
     </ModuleContainer>

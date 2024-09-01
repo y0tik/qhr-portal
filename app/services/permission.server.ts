@@ -10,6 +10,10 @@ export type Permission =
   | "write:alumni"
   | "delete:alumni"
   | "overview"
+  | "m:jobs:all"
+  | "m:jobs:create"
+  | "m:jobs:update"
+  | "m:jobs:delete"
   | "self";
 
 const PERMISSION_MAP: Record<Role, Array<Permission>> = {
@@ -20,6 +24,10 @@ const PERMISSION_MAP: Record<Role, Array<Permission>> = {
     "read:alumni",
     "write:alumni",
     "delete:alumni",
+    "m:jobs:all",
+    "m:jobs:create",
+    "m:jobs:update",
+    "m:jobs:delete",
   ],
   hr: ["read:alumni", "write:alumni", "delete:alumni"],
   employee: ["self"],

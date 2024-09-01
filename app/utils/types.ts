@@ -34,3 +34,61 @@ export type EntityAlumni = {
   last_working_date: string;
   joining_date: string;
 };
+
+export type EntityJob = {
+  id: string;
+  created_by_id: string;
+  created_by_name: string;
+  created_on: string;
+  updated_on: string;
+  jobDescription: {
+    title: string;
+    shortDescription: string;
+    description: string;
+    tags: string[];
+    area: string;
+    department: string;
+    salary: {
+      min?: number;
+      max?: number;
+      currency?: string;
+      show: boolean;
+    };
+    experience: string;
+    skills: string;
+    education: string;
+  };
+  expRequired: {
+    blockId: string;
+    type: "experience" | "skills" | "education";
+    title: string;
+    description?: string;
+    experienceInYears?: number;
+    required: boolean;
+    goodToHave: boolean;
+  }[];
+  customQuestionPanel: {
+    blockId: string;
+    type: "text" | "number" | "select" | "multiSelect";
+    title: string;
+    description: string;
+    constraint?: {
+      required?: boolean;
+      min?: number;
+      max?: number;
+    };
+  }[];
+  setting: {
+    slug: string;
+    sharable: boolean;
+    jobStatus: "draft" | "published";
+  };
+  companyInfo: {
+    company: string;
+    location: string;
+    wesbite?: string;
+    linkedin?: string;
+    github?: string;
+    twitter?: string;
+  };
+};

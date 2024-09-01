@@ -17,6 +17,7 @@ import {
   ThemeProvider,
   useTheme,
 } from "remix-themes";
+import { cn } from "./utils/utils";
 export { ErrorDisplay as ErrorBoundary } from "./components/ErrorBoundary";
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -28,7 +29,13 @@ function Layout({ children }: { children: React.ReactNode }) {
   const data = useLoaderData<typeof loader>();
   const [theme] = useTheme();
   return (
-    <html lang="en" className={theme ?? ""}>
+    <html
+      lang="en"
+      className={cn(
+        theme,
+        "scrollbar-thin scrollbar-thumb-primary/80 scrollbar-track-primary-foreground h-32 overflow-y-scroll",
+      )}
+    >
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
