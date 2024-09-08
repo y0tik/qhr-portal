@@ -69,6 +69,6 @@ export function extractModuleName(url: string) {
   return moduleString;
 }
 
-export function uppercase(word: string) {
+export function capitalize(word: string) {
   return word[0].toUpperCase() + word.slice(1);
 }

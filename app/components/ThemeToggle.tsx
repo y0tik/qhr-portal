@@ -48,18 +48,24 @@ export function ThemeSwitcherMenuItem() {
       onClick={toggle}
       data-lte={theme === Theme.LIGHT}
       type="menu"
-      icon={ThemeToggleIcon}
+      icon={Moon}
       title={`Switch to ${theme === Theme.LIGHT ? "Dark" : "Light"}`}
       className="py-2 group"
     />
   );
 }
 
-// eslint-disable-next-line react/prop-types
-const ThemeToggleIcon: LucideIcon = forwardRef(({ className }) => (
-  <div className={className}>
-    <Moon className="group-data-[lte=false]:opacity-0 group-data-[lte=true]:opacity-100 size-4 absolute" />
-    <Sun className="absolute group-data-[lte=false]:opacity-100 group-data-[lte=true]:opacity-0 size-4" />
+// eslint-disable-next-line react/prop-types, @typescript-eslint/no-unused-vars
+const ThemeToggleIcon: LucideIcon = forwardRef(({ className }, ref) => (
+  <div className={`${className}`}>
+    <Moon
+      ref={ref}
+      className="group-data-[lte=false]:opacity-0 group-data-[lte=true]:opacity-100 size-3.5 absolute"
+    />
+    <Sun
+      ref={ref}
+      className="absolute group-data-[lte=false]:opacity-100 group-data-[lte=true]:opacity-0 size-3.5"
+    />
   </div>
 ));
 ThemeToggleIcon.displayName = "ThemeToggleIcon";

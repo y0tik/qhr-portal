@@ -1,9 +1,9 @@
 import { useLocation } from "@remix-run/react";
-import { extractModuleName, uppercase } from "~/utils/utils";
+import { extractModuleName, capitalize } from "~/utils/utils";
 
 export function EmptyModule() {
   const { pathname } = useLocation();
-  const moduleName = uppercase(extractModuleName(pathname));
+  const moduleName = capitalize(extractModuleName(pathname));
 
   return (
     <div className="border-dashed rounded-lg border-2 h-full p-4">

@@ -12,20 +12,7 @@ export default {
       },
     },
     fontFamily: {
-      sans: [
-        "Geist Variable",
-        "Helvetica Neue",
-        "Helvetica",
-        "Arial",
-        "sans-serif",
-      ],
-      mono: [
-        "Geist Mono Variable",
-        "monaco",
-        "Consolas",
-        "Lucida Console",
-        "monospace",
-      ],
+      sans: ["Inter", "sans-serif"],
     },
     extend: {
       fontSize: {

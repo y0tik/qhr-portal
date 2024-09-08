@@ -16,7 +16,7 @@ import {
   roleColorMapping,
   TICKETS_ASSIGNED_TO_USER,
 } from "~/utils/const";
-import { relativeTimeFromNow, uppercase } from "~/utils/utils";
+import { relativeTimeFromNow, capitalize } from "~/utils/utils";
 import { Badge } from "../ui/badge";
 
 export const columns: ColumnDef<EntityUser>[] = [
@@ -44,7 +44,7 @@ export const columns: ColumnDef<EntityUser>[] = [
               roleColorMapping[user.role === "hr" ? "hr" : "support"][0],
           }}
         >
-          {uppercase(user.role)}
+          {capitalize(user.role)}
         </Badge>
       );
     },

@@ -48,13 +48,18 @@ export type EntityJob = {
     tags: string[];
     area: string;
     department: string;
+    jobType: "full-time" | "part-time" | "contract";
+    contractDurationMonths: number;
     salary: {
       min?: number;
       max?: number;
       currency?: string;
       show: boolean;
     };
-    experience: string;
+    experience: {
+      min: number;
+      max?: number;
+    };
     skills: string;
     education: string;
   };
