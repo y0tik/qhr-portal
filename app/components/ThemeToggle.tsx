@@ -10,6 +10,8 @@ import {
 } from "./ui/dropdown-menu";
 import { SidebarMenuItem } from "./Sidebar";
 import { forwardRef } from "react";
+import { useLoaderData } from "@remix-run/react";
+import type { loader } from "~/root";
 
 export function ThemeToggle() {
   const [, setTheme] = useTheme();
@@ -37,19 +39,21 @@ export function ThemeToggle() {
 }
 
 export function ThemeSwitcherMenuItem() {
+  const data = useLoaderData<typeof loader>()
   const [theme, setTheme] = useTheme();
 
   function toggle() {
     setTheme(theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT);
   }
+  const isLightTheme = data.theme === Theme.LIGHT;
 
   return (
     <SidebarMenuItem
       onClick={toggle}
-      data-lte={theme === Theme.LIGHT}
+      data-lte={isLightTheme}
       type="menu"
       icon={Moon}
-      title={`Switch to ${theme === Theme.LIGHT ? "Dark" : "Light"}`}
+      title={`Switch to ${isLightTheme ? "Dark" : "Light"}`}
       className="py-2 group"
     />
   );
