@@ -57,10 +57,10 @@ export const Sidebar = () => {
         </button>
       </div>
       <SideBarMenu menus={SIDEBAR_TOP_MENU} />
-      <div className="-mt-3 space-y-1 transition-transform group-data-[pinned=true]:translate-y-2 group-hover:translate-y-0 -translate-y-8 overflow-hidden">
+      <div className="-mt-2 transition-transform group-data-[pinned=true]:translate-y-2 group-hover:translate-y-0 -translate-y-8 overflow-hidden">
         <div
           className={cn(
-            "text-muted-foreground pl-6 transition-[width]",
+            "text-muted-foreground pl-6 text-sm transition-[width] mb-2",
             sidebarShrinkStyle,
           )}
         >
@@ -105,7 +105,7 @@ export const SideBarMenu = ({ menus }: { menus: MenuItemType[] }) => {
 };
 
 const baseStyle =
-  "flex items-center whitespace-nowrap gap-3 px-6 transition-[color,background-color,transform] cursor-pointer";
+  "flex items-center whitespace-nowrap gap-4 px-6 transition-[color,background-color,transform] cursor-pointer";
 const sidebarShrinkStyle =
   "group-data-[pinned=true]:w-full group-hover:w-full w-0 overflow-hidden transition-[width]";
 const MenuItemStyle = {
@@ -115,9 +115,11 @@ const MenuItemStyle = {
     svgStyle: "flex-shrink-0 text-current transition-colors size-3.5",
   },
   module: {
-    base: "group-data-[pinned=true]:translate-x-0 py-4 group-data-[pinned=true]:mr-0 -mr-1.5 group-hover:mr-0 -translate-x-1.5 group-hover:translate-x-0",
-    hover: "bg-primary hover:bg-primary/80 text-white",
-    svgStyle: "flex-shrink-0",
+    base: [
+      "py-4 -mx-1 text-sm border-b-2 first-of-type:border-t-2 border-primary/10 bg-white font-semibold text-primary",
+    ],
+    hover: "hover:bg-primary/10",
+    svgStyle: "flex-shrink-0 size-5",
   },
 };
 
@@ -154,7 +156,7 @@ export const SidebarMenuItem = ({
     >
       <Icon className={style.svgStyle} />
       <span className={sidebarShrinkStyle}>{title}</span>
-      {type === "module" && active && <ArrowRight className="size-6" />}
+      {type === "module" && active && <ArrowRight className="size-5" />}
     </Comp>
   );
 };

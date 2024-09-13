@@ -25,15 +25,16 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return { theme: theme.getTheme() };
 }
 
-function Layout({ children }: { children: React.ReactNode }) {
+
+function App() {
   const data = useLoaderData<typeof loader>();
   const [theme] = useTheme();
   return (
     <html
       lang="en"
       className={cn(
-        theme,
         "scrollbar-thin scrollbar-thumb-primary/80 scrollbar-track-primary-foreground h-32 overflow-y-scroll",
+        theme ?? "",
       )}
     >
       <head>
@@ -44,11 +45,12 @@ function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="flex h-screen flex-col bg-background">
-        {children}
+        <TopProgressBar />
+        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>
-    </html>
+    </html >
   );
 }
 
@@ -71,10 +73,7 @@ export default function AppWithTheme() {
   const data = useLoaderData<typeof loader>();
   return (
     <ThemeProvider specifiedTheme={data.theme} themeAction="/action/set-theme">
-      <Layout>
-        <TopProgressBar />
-        <Outlet />
-      </Layout>
+      <App />
     </ThemeProvider>
   );
 }

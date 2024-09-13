@@ -32,36 +32,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ jobs: data, metrics: [] });
 };
 
-const JobPageHeader = () => {
-  return (
-    <div className="px-6 py-4">
-      <div className="px-6 py-8 flex justify-between items-center bg-primary-foreground rounded-lg">
-        <div className="flex w-full items-center gap-2 justify-between">
-          <div className="space-y-3">
-            <Button variant="secondary" size="xs">
-              <PlusCircle className="size-4" />
-              <span>New Job</span>
-            </Button>
-          </div>
-          <div className="text-muted text-sm">
-            <div className="font-medium">All</div>
-            <div className="opacity-60">
-              <div className="font-normal">
-                <div className="opacity-60">
-                  <div className="opacity-60">Filters</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 export default function Page() {
   const { jobs } = useLoaderData<typeof loader>();
   return (
-    <div className="h-full flex flex-col py-4 pb-6">
+    <div className="h-full flex flex-col gap-4 pb-6">
+      <JobPageHeader />
       <div className="px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-1">
         {jobs.map((j) => (
           <JobCardItem key={j.id} job={j} />
@@ -71,9 +46,29 @@ export default function Page() {
   );
 }
 
+const JobPageHeader = () => {
+  return (
+    <div className="px-6 py-4 flex justify-between items-center bg-secondary">
+      <Button size="sm">
+        <span>New Job</span>
+      </Button>
+      <div className="text-muted text-sm">
+        <div className="font-medium">All</div>
+        <div className="opacity-60">
+          <div className="font-normal">
+            <div className="opacity-60">
+              <div className="opacity-60">Filters</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const JobCardItem = ({ job }: { job: EntityJob }) => {
   return (
-    <div className="flex flex-col rounded-lg cursor-pointer border-2 duration-300 hover:border-primary/40 group p-5 pb-0 transition-shadow hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+    <div className="flex flex-col rounded-lg cursor-pointer border duration-300 group p-5 pb-0 transition-shadow hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
 
       <div>
         <div className="flex items-start justify-between">
