@@ -3,6 +3,7 @@
 // Imported on the server side in Remix, ensuring it's only utilized in loaders and not in the app.
 
 import { faker } from "@faker-js/faker";
+import dayjs from "dayjs";
 import type { EntityAlumni, EntityJob, EntityUser } from "~/utils/types";
 
 function generateFakeUserEntity(): EntityUser[] {
@@ -208,11 +209,32 @@ function generateFakeJobEntity(): EntityJob[] {
   }
   return jobs;
 }
+function generateFakeJobWeeklyStats() {
+  const funnelType = ["Referral", "Consultant", "Portal"] as const
+  const data = [...Array(16).keys()].map(idx => {
+    const date = dayjs().subtract(idx, "days").format("DD/MM/YYYY")
+
+    const funnelStats = funnelType.reduce((acc, f) => {
+      acc[f] = faker.number.int({ min: 2, max: 50 })
+      return acc
+    }, <Record<typeof funnelType[number], number>>{})
+
+    return {
+      name: date,
+      ...funnelStats
+    }
+  })
+
+  return data
+}
 
 export const mockData = {
   users: generateFakeUserEntity(),
   alumni: generateFakeAlumniEntity(),
-  jobs: generateFakeJobEntity(),
+  jobs: {
+    weeklyJobCountStats: generateFakeJobWeeklyStats,
+    list: generateFakeJobEntity(),
+  },
 };
 
 export const runWithProbability = <T>(
