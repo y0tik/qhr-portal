@@ -33,6 +33,7 @@ import { PROJECT_NAME } from "~/utils/const";
 import { mockData, runWithProbability } from "~/utils/mockData.server";
 import type { EntityJob } from "~/utils/types";
 import { cn, relativeTimeFromNow } from "~/utils/utils";
+import { PlusIcon } from "../../components/Icons";
 
 // TODO: Add proper meta data
 export const meta: MetaFunction = () => [
@@ -135,34 +136,13 @@ const ChartJobsCountByTypeHistorical = () => {
   );
 };
 
-// TODO: add react tabler icons
-const PlusIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="size-4 icon icon-tabler icons-tabler-outline icon-tabler-square-rounded-plus"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
-    <path d="M15 12h-6" />
-    <path d="M12 9v6" />
-  </svg>
-);
-
 const JobPageHeader = () => {
   return (
     <div className="h-32 shadow-sm z-[999] border-b sticky top-0 flex items-center bg-white">
       <div className="h-full flex flex-col justify-center border-r px-6 w-5/12 bg-secondary/30">
         <div>
           <Button size="sm">
-            <PlusIcon />
+            <PlusIcon className="size-4" />
             <span>New Job</span>
           </Button>
         </div>
@@ -220,7 +200,6 @@ const JobCardItem = ({ job }: { job: EntityJob }) => {
           <div className="text-2sm mt-2">
             By
             <span className="text-primary font-semibold">
-              {" "}
               {job.created_by_name}
             </span>
           </div>

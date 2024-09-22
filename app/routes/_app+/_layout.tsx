@@ -11,7 +11,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function AlumniLayout() {
   return (
-    <div className="h-screen flex flex-row">
+    <div className="min-h-screen flex flex-row">
       <Sidebar />
       <MainContainer>
         <Outlet />

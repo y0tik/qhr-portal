@@ -44,7 +44,7 @@ function App() {
         <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
         <Links />
       </head>
-      <body className="flex h-screen flex-col bg-background">
+      <body>
         <TopProgressBar />
         <Outlet />
         <ScrollRestoration />
