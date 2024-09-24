@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import type React from "react";
 
+export const PERFS_SIDEBAR = "qhr-sb-ky"
+
 export const ticketColorMapping = {
   created: ["#4DB8FF", "#000000"], // Light blue background, black foreground
   ongoing: ["#FFB300", "#000000"], // Orange background, black foreground

@@ -33,7 +33,7 @@ function App() {
     <html
       lang="en"
       className={cn(
-        "scrollbar-thin scrollbar-thumb-primary/80 scrollbar-track-primary-foreground h-32 overflow-y-scroll",
+        "scrollbar-thin scrollbar-thumb-primary/80 scrollbar-track-primary-foreground h-32 overflow-y-auto",
         theme ?? "",
       )}
     >

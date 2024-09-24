@@ -1,9 +1,15 @@
 import { Link, useLocation } from "@remix-run/react";
-import { ArrowRight, HelpCircle, LogOut, PinIcon } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, HelpCircle, LogOut, PinIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { MODULES, type MenuItemType, SIDEBAR_TOP_MENU } from "~/utils/const";
+import {
+  MODULES,
+  type MenuItemType,
+  PERFS_SIDEBAR,
+  SIDEBAR_TOP_MENU,
+} from "~/utils/const";
 import { cn, extractModuleName } from "~/utils/utils";
 import { ThemeSwitcherMenuItem } from "./ThemeToggle";
+import useLocalStorageState from "~/hooks/useLocalStorageState";
 
 const LogoQHR = ({ className }: { className: string }) => {
   return (
@@ -49,68 +55,66 @@ const LogoQHR = ({ className }: { className: string }) => {
   );
 };
 
-export const Sidebar = () => {
-  const [pinned, setPinned] = useState<boolean | undefined>(undefined);
+type SidebarProps = {
+  onPinned: () => void
+  pinned: boolean | undefined
+}
 
-  useEffect(() => {
-    if (pinned === undefined) {
-      setPinned(
-        localStorage.getItem("qhr-user-pref-sidebar-pinned") === "true",
-      );
-    } else {
-      localStorage.setItem("qhr-user-pref-sidebar-pinned", String(pinned));
-    }
-  }, [pinned]);
-
+export const Sidebar = ({ onPinned, pinned }: SidebarProps) => {
   return (
     <div
-      data-pinned={pinned}
       className={cn(
-        "flex sticky h-screen top-0 flex-shrink-0 transition-all group w-[var(--sidebar-width)] flex-col gap-7 duration-200 border-r bg-accent text-accent-foreground",
-        pinned
-          ? "[--sidebar-width:240px]"
-          : "[--sidebar-width:60px] hover:w-[220px]",
+        "w-[var(--sb-width)] data-[pinned=true]:[--sb-width:200px] data-[pinned=false]:[--sb-width:60px]",
+        "h-screen pb-4 top-0 flex-shrink-0 transition-all group flex-col gap-7 duration-200 group"
       )}
+      data-pinned={pinned}
     >
-      <div className="px-6 pt-8 flex justify-between items-center relative">
-        <div className="relative flex-shrink-0 w-6 h-8 -translate-x-1.5 transition-[transform,width] overflow-hidden group-data-[pinned=true]:w-20 group-hover:w-20 group-data-[pinned=true]:translate-x-0 group-hover:translate-x-0">
-          <LogoQHR className="h-8 w-20 absolute left-0 inset-y-0 text-primary dark:text-purple-500" />
+      <div
+        className={cn(
+          "w-[var(--sb-width)] z-[999] group-data-[pinned=false]:hover:w-[190px] group-data-[pinned=false]:hover:shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px]",
+          "inset-y-0 border-r pt-4 bg-accent flex fixed flex-col duration-200 gap-4"
+        )}
+      >
+        <div className="px-6 flex justify-between items-center relative isolate">
+          <div className="relative flex-shrink-0 w-8 h-10 -translate-x-1.5 transition-[transform,width] overflow-hidden group-data-[pinned=true]:w-28 group-hover:w-28">
+            <LogoQHR className="h-10 w-28 absolute left-0 inset-y-0 text-primary" />
+          </div>
+          <button
+            onClick={onPinned}
+            type="button"
+            className="bg-accent p-1 border-2 z-[-1] group-data-[pinned=false]:scale-90 transistion-all duration-200 origin-center group-data-[pinned=true]:scale-100 absolute right-4 top-1.5 rounded-full text-primary opacity-0 group-hover:opacity-100 group-data-[pinned=true]:opacity-100"
+          >
+            <ChevronRight className="size-4 group-data-[pinned=true]:rotate-180 transition-transform" />
+          </button>
         </div>
-        <button
-          type="button"
-          className="bg-primary/20 p-1 rounded text-primary opacity-0 group-hover:opacity-100 group-data-[pinned=true]:opacity-100"
-          onClick={() => setPinned((p) => !p)}
-        >
-          <PinIcon className="w-4 h-4 group-data-[pinned=true]:rotate-45 transition-transform" />
-        </button>
-      </div>
-      <SideBarMenu menus={SIDEBAR_TOP_MENU} />
-      <div className="-mt-2 transition-transform group-data-[pinned=true]:translate-y-2 group-hover:translate-y-0 -translate-y-8 overflow-hidden">
-        <div
-          className={cn(
-            "text-muted-foreground pl-6 text-sm transition-[width] mb-2",
-            sidebarShrinkStyle,
-          )}
-        >
-          Modules
+        <SideBarMenu menus={SIDEBAR_TOP_MENU} />
+        <div className="relative pt-3">
+          <div
+            className={cn(
+              "text-muted-foreground pl-6 text-sm transition-[width] mb-2",
+              sidebarShrinkStyle,
+            )}
+          >
+            Modules
+          </div>
+          <div className="overflow-hidden">
+            <SideBarModules menus={MODULES} />
+          </div>
         </div>
-        <SideBarModules menus={MODULES} />
-      </div>
-      <div className="flex-1" />
-      <div className="pb-4">
-        <ThemeSwitcherMenuItem />
-        <SidebarMenuItem
-          type="menu"
-          icon={LogOut}
-          title="Signout"
-          className="py-2"
-        />
-        <SidebarMenuItem
-          type="menu"
-          icon={HelpCircle}
-          title="Help"
-          className="py-2"
-        />
+        <div className="flex-1" />
+        <div className="pb-4">
+          <ThemeSwitcherMenuItem />
+          <SidebarMenuItem
+            type="menu"
+            icon={LogOut}
+            title="Signout"
+          />
+          <SidebarMenuItem
+            type="menu"
+            icon={HelpCircle}
+            title="Help"
+          />
+        </div>
       </div>
     </div>
   );

@@ -57,7 +57,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function Page() {
   const { jobs } = useLoaderData<typeof loader>();
   return (
-    <div className="flex flex-col gap-5 pb-6">
+    <div className="flex flex-col isolate gap-5 pb-6">
       <JobPageHeader />
       <div className="px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-1">
         {jobs.map((j) => (
@@ -167,7 +167,7 @@ const JobPageHeader = () => {
 
 const JobCardItem = ({ job }: { job: EntityJob }) => {
   return (
-    <div className="flex flex-col rounded-lg cursor-pointer border hover:border-primary/20 ease-out group p-5 pb-0 transition-shadow hover:shadow-[0_12px_40px_rgb(0,0,0,0.06)]">
+    <div className="flex flex-col rounded-lg border hover:border-primary/20 ease-out group p-5 pb-0 transition-shadow hover:shadow-[0_12px_40px_rgb(0,0,0,0.06)]">
       <div>
         <div className="flex items-start justify-between">
           <div className="font-semibold">{job.jobDescription.title}</div>
@@ -198,7 +198,7 @@ const JobCardItem = ({ job }: { job: EntityJob }) => {
             Updated {relativeTimeFromNow(job.created_on)}{" "}
           </div>
           <div className="text-2sm mt-2">
-            By
+            By{" "}
             <span className="text-primary font-semibold">
               {job.created_by_name}
             </span>

@@ -54,7 +54,7 @@ export function ThemeSwitcherMenuItem() {
       type="menu"
       icon={Moon}
       title={`Switch to ${isLightTheme ? "Dark" : "Light"}`}
-      className="py-2 group"
+      className="group"
     />
   );
 }

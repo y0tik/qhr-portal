@@ -64,7 +64,7 @@ const AlumnuxLogo = () => (
 
 export default function LoginPageLayout({ children }: PropsWithChildren) {
   return (
-    <div className="flex h-full w-full flex-1 flex-col items-center justify-center">
+    <div className="flex h-screen w-full flex-1 flex-col items-center justify-center">
       <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]" />
       <div className="flex justify-center md:justify-start top-0 w-full p-10 absolute">
         <Link to="/" className="w-[140px]">
