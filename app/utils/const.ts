@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import type React from "react";
 
-export const PERFS_SIDEBAR = "qhr-sb-ky"
+export const PERFS_SIDEBAR = "qhr-sb-ky";
 
 export const ticketColorMapping = {
   created: ["#4DB8FF", "#000000"], // Light blue background, black foreground
@@ -110,8 +110,10 @@ export const MODULE_MENU_ALUMNUX: Moduleitem[] = [
   },
 ];
 
-const JOBS_INDEX = "/m/jobs";
-const JOBS_ALL = "/m/jobs/all";
+export const JOBS_INDEX = "/m/jobs";
+export const JOBS_ALL = "/m/jobs/all";
+export const JOBS_CREATE = "/m/jobs/new";
+export const JOBS_UPDATE = (id: string) => `/m/jobs/update/${id}`;
 
 export const MODULE_MENU_JOBS: Moduleitem[] = [
   {

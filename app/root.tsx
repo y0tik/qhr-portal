@@ -25,7 +25,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return { theme: theme.getTheme() };
 }
 
-
 function App() {
   const data = useLoaderData<typeof loader>();
   const [theme] = useTheme();
@@ -50,7 +49,7 @@ function App() {
         <ScrollRestoration />
         <Scripts />
       </body>
-    </html >
+    </html>
   );
 }
 

@@ -3,33 +3,21 @@ import {
   type MetaFunction,
   json,
 } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import {
   ArrowUpRight,
-  CogIcon,
   EyeIcon,
   EyeOffIcon,
   FilterIcon,
-  PlusCircle,
-  PlusSquareIcon,
-  SearchIcon,
   SortAscIcon,
 } from "lucide-react";
-import {
-  AreaChart,
-  Area,
-  CartesianGrid,
-  Tooltip,
-  XAxis,
-  YAxis,
-  Legend,
-} from "recharts";
+import { AreaChart, Area, Tooltip, XAxis } from "recharts";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { ChartContainer, type ChartConfig } from "~/components/ui/chart";
 import { Input } from "~/components/ui/input";
 import { requirePermission } from "~/services/permission.server";
-import { PROJECT_NAME } from "~/utils/const";
+import { JOBS_CREATE, PROJECT_NAME } from "~/utils/const";
 import { mockData, runWithProbability } from "~/utils/mockData.server";
 import type { EntityJob } from "~/utils/types";
 import { cn, relativeTimeFromNow } from "~/utils/utils";
@@ -56,13 +44,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function Page() {
   const { jobs } = useLoaderData<typeof loader>();
+  const jobsList = jobs.map((j) => <JobCardItem key={j.id} job={j} />);
+
   return (
     <div className="flex flex-col isolate gap-5 pb-6">
       <JobPageHeader />
       <div className="px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6 pt-1">
-        {jobs.map((j) => (
-          <JobCardItem key={j.id} job={j} />
-        ))}
+        {jobsList}
       </div>
     </div>
   );
@@ -141,9 +129,11 @@ const JobPageHeader = () => {
     <div className="h-32 shadow-sm z-[999] border-b sticky top-0 flex items-center bg-white">
       <div className="h-full flex flex-col justify-center border-r px-6 w-5/12 bg-secondary/30">
         <div>
-          <Button size="sm">
-            <PlusIcon className="size-4" />
-            <span>New Job</span>
+          <Button size="sm" asChild>
+            <Link to={JOBS_CREATE}>
+              <PlusIcon className="size-4" />
+              <span>New Job</span>
+            </Link>
           </Button>
         </div>
         <div className="flex mt-3 gap-3">
